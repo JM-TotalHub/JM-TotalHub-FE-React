@@ -9,18 +9,21 @@ import Auth from './pages/auth';
 import Board from './pages/board';
 import Test from './pages/test/Test';
 import Chat from './pages/chat';
+import { SocketProvider } from './utils/connections/SocketProvider';
 
 // const API_URL = process.env.EXPRESS_API_URL;
 
 const App = () => {
   return (
-    <Routes>
-      <Route path="/" element={<MainPageComponents />} />
-      <Route path="/tests/*" element={<Test />} />
-      <Route path="/auth/*" element={<Auth />} />
-      <Route path="/boards/*" element={<Board />} />
-      <Route path="/chats/*" element={<Chat />} />
-    </Routes>
+    <SocketProvider>
+      <Routes>
+        <Route path="/" element={<MainPageComponents />} />
+        <Route path="/tests/*" element={<Test />} />
+        <Route path="/auth/*" element={<Auth />} />
+        <Route path="/boards/*" element={<Board />} />
+        <Route path="/chats/*" element={<Chat />} />
+      </Routes>
+    </SocketProvider>
   );
 };
 
