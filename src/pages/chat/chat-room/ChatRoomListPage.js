@@ -1,5 +1,5 @@
 import React from 'react';
-import ChatRoomListComponent from '../../../components/chat/chat-room/ChatRoomListComponent';
+import ChatRoomListComponent from '../../../components/chat/ChatRoomListComponent';
 
 const ChatRoomListPage = () => {
   return (

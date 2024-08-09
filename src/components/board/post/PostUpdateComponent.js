@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import postUpdateByPostIdAndData from '../../../features/board/post/actions/PostUpdateAction';
 import postUpdateInitByPostId from '../../../features/board/post/actions/PostUpdateInitAction';
 import { postUpdateSliceResetState } from '../../../features/board/post/slices/postUpdateSlice';
-import { htmlDecoder } from '../../../utils/htmlDecoder';
+import { htmlDecoder } from '../../../utils/form/htmlDecoder';
 import PostFormComponent from './PostFormComponent';
 import { useNavigate } from 'react-router-dom';
 
