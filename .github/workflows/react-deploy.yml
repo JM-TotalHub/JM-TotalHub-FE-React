@@ -43,15 +43,14 @@ jobs:
       - name: EC2 배포
         uses: appleboy/ssh-action@master
         with:
-          host: ${{ env.REACT_APP_SERVER01_EC2_HOST }}
-          username: ${{ env.REACT_APP_SERVER01_EC2_USERNAME }}
-          key: ${{ secrets.REACT_APP_SERVER01_EC2_PRIVATE_KEY }}
+          host: ${{ env.REACT_APP_REACT_SERVER01_EC2_HOST }}
+          username: ${{ env.REACT_APP_REACT_SERVER01_EC2_USERNAME }}
+          key: ${{ secrets.REACT_APP_REACT_SERVER01_EC2_PRIVATE_KEY }}
           script: |
             docker image prune -a -f --filter "until=12h"
             docker login -u ${{ secrets.DOCKER_USERNAME }} -p ${{ secrets.DOCKER_PASSWORD }}
-            export REACT_APP_ENV_STATUS=${{ env.REACT_APP_ENV_STATUS }}
-            export REACT_APP_NGINX_SERVER_HOST=${{ env.REACT_APP_NGINX_SERVER_HOST }}
-            export REACT_APP_EXPRESS_SERVER01_HOST=${{ env.REACT_APP_EXPRESS_SERVER01_HOST }}
+            export REACT_APP_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
+            export REACT_APP_NGINX_SERVER_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
             cd react
             sudo -E docker-compose pull react 
             sudo -E docker-compose up -d react
