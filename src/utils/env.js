@@ -25,4 +25,10 @@ for (const key in process.env) {
   }
 }
 
+console.log('EXPRESS_SERVER_BASE_URL: ', ENV.EXPRESS_SERVER_BASE_URL);
+console.log(
+  'SIGNAL_SERVER_SOCKET_BASE_URL: ',
+  ENV.SIGNAL_SERVER_SOCKET_BASE_URL
+);
+
 export default ENV;
