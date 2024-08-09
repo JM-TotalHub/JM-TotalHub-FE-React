@@ -21,18 +21,36 @@ const ChatRoomDetailsComponent = ({ chatRoomId }) => {
     return <div>Loading... 데이터를 요청실패.</div>;
   }
 
-  return (
-    <div>
-      <h1>ChatRoomDetailsComponent</h1>
+  if (status === 'idle') {
+    return <div>로딩 중입니다...</div>;
+  }
+
+  if (status === 'succeeded') {
+    const { chatRoomInfo, chatRoomMembers, chatRoomMessages } = chatRoomDetails;
+
+    console.log('status : ', status);
+    console.log('chatRoomDetails : ', chatRoomDetails);
+    console.log('chatRoomInfo : ', chatRoomInfo);
+    console.log('chatRoomMember : ', chatRoomMembers);
+    console.log('chatRoomMessages : ', chatRoomMessages);
+
+    return (
       <div>
-        <div>{chatRoomDetails.id}</div>
-        <div>{chatRoomDetails.name}</div>
-        <div>{chatRoomDetails.description}</div>
-        <div>{chatRoomDetails.chat_type}</div>
-        <div>{chatRoomDetails.created_at}</div>
+        <h1>ChatRoomDetailsComponent</h1>
+        <div>
+          <div>{chatRoomInfo.id}</div>
+          <div>{chatRoomInfo.name}</div>
+          <div>{chatRoomInfo.description}</div>
+          <div>{chatRoomInfo.chat_type}</div>
+          <div>{chatRoomInfo.created_at}</div>
+        </div>
+        <div>{chatRoomMembers[0].id}</div>
+        <div>{chatRoomMembers[0].email}</div>
+
+        <div></div>
       </div>
-    </div>
-  );
+    );
+  }
 };
 
 export default ChatRoomDetailsComponent;

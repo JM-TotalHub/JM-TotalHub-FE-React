@@ -19,6 +19,7 @@ const chatRoomDetailsSlice = createSlice({
         // API 요청 성공 상태
         state.status = 'succeeded';
         state.chatRoomDetails = action.payload;
+        console.log('슬라이스 chatRoomDetails : ', action.payload);
       })
       .addCase(chatRoomDetailsByChatRoomId.rejected, (state, action) => {
         // API 요청 실패 상태

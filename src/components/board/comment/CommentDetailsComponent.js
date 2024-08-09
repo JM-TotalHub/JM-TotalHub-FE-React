@@ -1,7 +1,7 @@
 import React from 'react';
-import { htmlDecoder } from '../../../utils/htmlDecoder';
+import { htmlDecoder } from '../../../utils/form/htmlDecoder';
 
-import { formatDateWithToday } from '../../../utils/dateFormat';
+import { formatDateWithToday } from '../../../utils/form/dateFormat';
 
 import { TableCell } from './styles/CommentListStyles';
 import CommentUpdateComponent from './CommentUpdateComponent';

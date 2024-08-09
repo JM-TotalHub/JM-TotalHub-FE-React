@@ -11,8 +11,6 @@ import Test from './pages/test/Test';
 import Chat from './pages/chat';
 import { SocketProvider } from './utils/connections/SocketProvider';
 
-// const API_URL = process.env.EXPRESS_API_URL;
-
 const App = () => {
   return (
     <SocketProvider>

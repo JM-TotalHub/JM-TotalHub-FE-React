@@ -4,7 +4,7 @@ import commentUpdateByCommentIdAndData from '../../../features/board/comment/act
 import commentUpdateInitByCommentId from '../../../features/board/comment/actions/CommentUpdateInitAction';
 import { commentUpdateSliceResetState } from '../../../features/board/comment/slices/CommentUpdateSlice';
 import CommentFormComponent from './CommentFormComponent';
-import { htmlDecoder } from '../../../utils/htmlDecoder';
+import { htmlDecoder } from '../../../utils/form/htmlDecoder';
 
 const CommentUpdateComponent = ({ commentId }) => {
   const [initContent, setInItContent] = useState('');
