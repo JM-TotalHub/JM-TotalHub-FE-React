@@ -18,4 +18,11 @@ const ENV = {
   REACT_APP_NGINX_SERVER01_HOST: process.env.REACT_APP_NGINX_SERVER01_HOST,
 };
 
+console.log('모든 환경 변수 출력:');
+for (const key in process.env) {
+  if (process.env.hasOwnProperty(key)) {
+    console.log(`${key}: ${process.env[key]}`);
+  }
+}
+
 export default ENV;
