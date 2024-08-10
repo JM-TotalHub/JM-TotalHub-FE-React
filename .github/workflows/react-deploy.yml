@@ -123,14 +123,14 @@ jobs:
             export REACT_APP_REACT_SERVER01_EC2_PROTOCOL=${{ env.REACT_APP_REACT_SERVER01_EC2_PROTOCOL }}
             export REACT_APP_REACT_SERVER01_EC2_USERNAME=${{ env.REACT_APP_REACT_SERVER01_EC2_USERNAME }}
             # nginx.conf 템플릿 파일에서 환경 변수 치환
-            envsubst '\
-              \$REACT_APP_REACT_SERVER_ENV_STATUS \
-              \$REACT_APP_NGINX_SERVER01_HOST \
-              \$REACT_APP_REACT_SERVER01_EC2_HOST \
-              \$REACT_APP_REACT_SERVER01_EC2_PORT \
-              \$REACT_APP_REACT_SERVER01_EC2_PROTOCOL \
-              \$REACT_APP_REACT_SERVER01_EC2_USERNAME \
-              \$SIGNAL_SERVER01_PORT' < ~/nginx/nginx.conf.template > ~/nginx/nginx.conf  
+            # envsubst '\
+            #   \$REACT_APP_REACT_SERVER_ENV_STATUS \
+            #   \$REACT_APP_NGINX_SERVER01_HOST \
+            #   \$REACT_APP_REACT_SERVER01_EC2_HOST \
+            #   \$REACT_APP_REACT_SERVER01_EC2_PORT \
+            #   \$REACT_APP_REACT_SERVER01_EC2_PROTOCOL \
+            #   \$REACT_APP_REACT_SERVER01_EC2_USERNAME \
+            #   \$SIGNAL_SERVER01_PORT' < ~/nginx/nginx.conf.template > ~/nginx/nginx.conf  
             cd ~/react
             sudo -E docker-compose pull nginx
             sudo -E docker-compose up -d nginx
