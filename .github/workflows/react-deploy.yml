@@ -130,7 +130,7 @@ jobs:
             #   \$REACT_APP_REACT_SERVER01_EC2_PORT \
             #   \$REACT_APP_REACT_SERVER01_EC2_PROTOCOL \
             #   \$REACT_APP_REACT_SERVER01_EC2_USERNAME \
-            #   \$SIGNAL_SERVER01_PORT' < ~/nginx/nginx.conf.template > ~/nginx/nginx.conf  
+            #   \$SIGNAL_SERVER01_PORT' < ~/react/nginx.conf.template > ~/nginx/nginx.conf  
             cd ~/react
             sudo -E docker-compose pull nginx
             sudo -E docker-compose up -d nginx
