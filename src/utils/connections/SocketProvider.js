@@ -8,7 +8,10 @@ const SocketContext = createContext();
 export const SocketProvider = ({ children }) => {
   console.log('소캣 연결 요청 대상 : ', ENV.SIGNAL_SERVER_SOCKET_BASE_URL);
 
-  const socket = io(ENV.SIGNAL_SERVER_SOCKET_BASE_URL);
+  const socket = io(ENV.SIGNAL_SERVER_SOCKET_BASE_URL, {
+    transports: ['websocket'],
+    withCredentials: true, // CORS 설정에 따라 필요할 수 있음
+  });
 
   useEffect(() => {
     socket.on('connect', () => {
