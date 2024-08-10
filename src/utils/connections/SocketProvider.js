@@ -6,6 +6,8 @@ import NotifySocketHandler from './socket-handler/NotifySocketHandler';
 const SocketContext = createContext();
 
 export const SocketProvider = ({ children }) => {
+  console.log('소캣 연결 요청 대상 : ', ENV.SIGNAL_SERVER_SOCKET_BASE_URL);
+
   const socket = io(ENV.SIGNAL_SERVER_SOCKET_BASE_URL);
 
   useEffect(() => {
