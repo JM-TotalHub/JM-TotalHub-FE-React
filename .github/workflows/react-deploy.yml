@@ -119,6 +119,7 @@ jobs:
             export REACT_APP_REACT_SERVER_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
             export REACT_APP_NGINX_SERVER01_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
             cd ~/react
+            envsubst < nginx.conf.template > nginx.conf
             sudo -E docker-compose pull nginx
             sudo -E docker-compose up -d nginx
             sudo -E docker-compose logs nginx
