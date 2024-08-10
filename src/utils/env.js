@@ -11,7 +11,7 @@ const ENV = {
     : `http://${process.env.REACT_APP_EXPRESS_LOCAL_HOST}:${process.env.REACT_APP_EXPRESS_LOCAL_POST}`,
 
   SIGNAL_SERVER_SOCKET_BASE_URL: isProd
-    ? `ws://${process.env.REACT_APP_NGINX_SERVER01_HOST}/signal/socket/`
+    ? `http://${process.env.REACT_APP_NGINX_SERVER01_HOST}/signal/socket/`
     : `http://${process.env.REACT_APP_SIGNAL_LOCAL_HOST}:${process.env.REACT_APP_SIGNAL_LOCAL_POST}`,
 
   // 엔진엑스 서버
