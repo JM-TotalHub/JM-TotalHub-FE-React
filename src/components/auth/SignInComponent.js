@@ -13,7 +13,7 @@ const SignInComponent = () => {
   const navigate = useNavigate();
   const { status } = useSelector((state) => state.auth.signIn);
 
-  if (status == 'succeeded') {
+  if (status === 'succeeded') {
     navigate('/');
   }
 
