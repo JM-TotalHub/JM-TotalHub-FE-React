@@ -105,8 +105,8 @@ jobs:
           host: ${{ env.REACT_APP_REACT_SERVER01_EC2_HOST }}
           username: ${{ env.REACT_APP_REACT_SERVER01_EC2_USERNAME }}
           key: ${{ secrets.REACT_APP_REACT_SERVER01_EC2_PRIVATE_KEY }}
-          source: 'build/*' # 빌드된 파일을 업로드
-          target: '~/react/' # EC2 서버의 nginx 디렉토리에 업로드
+          source: 'build/*'
+          target: '~/react/'
 
       - name: 도커 컴포즈 실행
         uses: appleboy/ssh-action@master
@@ -118,19 +118,6 @@ jobs:
             docker image prune -a -f --filter "until=12h"
             export REACT_APP_REACT_SERVER_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
             export REACT_APP_NGINX_SERVER01_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
-            export REACT_APP_REACT_SERVER01_EC2_HOST=${{ env.REACT_APP_REACT_SERVER01_EC2_HOST }}
-            export REACT_APP_REACT_SERVER01_EC2_PORT=${{ env.REACT_APP_REACT_SERVER01_EC2_PORT }}
-            export REACT_APP_REACT_SERVER01_EC2_PROTOCOL=${{ env.REACT_APP_REACT_SERVER01_EC2_PROTOCOL }}
-            export REACT_APP_REACT_SERVER01_EC2_USERNAME=${{ env.REACT_APP_REACT_SERVER01_EC2_USERNAME }}
-            # nginx.conf 템플릿 파일에서 환경 변수 치환
-            # envsubst '\
-            #   \$REACT_APP_REACT_SERVER_ENV_STATUS \
-            #   \$REACT_APP_NGINX_SERVER01_HOST \
-            #   \$REACT_APP_REACT_SERVER01_EC2_HOST \
-            #   \$REACT_APP_REACT_SERVER01_EC2_PORT \
-            #   \$REACT_APP_REACT_SERVER01_EC2_PROTOCOL \
-            #   \$REACT_APP_REACT_SERVER01_EC2_USERNAME \
-            #   \$SIGNAL_SERVER01_PORT' < ~/react/nginx.conf.template > ~/react/nginx.conf  
             cd ~/react
             sudo -E docker-compose pull nginx
             sudo -E docker-compose up -d nginx
