@@ -8,4 +8,39 @@ server {
     }
 
     error_page 404 /index.html;  # 404 에러 시 index.html 반환
+
+
+    # API 요청을 백엔드 Nginx로 프록시
+    location /api/ {
+        proxy_pass http://10.1.10.191;  # 백엔드 Nginx의 주소
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 필요한 경우 쿠키 설정
+        proxy_set_header Cookie $http_cookie;
+    }
+
+    # Signal 요청을 백엔드 Nginx로 프록시
+    location /signal/ {
+        proxy_pass http://10.1.10.191;  # 백엔드 Nginx의 주소
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto $scheme;
+
+        # 필요한 경우 쿠키 설정
+        proxy_set_header Cookie $http_cookie;
+    }
+
+    # Socket.io 요청을 백엔드 Nginx로 프록시
+    location /socket.io/ {
+        proxy_pass http://10.1.10.191;  # 백엔드 Nginx의 주소
+        proxy_http_version 1.1;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header Host $host;
+        proxy_set_header Upgrade $http_upgrade;
+        proxy_set_header Connection "upgrade";
+    }
 }
