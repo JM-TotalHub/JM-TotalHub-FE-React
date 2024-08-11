@@ -18,8 +18,10 @@ FROM nginx:latest
 COPY --from=build /app/build /usr/share/nginx/html
 
 COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
+RUN ls -R /etc/nginx/conf.d/ 
 
 RUN envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf 
+RUN cat /etc/nginx/conf.d/default.conf 
 
 EXPOSE 80
 
