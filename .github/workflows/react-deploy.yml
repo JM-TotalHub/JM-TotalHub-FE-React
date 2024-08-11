@@ -99,24 +99,6 @@ jobs:
       - name: 리액트 애플리케이션 빌드(eslint 비활성화)
         run: CI=false npm run build
 
-      # - name: react 폴더 생성(있으면 무시)
-      #   uses: appleboy/ssh-action@master
-      #   with:
-      #     host: ${{ env.REACT_APP_REACT_SERVER01_EC2_HOST }}
-      #     username: ${{ env.REACT_APP_REACT_SERVER01_EC2_USERNAME }}
-      #     key: ${{ secrets.REACT_APP_REACT_SERVER01_EC2_PRIVATE_KEY }}
-      #     script: |
-      #       mkdir -p ~/react
-
-      # - name: 빌드 결과물을 EC2 서버에 업로드
-      #   uses: appleboy/scp-action@master
-      #   with:
-      #     host: ${{ env.REACT_APP_REACT_SERVER01_EC2_HOST }}
-      #     username: ${{ env.REACT_APP_REACT_SERVER01_EC2_USERNAME }}
-      #     key: ${{ secrets.REACT_APP_REACT_SERVER01_EC2_PRIVATE_KEY }}
-      #     source: 'build/*'
-      #     target: '~/react/'
-
       - name: 도커 컴포즈 실행
         uses: appleboy/ssh-action@master
         with:
@@ -128,7 +110,6 @@ jobs:
             export REACT_APP_REACT_SERVER_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
             export REACT_APP_NGINX_SERVER01_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
             cd ~/react
-            envsubst < nginx.conf.template > nginx.conf
             sudo -E docker-compose pull nginx
             sudo -E docker-compose up -d nginx
             sudo -E docker-compose logs nginx

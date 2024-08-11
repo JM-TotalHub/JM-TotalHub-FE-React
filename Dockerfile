@@ -6,12 +6,18 @@ RUN npm install
 COPY . .
 RUN npm run build
 
-# 2단계: Nginx 설정
 FROM nginx:latest
 COPY --from=build /app/build /usr/share/nginx/html
 
-# Nginx 설정 파일 복사
-COPY nginx.conf /etc/nginx/conf.d/default.conf
+COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
 
-# Nginx 포트 노출
 EXPOSE 80
+
+
+# # <만약 엔진엑스 설정파일에 환경변수가 필요한 경우 - 깃허브 액션에서 build-args 롤 변수전달>
+# # 환경 변수 설정
+# ARG REACT_APP_NGINX_SERVER01_HOST
+# ENV REACT_APP_NGINX_SERVER01_HOST=${REACT_APP_NGINX_SERVER01_HOST}
+
+# # envsubst를 사용하여 nginx.conf 생성
+# RUN envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
