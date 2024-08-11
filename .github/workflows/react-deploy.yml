@@ -96,8 +96,8 @@ jobs:
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/jm-total-hub:react-latest
 
-      - name: 리액트 애플리케이션 빌드(eslint 비활성화)
-        run: CI=false npm run build
+      # - name: 리액트 애플리케이션 빌드(eslint 비활성화)
+      #   run: CI=false npm run build
 
       - name: 도커 컴포즈 실행
         uses: appleboy/ssh-action@master
