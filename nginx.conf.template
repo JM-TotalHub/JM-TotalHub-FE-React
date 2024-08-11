@@ -15,9 +15,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-
-        # 필요한 경우 쿠키 설정
-        proxy_set_header Cookie $http_cookie;
     }
 
     location /signal/ {
@@ -26,8 +23,6 @@ server {
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header X-Forwarded-Proto $scheme;
-
-        proxy_set_header Cookie $http_cookie;
     }
 
     location /socket.io/ {
