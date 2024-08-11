@@ -1,20 +1,17 @@
-# # 가져올 이미지를 정의
-# FROM node:20.14
+FROM node:20.14 AS build
 
-# # 경로 설정하기
-# WORKDIR /app
+WORKDIR /app
+COPY package.json package-lock.json ./
+RUN npm install
+COPY . .
+RUN npm run build
 
-# # package.json 워킹 디렉토리에 복사 (.은 설정한 워킹 디렉토리를 뜻함)
-# COPY package.json .
+# 2단계: Nginx 설정
+FROM nginx:latest
+COPY --from=build /app/build /usr/share/nginx/html
 
-# # 명령어 실행 (의존성 설치)
-# RUN npm install
+# Nginx 설정 파일 복사
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# # 현재 디렉토리의 모든 파일을 도커 컨테이너의 워킹 디렉토리에 복사한다.
-# COPY . .
-
-# # 3000번 포트 노출
-# EXPOSE 3000
-
-# # npm start 스크립트 실행
-# CMD ["npm", "start"]
+# Nginx 포트 노출
+EXPOSE 80
