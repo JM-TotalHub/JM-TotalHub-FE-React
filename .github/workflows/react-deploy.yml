@@ -95,6 +95,9 @@ jobs:
           file: ./Dockerfile
           push: true
           tags: ${{ secrets.DOCKER_USERNAME }}/jm-total-hub:react-latest
+          build-args: |
+            REACT_APP_REACT_SERVER_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
+            REACT_APP_NGINX_SERVER01_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
 
       # - name: 리액트 애플리케이션 빌드(eslint 비활성화)
       #   run: CI=false npm run build
@@ -107,8 +110,8 @@ jobs:
           key: ${{ secrets.REACT_APP_REACT_SERVER01_EC2_PRIVATE_KEY }}
           script: |
             docker image prune -a -f --filter "until=12h"
-            export REACT_APP_REACT_SERVER_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
-            export REACT_APP_NGINX_SERVER01_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
+            # export REACT_APP_REACT_SERVER_ENV_STATUS=${{ env.REACT_APP_REACT_SERVER_ENV_STATUS }}
+            # export REACT_APP_NGINX_SERVER01_HOST=${{ env.REACT_APP_NGINX_SERVER01_HOST }}
             cd ~/react
             sudo -E docker-compose pull nginx
             sudo -E docker-compose up -d nginx
