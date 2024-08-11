@@ -19,6 +19,10 @@ COPY --from=build /app/build /usr/share/nginx/html
 
 COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
 
+RUN apt-get update && apt-get install -y gettext-base && \
+    envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf && \
+    rm /etc/nginx/conf.d/default.conf.template
+
 EXPOSE 80
 
 
