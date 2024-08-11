@@ -10,7 +10,7 @@ server {
     error_page 404 /index.html; 
 
     location /api/ {
-        proxy_pass http://10.4.1.227; 
+        proxy_pass http://10.1.10.191; 
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -18,7 +18,7 @@ server {
     }
 
     location /signal/ {
-        proxy_pass http://10.4.1.227;  
+        proxy_pass http://10.1.10.191;  
         proxy_set_header Host $host;
         proxy_set_header X-Real-IP $remote_addr;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
@@ -26,7 +26,7 @@ server {
     }
 
     location /socket.io/ {
-        proxy_pass http://10.4.1.227;  
+        proxy_pass http://10.1.10.191;  
         proxy_http_version 1.1;
         proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
         proxy_set_header Host $host;
