@@ -1,6 +1,6 @@
-import ENV from '../env';
 import React, { createContext, useContext, useEffect } from 'react';
 import io from 'socket.io-client';
+import ENV from '../env';
 import NotifySocketHandler from './socket-handler/NotifySocketHandler';
 
 const SocketContext = createContext();
@@ -10,27 +10,22 @@ export const SocketProvider = ({ children }) => {
 
   const socket = io(ENV.SIGNAL_SERVER_SOCKET_BASE_URL, {
     transports: ['websocket'],
-    withCredentials: true, // CORS 설정에 따라 필요할 수 있음
+    withCredentials: true,
+  });
+
+  socket.on('connect', () => {
+    console.log('Connected to signal server : ', socket);
   });
 
   useEffect(() => {
-    socket.on('connect', () => {
-      console.log('Connected to signal server');
-    });
-
     return () => {
       socket.disconnect();
     };
-  }, [socket]);
+  }, []);
 
   socket.on('connect_error', (err) => {
-    // the reason of the error, for example "xhr poll error"
     console.log(err.message);
-
-    // some additional description, for example the status code of the initial HTTP response
     console.log(err.description);
-
-    // some additional context, for example the XMLHttpRequest object
     console.log(err.context);
   });
 

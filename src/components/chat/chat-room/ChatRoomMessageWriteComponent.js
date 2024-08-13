@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 
-const ChatRoomMemberComponent = () => {
+const ChatRoomMessageWriteComponent = () => {
   const { chatRoomDetails, status, error } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
@@ -16,24 +16,13 @@ const ChatRoomMemberComponent = () => {
 
   if (status === 'succeeded') {
     const { chatRoomInfo, chatRoomMembers, chatRoomMessages } = chatRoomDetails;
-    console.log('채팅방 멤버에서 멤버 데이터 : ', chatRoomMembers);
 
     return (
       <div>
-        <h1>참가인원</h1>
-        {chatRoomMembers.map((member, index) => {
-          return (
-            <div key={index}>
-              <div>ID: {member.id}</div>
-              <div>email: {member.email}</div>
-              <div>NickName: {member.nickname}</div>
-            </div>
-          );
-        })}
+        <h1>채팅 작성</h1>
       </div>
     );
   }
-  return null;
 };
 
-export default ChatRoomMemberComponent;
+export default ChatRoomMessageWriteComponent;

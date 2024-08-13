@@ -2,7 +2,8 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import chatRoomDetailsByChatRoomId from '../../../features/chat/chat-room/actions/ChatRoomDetailsAction';
 
-const ChatRoomDetailsComponent = ({ chatRoomId }) => {
+// 채팅방 데이터 로드및 관리용
+const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   const dispatch = useDispatch();
 
   const { chatRoomDetails, status, error } = useSelector(
@@ -36,21 +37,18 @@ const ChatRoomDetailsComponent = ({ chatRoomId }) => {
 
     return (
       <div>
-        <h1>ChatRoomDetailsComponent</h1>
+        <h3>개발용 채팅방 데이터 확인</h3>
         <div>
-          <div>{chatRoomInfo.id}</div>
-          <div>{chatRoomInfo.name}</div>
-          <div>{chatRoomInfo.description}</div>
-          <div>{chatRoomInfo.chat_type}</div>
-          <div>{chatRoomInfo.created_at}</div>
+          <div>chatRoomInfo.id : {chatRoomInfo.id}</div>
+          <div>chatRoomInfo.name : {chatRoomInfo.name}</div>
+          <div>chatRoomInfo.description : {chatRoomInfo.description}</div>
+          <div>chatRoomInfo.chat_type : {chatRoomInfo.chat_type}</div>
+          <div>chatRoomInfo.created_at : {chatRoomInfo.created_at}</div>
         </div>
-        <div>{chatRoomMembers[0].id}</div>
-        <div>{chatRoomMembers[0].email}</div>
-
         <div></div>
       </div>
     );
   }
 };
 
-export default ChatRoomDetailsComponent;
+export default ChatRoomDetailsLoadComponent;
