@@ -6,19 +6,18 @@ RUN npm install
 COPY . .
 
 ARG REACT_APP_REACT_SERVER_ENV_STATUS
-ARG REACT_APP_NGINX_SERVER01_HOST
+ARG REACT_APP_REACT_SERVER01_EC2_HOST
+ARG REACT_APP_NGINX_SERVER01_EC2_HOST
 
 ENV REACT_APP_REACT_SERVER_ENV_STATUS=${REACT_APP_REACT_SERVER_ENV_STATUS}
-ENV REACT_APP_NGINX_SERVER01_HOST=${REACT_APP_NGINX_SERVER01_HOST}
+ENV REACT_APP_REACT_SERVER01_EC2_HOST=${REACT_APP_REACT_SERVER01_EC2_HOST}
+ENV REACT_APP_NGINX_SERVER01_EC2_HOST=${REACT_APP_NGINX_SERVER01_EC2_HOST}
 
 RUN CI=false npm run build
 RUN ls -R /app/build 
 
 FROM nginx:latest
 COPY --from=build /app/build /usr/share/nginx/html
-
-# COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
-# RUN ls -R /etc/nginx/conf.d/ 
 
 # RUN envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf 
 COPY nginx.conf.template /etc/nginx/conf.d/default.conf
