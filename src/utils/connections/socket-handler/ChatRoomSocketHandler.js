@@ -1,10 +1,10 @@
 import { useEffect } from 'react';
 import { useSocket } from '../SocketProvider';
 
-const NotifySocketHandler = () => {
+const ChatRoomSocketHandler = (chatRoomId) => {
   const { socket } = useSocket();
 
-  console.log('NotifySocketHandler 소캣 : ', socket);
+  console.log('ChatRoomSocketHandler 소캣 : ', socket);
 
   useEffect(() => {
     if (!socket || !socket.connected) return;
@@ -21,4 +21,4 @@ const NotifySocketHandler = () => {
   };
 };
 
-export default NotifySocketHandler;
+export default ChatRoomSocketHandler;

@@ -7,13 +7,15 @@ import { Route, Routes } from 'react-router-dom';
 import MainPageComponents from './components/main/MainPageComponents';
 import Auth from './pages/auth';
 import Board from './pages/board';
-import Test from './pages/test/Test';
 import Chat from './pages/chat';
+import Test from './pages/test/Test';
 import { SocketProvider } from './utils/connections/SocketProvider';
+import NotifySocketHandler from './utils/connections/socket-handler/NotifySocketHandler';
 
 const App = () => {
   return (
     <SocketProvider>
+      <NotifySocketHandler />
       <Routes>
         <Route path="/" element={<MainPageComponents />} />
         <Route path="/tests/*" element={<Test />} />
