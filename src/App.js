@@ -10,7 +10,7 @@ import Board from './pages/board';
 import Chat from './pages/chat';
 import Test from './pages/test/Test';
 import { SocketProvider } from './utils/connections/SocketProvider';
-import NotifySocketHandler from './utils/connections/socket-handler/NotifySocketHandler';
+import NotifySocketHandler from './utils/connections/socket-handler/notification/NotifySocketHandler';
 
 const App = () => {
   return (
