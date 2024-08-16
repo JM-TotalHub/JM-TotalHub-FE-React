@@ -1,5 +1,6 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import ChatRoomMessageWriteFormComponent from './ChatRoomMessageWriteFormComponent';
 
 const ChatRoomMessageWriteComponent = () => {
   const { chatRoomDetails, status, error } = useSelector(
@@ -20,6 +21,7 @@ const ChatRoomMessageWriteComponent = () => {
     return (
       <div>
         <h1>채팅 작성</h1>
+        <ChatRoomMessageWriteFormComponent />
       </div>
     );
   }

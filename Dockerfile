@@ -33,3 +33,7 @@ EXPOSE 80
 
 # # envsubst를 사용하여 nginx.conf 생성
 # RUN envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf
+
+# 직접배포시 비상용 - 환경변수 삽입해서 설정파일 만들고 그걸로 이미지 만드는 과정 
+# COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
+# RUN /bin/sh -c 'envsubst "$$REACT_APP_NGINX_SERVER01_EC2_HOST" < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf'
