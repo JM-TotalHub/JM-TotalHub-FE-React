@@ -1,7 +1,7 @@
 import React, { useCallback } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import commentCreateByPostIdAndData from '../../../features/board/comment/actions/CommentCreateAction';
-import { commentCreateSliceResetState } from '../../../features/board/comment/slices/CommentCreateSlice';
+import commentCreateByPostIdAndData from '../../../features/domains/board/comment/actions/CommentCreateAction';
+import { commentCreateSliceResetState } from '../../../features/domains/board/comment/slices/CommentCreateSlice';
 import CommentFormComponent from './CommentFormComponent';
 
 const CommentCreateComponent = ({ postId }) => {

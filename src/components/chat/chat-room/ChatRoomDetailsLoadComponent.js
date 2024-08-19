@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomDetailsByChatRoomId from '../../../features/chat/chat-room/actions/ChatRoomDetailsAction';
+import chatRoomDetailsByChatRoomId from '../../../features/domains/chat/chat-room/actions/ChatRoomDetailsAction';
 
 // 채팅방 데이터 로드및 관리용
 const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {

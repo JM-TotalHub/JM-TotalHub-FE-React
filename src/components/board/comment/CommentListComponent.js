@@ -2,11 +2,11 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import Pagination from '../../common/Pagination';
 
-import CommentDeleteByCommentId from '../../../features/board/comment/actions/CommentDeleteAction';
-import commentListByPostId from '../../../features/board/comment/actions/CommentListAction';
+import CommentDeleteByCommentId from '../../../features/domains/board/comment/actions/CommentDeleteAction';
+import commentListByPostId from '../../../features/domains/board/comment/actions/CommentListAction';
 import CommentDetailsComponent from './CommentDetailsComponent';
 
-import { commentUpdateSliceResetState } from '../../../features/board/comment/slices/CommentUpdateSlice';
+import { commentUpdateSliceResetState } from '../../../features/domains/board/comment/slices/CommentUpdateSlice';
 import CommentUpdateComponent from './CommentUpdateComponent';
 import {
   ButtonColumn,

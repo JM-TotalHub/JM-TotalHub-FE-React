@@ -6,7 +6,7 @@ import './index.css';
 import reportWebVitals from './utils/reportWebVitals';
 import { Provider } from 'react-redux';
 // import { boardStore } from './stores/BoardStore';
-import store from './stores';
+import store from './features/stores';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(

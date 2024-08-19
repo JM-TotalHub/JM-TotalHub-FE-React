@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
-import postListByBoardId from '../../../features/board/post/actions/PostListAction';
+import postListByBoardId from '../../../features/domains/board/post/actions/PostListAction';
 import Pagination from '../../common/Pagination';
 import { formatDateWithToday } from '../../../utils/form/dateFormat';
 

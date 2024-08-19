@@ -1,8 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import PostDeleteActionByPostId from '../../../features/board/post/actions/PostDeleteAction';
-import { postDeleteSliceResetState } from '../../../features/board/post/slices/PostDeleteSlice';
+import PostDeleteActionByPostId from '../../../features/domains/board/post/actions/PostDeleteAction';
+import { postDeleteSliceResetState } from '../../../features/domains/board/post/slices/PostDeleteSlice';
 
 import { BoardButton } from '../../../styles/commonButtonStyles';
 

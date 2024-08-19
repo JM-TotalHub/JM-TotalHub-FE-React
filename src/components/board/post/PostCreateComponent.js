@@ -1,9 +1,9 @@
 import React, { useCallback, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
-import postCreateByBoardIdAndData from '../../../features/board/post/actions/PostCreateAction';
+import postCreateByBoardIdAndData from '../../../features/domains/board/post/actions/PostCreateAction';
 import PostFormComponent from './PostFormComponent';
-import { postCreateSliceResetState } from '../../../features/board/post/slices/postCreateSlice';
+import { postCreateSliceResetState } from '../../../features/domains/board/post/slices/postCreateSlice';
 
 const PostCreateComponent = ({ boardId, pageNum }) => {
   const { status, error } = useSelector((state) => state.board.postCreate);

@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import authSignUpByUserData from '../../features/auth/actions/SignUpAction';
 import { useNavigate } from 'react-router-dom';
+import authSignUpByUserData from '../../features/domains/auth/actions/SignUpAction';
 
 const SignUpComponent = () => {
   const [email, setEmail] = useState('');

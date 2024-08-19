@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { formatDate } from '../../../utils/form/dateFormat';
 import { htmlDecoder } from '../../../utils/form/htmlDecoder';
 
-import postDetailsByPostId from '../../../features/board/post/actions/PostDetailsAction';
+import postDetailsByPostId from '../../../features/domains/board/post/actions/PostDetailsAction';
 
 import {
   Column,

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import boardListByNothing from '../../../features/board/board/actions/BoardListAction';
+import boardListByNothing from '../../../features/domains/board/board/actions/BoardListAction';
 import { Link } from 'react-router-dom';
 
 import {

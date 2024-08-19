@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import commentUpdateByCommentIdAndData from '../../../features/board/comment/actions/CommentUpdateAction';
-import commentUpdateInitByCommentId from '../../../features/board/comment/actions/CommentUpdateInitAction';
-import { commentUpdateSliceResetState } from '../../../features/board/comment/slices/CommentUpdateSlice';
+import commentUpdateByCommentIdAndData from '../../../features/domains/board/comment/actions/CommentUpdateAction';
+import commentUpdateInitByCommentId from '../../../features/domains/board/comment/actions/CommentUpdateInitAction';
+import { commentUpdateSliceResetState } from '../../../features/domains/board/comment/slices/CommentUpdateSlice';
 import CommentFormComponent from './CommentFormComponent';
 import { htmlDecoder } from '../../../utils/form/htmlDecoder';
 
