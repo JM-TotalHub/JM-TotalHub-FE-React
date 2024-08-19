@@ -4,7 +4,10 @@ import chatRoomDetailsByChatRoomId from '../actions/ChatRoomDetailsAction';
 const chatRoomDetailsSlice = createSlice({
   name: 'chatRoomDetails',
   initialState: {
-    chatRoomDetails: {},
+    // chatRoomDetails: {},
+    chatRoomInfo: {},
+    chatRoomMembers: [],
+    chatRoomMessages: [],
     status: 'idle',
     error: null,
   },
@@ -19,7 +22,9 @@ const chatRoomDetailsSlice = createSlice({
         // API 요청 성공 상태
         state.status = 'succeeded';
         state.chatRoomDetails = action.payload;
-        console.log('슬라이스 chatRoomDetails : ', action.payload);
+        state.chatRoomInfo = action.payload.chatRoomInfo;
+        state.chatRoomMembers = action.payload.chatRoomMembers;
+        state.chatRoomMessages = action.payload.chatRoomMessages;
       })
       .addCase(chatRoomDetailsByChatRoomId.rejected, (state, action) => {
         // API 요청 실패 상태

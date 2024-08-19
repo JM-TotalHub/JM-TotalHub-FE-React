@@ -36,22 +36,8 @@ export const SocketProvider = ({ children }) => {
     };
   }, []);
 
-  const joinRoom = (roomName) => {
-    if (socket) {
-      socket.emit(`join-${roomName}`);
-      console.log(`${roomName} 방을 생성했습니다.`);
-    }
-  };
-
-  const leaveRoom = (roomName, reason = '그냥') => {
-    if (socket) {
-      socket.emit(`leave-${roomName}`);
-      console.log(`${roomName} 방을 나갔습니다. 이유:`, reason);
-    }
-  };
-
   return (
-    <SocketContext.Provider value={{ socket, joinRoom, leaveRoom }}>
+    <SocketContext.Provider value={{ socket }}>
       {children}
     </SocketContext.Provider>
   );

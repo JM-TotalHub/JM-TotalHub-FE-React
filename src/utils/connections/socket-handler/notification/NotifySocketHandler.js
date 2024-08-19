@@ -3,7 +3,7 @@ import { useSocket } from '../../SocketProvider';
 
 // 함수로서 구현하긴 했지만, 사실상 컴포넌트 처럼 적용해서 이름 대문자로 시작함
 const NotifySocketHandler = () => {
-  const { socket, joinRoom, leaveRoom } = useSocket();
+  const { socket } = useSocket();
 
   console.log('NotifySocketHandler 적용됨 / 소캣 id : ', socket);
 
@@ -11,8 +11,7 @@ const NotifySocketHandler = () => {
     if (!socket || !socket.connected) return;
 
     // 알림 방 참가 요청
-    // socket.emit('join-notification-room');
-    joinRoom('notification-room');
+    socket.emit('join-notification-room');
 
     // 적용 이벤트들
     const handleRoomEvent = () => {
@@ -25,9 +24,9 @@ const NotifySocketHandler = () => {
 
     // 언마운트 시 이벤트 삭제
     return () => {
+      socket.emit('leave-notification-room');
       socket.off('join-success-notification-room', handleRoomEvent);
       socket.off('notification-to-all', handleNotificationToAll);
-      leaveRoom('notification-room');
     };
   }, [socket]);
 

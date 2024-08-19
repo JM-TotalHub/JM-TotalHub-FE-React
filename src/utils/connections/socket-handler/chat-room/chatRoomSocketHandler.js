@@ -2,48 +2,61 @@ import { useEffect } from 'react';
 import { useSocket } from '../../SocketProvider';
 import { useDispatch, useSelector } from 'react-redux';
 
-// 채팅방 참가, 나가기 관련 핸들러
-// 기본적으로 채팅방 만들기가 별개의 api로 구현되어 id가 유일하니 채팅방 id를 기반으로 구현
-const chatRoomSocketHandler = () => {
+const ChatRoomSocketHandler = () => {
   const dispatch = useDispatch();
-  const { socket, joinRoom, leaveRoom } = useSocket();
+  const { socket } = useSocket();
   const { joinChatRoomNum } = useSelector(
     (state) => state.chat.chatRoomStateSlice
   );
 
+  const handleJoinSuccess = (data) => {
+    dispatch(joinChatRoom(data));
+    console.log('채팅방 입장함 : ', data);
+    socket.emit('chat-room-join-notify', {});
+  };
+
+  const handleMessageReceive = (data) => {
+    console.log('메시지 수신:', data);
+    // 메시지 상태 업데이트 로직 추가 가능
+  };
+
   useEffect(() => {
     if (!socket || !socket.connected) return;
 
-    // 수신 함수
-    socket.on(`chat-room-join-success`, (data) => {
-      dispatch(joinChatRoom({ data }));
-      socket.emit(`chat-room-join-notify`, {});
-    });
+    // 송신 함수
 
-    socket.on(`chat-room-message-receive`, (data) => {});
+    // 방참가 성공
+    socket.on('chat-room-join-success', handleJoinSuccess);
+    socket.on('chat-room-message-receive', handleMessageReceive);
 
     return () => {
-      if (joinChatRoomNum <= 0) {
-        socket.off(`chat-room-join-success`);
-        socket.off(`chat-room-message-receive`);
-      }
+      socket.off('chat-room-join-success', handleJoinSuccess);
+      socket.off('chat-room-message-receive', handleMessageReceive);
     };
-  }, [socket, joinChatRoomNum]);
+  }, [socket, dispatch, joinChatRoomNum]);
 
-  // 송신(호출)함수
+  // 수신 함수 (외부노출 함수)
   const joinChatRoom = (chatRoomId) => {
-    joinRoom(`chat-room:${chatRoomId}`);
+    console.log('방 참가 시도');
+
+    socket.emit('join-chat-room', { roomId: chatRoomId });
   };
 
   const leaveChatRoom = (chatRoomId) => {
-    leaveRoom(`chat-room:${chatRoomId}`);
+    socket.emit('leave-chat-room', { roomId: chatRoomId });
   };
 
-  const sendMessage = (userId, chatRoomId) => {
-    socket.emit(`chat-room:${chatRoomId}-message-send`);
+  const sendMessage = (chatRoomId, message) => {
+    if (socket && socket.connected) {
+      socket.emit(`chat-room:${chatRoomId}-message-send`, { message });
+    }
+  };
+
+  return {
+    joinChatRoom,
+    leaveChatRoom,
+    sendMessage,
   };
 };
-
-const ChatRoomSocketHandler = { joinChatRoom };
 
 export default ChatRoomSocketHandler;

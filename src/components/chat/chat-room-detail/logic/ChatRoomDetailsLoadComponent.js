@@ -1,14 +1,22 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomDetailsByChatRoomId from '../../../features/domains/chat/chat-room/actions/ChatRoomDetailsAction';
-
+import chatRoomDetailsByChatRoomId from '../../../../features/domains/chat/chat-room/actions/ChatRoomDetailsAction';
+import ChatRoomSocketHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomSocketHandler';
 // 채팅방 데이터 로드및 관리용
 const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
-  const dispatch = useDispatch();
+  console.log('채팅방 데이터 호출 컴포넌트 chatRoomId : ', chatRoomId);
 
-  const { chatRoomDetails, status, error } = useSelector(
-    (state) => state.chat.chatRoomDetails
-  );
+  const dispatch = useDispatch();
+  const { joinChatRoom, leaveChatRoom, sendMessage } = ChatRoomSocketHandler(); // 훅 호출
+
+  const {
+    // chatRoomDetails,
+    chatRoomInfo,
+    chatRoomMembers,
+    chatRoomMessages,
+    status,
+    error,
+  } = useSelector((state) => state.chat.chatRoomDetails);
 
   useEffect(() => {
     dispatch(
@@ -16,6 +24,12 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
         chatRoomId,
       })
     );
+
+    joinChatRoom(chatRoomId);
+
+    return () => {
+      leaveChatRoom(chatRoomId);
+    };
   }, [dispatch, chatRoomId]);
 
   if (status === 'error') {
@@ -27,10 +41,7 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   }
 
   if (status === 'succeeded') {
-    const { chatRoomInfo, chatRoomMembers, chatRoomMessages } = chatRoomDetails;
-
     console.log('status : ', status);
-    console.log('chatRoomDetails : ', chatRoomDetails);
     console.log('chatRoomInfo : ', chatRoomInfo);
     console.log('chatRoomMember : ', chatRoomMembers);
     console.log('chatRoomMessages : ', chatRoomMessages);

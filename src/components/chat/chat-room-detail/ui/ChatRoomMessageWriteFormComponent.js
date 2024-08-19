@@ -1,11 +1,10 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import QuillEditor from '../../common/QuillEditor';
+import QuillEditor from '../../../common/QuillEditor';
 
 const ChatRoomMessageWriteFormComponent = () => {
-  const { chatRoomDetails, status, error } = useSelector(
-    (state) => state.chat.chatRoomDetails
-  );
+  const { chatRoomInfo, chatRoomMembers, chatRoomMessages, status, error } =
+    useSelector((state) => state.chat.chatRoomDetails);
 
   const [content, setContent] = useState('');
 
@@ -24,8 +23,6 @@ const ChatRoomMessageWriteFormComponent = () => {
   }
 
   if (status === 'succeeded') {
-    const { chatRoomInfo, chatRoomMembers, chatRoomMessages } = chatRoomDetails;
-
     return (
       <div>
         <h3>채팅 작성 폼</h3>

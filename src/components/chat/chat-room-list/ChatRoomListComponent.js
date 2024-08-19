@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomListByNothing from '../../features/domains/chat/chat-room/actions/ChatRoomListAction';
+import chatRoomListByNothing from '../../../features/domains/chat/chat-room/actions/ChatRoomListAction';
 import { useNavigate } from 'react-router-dom';
 
 const ChatRoomListComponent = () => {
@@ -27,7 +27,10 @@ const ChatRoomListComponent = () => {
     <div>
       <ul>
         {chatRoomList.map((chatRoom) => (
-          <li onClick={() => handleChatRoomClick(chatRoom.id)}>
+          <li
+            key={chatRoom.id}
+            onClick={() => handleChatRoomClick(chatRoom.id)}
+          >
             <p>{chatRoom.id}</p>
             <h3>{chatRoom.name}</h3>
             <p>{chatRoom.description}</p>

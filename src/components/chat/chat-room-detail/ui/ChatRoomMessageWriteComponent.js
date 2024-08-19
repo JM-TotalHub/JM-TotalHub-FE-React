@@ -3,9 +3,8 @@ import { useSelector } from 'react-redux';
 import ChatRoomMessageWriteFormComponent from './ChatRoomMessageWriteFormComponent';
 
 const ChatRoomMessageWriteComponent = () => {
-  const { chatRoomDetails, status, error } = useSelector(
-    (state) => state.chat.chatRoomDetails
-  );
+  const { chatRoomInfo, chatRoomMembers, chatRoomMessages, status, error } =
+    useSelector((state) => state.chat.chatRoomDetails);
 
   if (status === 'error') {
     return <div>Loading... 데이터를 요청실패.</div>;
@@ -16,8 +15,6 @@ const ChatRoomMessageWriteComponent = () => {
   }
 
   if (status === 'succeeded') {
-    const { chatRoomInfo, chatRoomMembers, chatRoomMessages } = chatRoomDetails;
-
     return (
       <div>
         <h1>채팅 작성</h1>

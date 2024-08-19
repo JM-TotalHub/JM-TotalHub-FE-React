@@ -1,12 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room/ChatRoomDetailsLoadComponent';
-import ChatRoomMemberComponent from '../../../components/chat/chat-room/ChatRoomMemberComponent';
-import ChatRoomMessageListComponent from '../../../components/chat/chat-room/ChatRoomMessageListComponent';
-import ChatRoomMessageWriteComponent from '../../../components/chat/chat-room/ChatRoomMessageWriteComponent';
+import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomDetailsLoadComponent';
+import ChatRoomMemberComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMemberComponent';
+import ChatRoomMessageListComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageListComponent';
+import ChatRoomMessageWriteComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageWriteComponent';
 
 const ChatRoomDetailsPage = () => {
   const { chatRoomId } = useParams();
+  console.log('채팅방 디테일 페이지 채팅 방번호 : ', chatRoomId);
 
   return (
     <div>
