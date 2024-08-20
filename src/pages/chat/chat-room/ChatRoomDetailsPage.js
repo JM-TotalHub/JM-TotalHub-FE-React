@@ -4,6 +4,7 @@ import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room-det
 import ChatRoomMemberComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMemberComponent';
 import ChatRoomMessageListComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageListComponent';
 import ChatRoomMessageWriteComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageWriteComponent';
+import ChatRoomListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 
 const ChatRoomDetailsPage = () => {
   const { chatRoomId } = useParams();
@@ -12,7 +13,10 @@ const ChatRoomDetailsPage = () => {
   return (
     <div>
       <h1>ChatRoomDetailsPage</h1>
+
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
+      <ChatRoomListenerHandler />
+
       <ChatRoomMemberComponent chatRoomId={chatRoomId} />
       <ChatRoomMessageListComponent chatRoomId={chatRoomId} />
       <ChatRoomMessageWriteComponent chatRoomId={chatRoomId} />

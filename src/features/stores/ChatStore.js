@@ -7,7 +7,7 @@ import chatRoomStateSlice from '../domains/chat/chat-room/slices/ChatRoomStateSl
 const chatReducer = combineReducers({
   chatRoomList: chatRoomListSlice.reducer,
   chatRoomDetails: chatRoomDetailsSlice.reducer,
-  chatRoomStateSlice: chatRoomDetailsSlice.reducer,
+  // chatRoomStates: chatRoomStateSlice.reducer,
 });
 
 export default chatReducer;

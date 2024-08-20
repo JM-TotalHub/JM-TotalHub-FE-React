@@ -2,8 +2,9 @@ import React from 'react';
 import { useSelector } from 'react-redux';
 
 const ChatRoomMemberComponent = () => {
-  const { chatRoomInfo, chatRoomMembers, chatRoomMessages, status, error } =
-    useSelector((state) => state.chat.chatRoomDetails);
+  const { chatRoomMembers, status, error } = useSelector(
+    (state) => state.chat.chatRoomDetails
+  );
 
   if (status === 'error') {
     return <div>Loading... 데이터를 요청실패.</div>;

@@ -1,34 +1,41 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import chatRoomDetailsByChatRoomId from '../../../../features/domains/chat/chat-room/actions/ChatRoomDetailsAction';
-import ChatRoomSocketHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomSocketHandler';
+import { chatRoomDetailsSliceResetState } from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
+import ChatRoomEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomEmitterHandler';
+import ChatRoomListenerHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 // 채팅방 데이터 로드및 관리용
 const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
-  console.log('채팅방 데이터 호출 컴포넌트 chatRoomId : ', chatRoomId);
-
   const dispatch = useDispatch();
-  const { joinChatRoom, leaveChatRoom, sendMessage } = ChatRoomSocketHandler(); // 훅 호출
 
-  const {
-    // chatRoomDetails,
-    chatRoomInfo,
-    chatRoomMembers,
-    chatRoomMessages,
-    status,
-    error,
-  } = useSelector((state) => state.chat.chatRoomDetails);
+  const { chatRoomInfo, status, error } = useSelector(
+    (state) => state.chat.chatRoomDetails
+  );
+
+  console.log(
+    'ChatRoomDetailsLoadComponent에서 랜더링 확인 & 상태값 : ',
+    status
+  );
+
+  const { joinChatRoom, leaveChatRoom } = ChatRoomEmitterHandler(); // 훅 호출
+
+  // useEffect(() => {
+  //   ChatRoomListenerHandler(chatRoomId);
+  // }, [chatRoomId]);
 
   useEffect(() => {
+    console.log('hatRoomDetailsLoadComponent 유스 이팩트 동작');
+    // ChatRoomListenerHandler(chatRoomId);
+
     dispatch(
       chatRoomDetailsByChatRoomId({
         chatRoomId,
       })
     );
 
-    joinChatRoom(chatRoomId);
-
     return () => {
       leaveChatRoom(chatRoomId);
+      dispatch(chatRoomDetailsSliceResetState());
     };
   }, [dispatch, chatRoomId]);
 
@@ -41,10 +48,7 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   }
 
   if (status === 'succeeded') {
-    console.log('status : ', status);
-    console.log('chatRoomInfo : ', chatRoomInfo);
-    console.log('chatRoomMember : ', chatRoomMembers);
-    console.log('chatRoomMessages : ', chatRoomMessages);
+    joinChatRoom(chatRoomId);
 
     return (
       <div>
@@ -60,6 +64,12 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
       </div>
     );
   }
+
+  // return (
+  //   <div>
+  //     <ChatRoomListenerHandler />
+  //   </div>
+  // );
 };
 
 export default ChatRoomDetailsLoadComponent;

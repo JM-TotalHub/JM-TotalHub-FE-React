@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 import React from 'react';
 
-// 채팅방 관련 전체적인 상태값을 관리하는 슬라이스
+// 채팅방 관련 전체적인 상태값을 관리하는 슬라이스 <= 안쓰고 있는중
 
 const chatRoomStateSlice = createSlice({
   name: 'chatRoomStateSlice',

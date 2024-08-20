@@ -4,14 +4,18 @@ import chatRoomDetailsByChatRoomId from '../actions/ChatRoomDetailsAction';
 const chatRoomDetailsSlice = createSlice({
   name: 'chatRoomDetails',
   initialState: {
-    // chatRoomDetails: {},
     chatRoomInfo: {},
     chatRoomMembers: [],
     chatRoomMessages: [],
     status: 'idle',
     error: null,
   },
-  reducers: {},
+  reducers: {
+    chatRoomDetailsSliceResetState: (state) => {
+      state.status = 'idle';
+      state.error = null;
+    },
+  },
   extraReducers: (builder) => {
     builder
       .addCase(chatRoomDetailsByChatRoomId.pending, (state) => {
@@ -34,4 +38,5 @@ const chatRoomDetailsSlice = createSlice({
   },
 });
 
+export const { chatRoomDetailsSliceResetState } = chatRoomDetailsSlice.actions;
 export default chatRoomDetailsSlice;
