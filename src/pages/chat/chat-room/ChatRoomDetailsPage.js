@@ -12,11 +12,12 @@ const ChatRoomDetailsPage = () => {
 
   return (
     <div>
-      <h1>ChatRoomDetailsPage</h1>
-
+      {/* 기능 컴포넌트 적용 */}
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
       <ChatRoomListenerHandler />
 
+      <h1>ChatRoomDetailsPage</h1>
+      {/* UI 컴포넌트 적용 */}
       <ChatRoomMemberComponent chatRoomId={chatRoomId} />
       <ChatRoomMessageListComponent chatRoomId={chatRoomId} />
       <ChatRoomMessageWriteComponent chatRoomId={chatRoomId} />

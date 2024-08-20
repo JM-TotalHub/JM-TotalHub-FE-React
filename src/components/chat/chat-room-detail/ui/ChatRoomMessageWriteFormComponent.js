@@ -8,8 +8,6 @@ const ChatRoomMessageWriteFormComponent = ({ chatRoomId }) => {
 
   console.log('ChatRoomMessageWriteFormComponent에서 채팅방 id : ', chatRoomId);
 
-  const { sendMessage } = ChatRoomEmitterHandler(chatRoomId); // 훅 호출
-
   const [content, setContent] = useState('');
 
   const handleContentChange = (value) => {
@@ -17,6 +15,8 @@ const ChatRoomMessageWriteFormComponent = ({ chatRoomId }) => {
   };
 
   const handleSubmit = (e) => {
+    const { sendMessage } = ChatRoomEmitterHandler(chatRoomId); // 훅 호출
+
     e.preventDefault(); // 기본 폼 제출 이벤트 방지
 
     if (content.trim()) {
