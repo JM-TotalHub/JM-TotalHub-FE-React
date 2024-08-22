@@ -1,13 +1,14 @@
 import { combineReducers } from 'redux';
 
-import ChatRoomSocketStateSlice from '../domains/chat/chat-room-socket/slice/ChatRoomSocketStateSlice';
-import chatRoomDetailsSlice from '../domains/chat/chat-room/slices/ChatRoomDetailsSlice';
-import chatRoomListSlice from '../domains/chat/chat-room/slices/ChatRoomListSlice';
+import chatRoomDetailsSlice from '../domains/chat/chat-room-message/slices/ChatRoomDetailsSlice';
+import chatRoomListSlice from '../domains/chat/chat-room-message/slices/ChatRoomListSlice';
+import ChatRoomMessageStateSlice from '../domains/chat/chat-room-message/slices/ChatRoomMessageStateSlice';
 
 const chatReducer = combineReducers({
   chatRoomList: chatRoomListSlice.reducer,
   chatRoomDetails: chatRoomDetailsSlice.reducer,
-  chatRoomSocketState: ChatRoomSocketStateSlice.reducer,
+
+  chatRoomMessageState: ChatRoomMessageStateSlice.reducer,
 });
 
 export default chatReducer;

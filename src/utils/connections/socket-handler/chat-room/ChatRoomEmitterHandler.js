@@ -1,16 +1,12 @@
-import { useSocket } from '../../SocketProvider';
-
-const ChatRoomEmitterHandler = (chatRoomId) => {
+const ChatRoomEmitterHandler = (socket, chatRoomId) => {
   console.log('핸들러 호출');
-
-  const { socket } = useSocket();
 
   const username = 'test-username';
 
   const joinChatRoom = (chatRoomId) => {
-    console.log('방 참가 시도');
     if (socket && socket.connected) {
-      socket.emit('join-chat-room', { chatRoomId, username });
+      console.log('방 참가 시도');
+      socket.emit('join-chat-room', { chatRoomId });
     }
   };
 

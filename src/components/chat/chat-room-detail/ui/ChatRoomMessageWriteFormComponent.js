@@ -1,13 +1,12 @@
 import React, { useState } from 'react';
 import { useSelector } from 'react-redux';
-import ChatRoomEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomEmitterHandler';
 import QuillEditor from '../../../common/QuillEditor';
+import ChatRoomEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomEmitterHandler';
+import { useSocket } from '../../../../utils/connections/SocketProvider';
 
 const ChatRoomMessageWriteFormComponent = ({ chatRoomId }) => {
+  const { socket } = useSocket();
   const { status, error } = useSelector((state) => state.chat.chatRoomDetails);
-
-  console.log('ChatRoomMessageWriteFormComponent에서 채팅방 id : ', chatRoomId);
-
   const [content, setContent] = useState('');
 
   const handleContentChange = (value) => {
@@ -15,14 +14,13 @@ const ChatRoomMessageWriteFormComponent = ({ chatRoomId }) => {
   };
 
   const handleSubmit = (e) => {
-    const { sendMessage } = ChatRoomEmitterHandler(chatRoomId); // 훅 호출
+    const { sendMessage } = ChatRoomEmitterHandler(socket, chatRoomId);
 
-    e.preventDefault(); // 기본 폼 제출 이벤트 방지
+    e.preventDefault();
 
     if (content.trim()) {
-      // 비어있는 메시지 전송 방지
-      sendMessage(chatRoomId, content); // 채팅방 ID와 메시지를 전송
-      setContent(''); // 메시지 전송 후 내용 초기화
+      sendMessage(chatRoomId, content);
+      setContent('');
     }
   };
 

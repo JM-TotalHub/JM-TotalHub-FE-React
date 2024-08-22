@@ -5,8 +5,6 @@ import { useSocket } from '../../SocketProvider';
 const NotifySocketHandler = () => {
   const { socket } = useSocket();
 
-  console.log('NotifySocketHandler 적용됨 / 소캣 id : ', socket);
-
   useEffect(() => {
     if (!socket || !socket.connected) return;
 

@@ -1,9 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useSelector } from 'react-redux';
 
 const ChatRoomMessageListComponent = () => {
-  const { chatRoomInfo, chatRoomMembers, chatRoomMessages, status, error } =
-    useSelector((state) => state.chat.chatRoomDetails);
+  const { chatRoomMessages, status, error } = useSelector(
+    (state) => state.chat.chatRoomDetails
+  );
 
   if (status === 'error') {
     return <div>Loading... 데이터를 요청실패.</div>;
@@ -14,13 +15,19 @@ const ChatRoomMessageListComponent = () => {
   }
 
   if (status === 'succeeded') {
+    console.log('현재 채팅 메시지 데이터 : ', chatRoomMessages);
+
     return (
       <div>
         <h1>채팅 메시지</h1>
-        {chatRoomMessages.map((message, index) => {
-          <div key={index}>
-            <div>{message}</div>
-          </div>;
+        {chatRoomMessages.map((messageData, index) => {
+          return (
+            <div key={index}>
+              <div
+                dangerouslySetInnerHTML={{ __html: messageData.message }}
+              ></div>
+            </div>
+          );
         })}
       </div>
     );

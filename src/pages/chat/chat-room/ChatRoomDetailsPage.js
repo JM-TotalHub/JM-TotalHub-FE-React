@@ -4,20 +4,22 @@ import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room-det
 import ChatRoomMemberComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMemberComponent';
 import ChatRoomMessageListComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageListComponent';
 import ChatRoomMessageWriteComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageWriteComponent';
-import ChatRoomListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
+import ChatRoomInfoComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomInfoComponent';
 
 const ChatRoomDetailsPage = () => {
   const { chatRoomId } = useParams();
-  console.log('채팅방 디테일 페이지 채팅 방번호 : ', chatRoomId);
+
+  console.log('페이지 재랜더링');
 
   return (
     <div>
+      <h1>ChatRoomDetailsPage</h1>
+
       {/* 기능 컴포넌트 적용 */}
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
-      <ChatRoomListenerHandler />
 
-      <h1>ChatRoomDetailsPage</h1>
       {/* UI 컴포넌트 적용 */}
+      <ChatRoomInfoComponent chatRoomId={chatRoomId} />
       <ChatRoomMemberComponent chatRoomId={chatRoomId} />
       <ChatRoomMessageListComponent chatRoomId={chatRoomId} />
       <ChatRoomMessageWriteComponent chatRoomId={chatRoomId} />

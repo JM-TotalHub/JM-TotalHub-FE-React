@@ -15,6 +15,19 @@ const chatRoomDetailsSlice = createSlice({
       state.status = 'idle';
       state.error = null;
     },
+    chatRoomAddMessage: (state, action) => {
+      state.chatRoomMessages.push(action.payload);
+    },
+    chatRoomUserJoin: (state, action) => {
+      console.log('새로운 유저 리듀서함수 동작 :', action.payload);
+
+      state.chatRoomMembers.push(action.payload);
+    },
+    chatRoomUserLeave: (state, action) => {
+      state.chatRoomMembers = state.chatRoomMembers.filter(
+        (member) => member.id !== action.payload
+      );
+    },
   },
   extraReducers: (builder) => {
     builder
@@ -38,5 +51,10 @@ const chatRoomDetailsSlice = createSlice({
   },
 });
 
-export const { chatRoomDetailsSliceResetState } = chatRoomDetailsSlice.actions;
+export const {
+  chatRoomDetailsSliceResetState,
+  chatRoomAddMessage,
+  chatRoomUserJoin,
+  chatRoomUserLeave,
+} = chatRoomDetailsSlice.actions;
 export default chatRoomDetailsSlice;

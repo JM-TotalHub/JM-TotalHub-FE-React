@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
+// 안쓰고 있는 중
 const socketConnectSlice = createSlice({
   name: 'socketConnect',
   initialState: {

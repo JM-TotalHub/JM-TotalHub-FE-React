@@ -1,31 +1,25 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomDetailsByChatRoomId from '../../../../features/domains/chat/chat-room/actions/ChatRoomDetailsAction';
-import { chatRoomDetailsSliceResetState } from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
+import chatRoomDetailsByChatRoomId from '../../../../features/domains/chat/chat-room-message/actions/ChatRoomDetailsAction';
 import ChatRoomEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomEmitterHandler';
-import ChatRoomListenerHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
-// 채팅방 데이터 로드및 관리용
+import { chatRoomDetailsSliceResetState } from '../../../../features/domains/chat/chat-room-message/slices/ChatRoomDetailsSlice';
+import {
+  offChatRoom,
+  onChatRoom,
+} from '../../../../features/domains/chat/chat-room-message/slices/ChatRoomMessageStateSlice';
+import { useSocket } from '../../../../utils/connections/SocketProvider';
+
+// 채팅방-메시지 데이터 로드및 채팅방 연결
 const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   const dispatch = useDispatch();
+  const { socket } = useSocket();
 
   const { chatRoomInfo, status, error } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
 
-  console.log(
-    'ChatRoomDetailsLoadComponent에서 랜더링 확인 & 상태값 : ',
-    status
-  );
-
-  const { joinChatRoom, leaveChatRoom } = ChatRoomEmitterHandler(); // 훅 호출
-
-  // useEffect(() => {
-  //   ChatRoomListenerHandler(chatRoomId);
-  // }, [chatRoomId]);
-
   useEffect(() => {
-    console.log('hatRoomDetailsLoadComponent 유스 이팩트 동작');
-    // ChatRoomListenerHandler(chatRoomId);
+    const { leaveChatRoom } = ChatRoomEmitterHandler(socket, chatRoomId);
 
     dispatch(
       chatRoomDetailsByChatRoomId({
@@ -34,22 +28,28 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
     );
 
     return () => {
+      // 채팅방 나가기
       leaveChatRoom(chatRoomId);
+      // 채팅방 참가 상태값 변경
+      dispatch(offChatRoom());
+      // 채팅방 정보 상태값 초기화
       dispatch(chatRoomDetailsSliceResetState());
     };
-  }, [dispatch, chatRoomId]);
+  }, [chatRoomId]);
 
-  if (status === 'error') {
-    return <div>Loading... 데이터를 요청실패.</div>;
-  }
+  useEffect(() => {
+    if (status == 'succeeded') {
+      const { joinChatRoom } = ChatRoomEmitterHandler(socket, chatRoomId);
 
-  if (status === 'idle') {
-    return <div>로딩 중입니다...</div>;
-  }
+      console.log('방참가');
+      // 채팅방 참가
+      joinChatRoom(chatRoomId);
+      // 채팅방 참가 상태값 변경
+      dispatch(onChatRoom());
+    }
+  }, [chatRoomId, status]);
 
   if (status === 'succeeded') {
-    joinChatRoom(chatRoomId);
-
     return (
       <div>
         <h3>개발용 채팅방 데이터 확인</h3>
@@ -64,12 +64,6 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
       </div>
     );
   }
-
-  // return (
-  //   <div>
-  //     <ChatRoomListenerHandler />
-  //   </div>
-  // );
 };
 
 export default ChatRoomDetailsLoadComponent;
