@@ -12,13 +12,11 @@ import Test from './pages/test/Test';
 
 import { SocketProvider } from './utils/connections/SocketProvider';
 
-import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
-import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
-import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
-import ChatRoomVideoListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
 import UserInfoLoader from './components/auth/UserInfoLoader';
 import UserHeaderComponent from './components/header/UserHeaderComponent';
-import ChatRoomVideoListenerHandler2 from './utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler2';
+import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
+import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
+import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
 
 const App = () => {
   return (

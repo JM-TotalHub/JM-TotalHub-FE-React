@@ -6,7 +6,7 @@ import React, {
   useState,
 } from 'react';
 import { useSocket } from '../../../../utils/connections/SocketProvider';
-import ChatRoomVideoEmitterHandler2 from '../../../../utils/connections/socket-handler/chat-room/ChatRoomVideoEmitterHandler2';
+import ChatRoomVideoEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomVideoEmitterHandler';
 
 const WebRtcContext = createContext();
 
@@ -78,11 +78,11 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   // 화상채팅방 참가
   useEffect(() => {
-    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler2(socket);
+    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
     joinChatRoomVideo(chatRoomId);
 
     return () => {
-      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler2(socket);
+      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
       leaveChatRoomVideo(chatRoomId);
     };
   }, [socket, chatRoomId]);
