@@ -1,6 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 
-const ChatRoomMessageStateSlice = createSlice({
+const ChatRoomMessageStatusSlice = createSlice({
   name: 'ChatRoomStateSlice',
   initialState: {
     useChatRoom: false,
@@ -15,5 +15,5 @@ const ChatRoomMessageStateSlice = createSlice({
   },
 });
 
-export const { onChatRoom, offChatRoom } = ChatRoomMessageStateSlice.actions;
-export default ChatRoomMessageStateSlice;
+export const { onChatRoom, offChatRoom } = ChatRoomMessageStatusSlice.actions;
+export default ChatRoomMessageStatusSlice;

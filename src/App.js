@@ -9,16 +9,32 @@ import Auth from './pages/auth';
 import Board from './pages/board';
 import Chat from './pages/chat';
 import Test from './pages/test/Test';
+
 import { SocketProvider } from './utils/connections/SocketProvider';
+
+import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
 import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
+import ChatRoomVideoListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
+import UserInfoLoader from './components/auth/UserInfoLoader';
+import UserHeaderComponent from './components/header/UserHeaderComponent';
+import ChatRoomVideoListenerHandler2 from './utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler2';
 
 const App = () => {
   return (
     <SocketProvider>
       {/* 소캣 리스너 */}
+      <AuthListenerHandler />
       <NotifyListenerHandler />
       <ChatRoomListenerHandler />
+      {/* <ChatRoomVideoListenerHandler /> */}
+      {/* <ChatRoomVideoListenerHandler2 /> */}
+
+      {/* 정보 로드 */}
+      <UserInfoLoader />
+
+      {/* 테스트용 헤더 */}
+      <UserHeaderComponent />
 
       {/* 라우터 */}
       <Routes>

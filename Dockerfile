@@ -9,18 +9,32 @@ ARG REACT_APP_REACT_SERVER_ENV_STATUS
 ARG REACT_APP_REACT_SERVER01_EC2_HOST
 ARG REACT_APP_NGINX_SERVER01_EC2_HOST
 
-ENV REACT_APP_REACT_SERVER_ENV_STATUS=${REACT_APP_REACT_SERVER_ENV_STATUS}
-ENV REACT_APP_REACT_SERVER01_EC2_HOST=${REACT_APP_REACT_SERVER01_EC2_HOST}
-ENV REACT_APP_NGINX_SERVER01_EC2_HOST=${REACT_APP_NGINX_SERVER01_EC2_HOST}
+ENV REACT_APP_REACT_SERVER_ENV_STATUS=$REACT_APP_REACT_SERVER_ENV_STATUS
+ENV REACT_APP_REACT_SERVER01_EC2_HOST=$REACT_APP_REACT_SERVER01_EC2_HOST
+ENV REACT_APP_NGINX_SERVER01_EC2_HOST=$REACT_APP_NGINX_SERVER01_EC2_HOST
+
+RUN echo $REACT_APP_NGINX_SERVER01_EC2_HOST
 
 RUN CI=false npm run build
 RUN ls -R /app/build 
 
+
+
 FROM nginx:latest
+
 COPY --from=build /app/build /usr/share/nginx/html
 
-# RUN envsubst < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf 
-COPY nginx.conf.template /etc/nginx/conf.d/default.conf
+COPY nginx.conf.template /etc/nginx/conf.d/default.conf.template
+
+
+ARG REACT_APP_NGINX_SERVER01_EC2_HOST
+ENV REACT_APP_NGINX_SERVER01_EC2_HOST=$REACT_APP_NGINX_SERVER01_EC2_HOST
+
+RUN echo $REACT_APP_NGINX_SERVER01_EC2_HOST
+
+# COPY nginx.conf.template /etc/nginx/conf.d/default.conf
+RUN envsubst '$$REACT_APP_NGINX_SERVER01_EC2_HOST' < /etc/nginx/conf.d/default.conf.template > /etc/nginx/conf.d/default.conf 
+
 RUN cat /etc/nginx/conf.d/default.conf 
 
 EXPOSE 80

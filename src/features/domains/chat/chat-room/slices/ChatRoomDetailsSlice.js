@@ -7,6 +7,7 @@ const chatRoomDetailsSlice = createSlice({
     chatRoomInfo: {},
     chatRoomMembers: [],
     chatRoomMessages: [],
+    chatRoomVideoMembers: [],
     status: 'idle',
     error: null,
   },
@@ -19,12 +20,22 @@ const chatRoomDetailsSlice = createSlice({
       state.chatRoomMessages.push(action.payload);
     },
     chatRoomUserJoin: (state, action) => {
-      console.log('새로운 유저 리듀서함수 동작 :', action.payload);
+      console.log('새로운 채팅방 유저 리듀서함수 동작 :', action.payload);
 
       state.chatRoomMembers.push(action.payload);
     },
     chatRoomUserLeave: (state, action) => {
       state.chatRoomMembers = state.chatRoomMembers.filter(
+        (member) => member.id !== action.payload
+      );
+    },
+    chatRoomVideoUserJoin: (state, action) => {
+      console.log(`새로운 화상채팅 유저 리듀서함수 동작 : ${action.payload}`);
+
+      state.chatRoomVideoMembers.push(action.payload);
+    },
+    chatRoomVideoUserLeave: (state, action) => {
+      state.chatRoomVideoMembers = state.chatRoomVideoMembers.filter(
         (member) => member.id !== action.payload
       );
     },
@@ -38,10 +49,26 @@ const chatRoomDetailsSlice = createSlice({
       .addCase(chatRoomDetailsByChatRoomId.fulfilled, (state, action) => {
         // API 요청 성공 상태
         state.status = 'succeeded';
+
         state.chatRoomDetails = action.payload;
+
         state.chatRoomInfo = action.payload.chatRoomInfo;
-        state.chatRoomMembers = action.payload.chatRoomMembers;
-        state.chatRoomMessages = action.payload.chatRoomMessages;
+
+        state.chatRoomMembers = Array.isArray(action.payload.chatRoomMembers)
+          ? action.payload.chatRoomMembers
+          : [];
+
+        state.chatRoomMessages = Array.isArray(action.payload.chatRoomMessages)
+          ? action.payload.chatRoomMessages
+          : [];
+
+        state.chatRoomVideoMembers = Array.isArray(
+          action.payload.chatRoomVideoMembers
+        )
+          ? action.payload.chatRoomVideoMembers
+          : [];
+
+        console.log('여기!! : ', action.payload.chatRoomVideoMembers);
       })
       .addCase(chatRoomDetailsByChatRoomId.rejected, (state, action) => {
         // API 요청 실패 상태

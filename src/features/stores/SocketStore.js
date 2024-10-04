@@ -1,8 +1,8 @@
 import { combineReducers } from 'redux';
-import socketConnectSlice from '../domains/socket/socketConnectSlice';
+import SocketConnectSlice from '../domains/socket/slices/socketConnectSlice';
 
 const socketReducer = combineReducers({
-  socketConnect: socketConnectSlice.reducer,
+  socketConnect: SocketConnectSlice.reducer,
 });
 
 export default socketReducer;

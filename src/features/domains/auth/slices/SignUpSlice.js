@@ -12,16 +12,16 @@ const authSignUpSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(authSignUpByUserData.pending, (state) => {
-        // API ¿äÃ» ½ÃÀÛ »óÅÂ
+        // API ìš”ì²­ ì‹œì‘ ìƒíƒœ
         state.status = 'loading';
       })
       .addCase(authSignUpByUserData.fulfilled, (state, action) => {
-        // API ¿äÃ» ¼º°ø »óÅÂ
+        // API ìš”ì²­ ì„±ê³µ ìƒíƒœ
         state.status = 'succeeded';
         state.token = action.payload.token;
       })
       .addCase(authSignUpByUserData.rejected, (state, action) => {
-        // API ¿äÃ» ½ÇÆĞ »óÅÂ
+        // API ìš”ì²­ ì‹¤íŒ¨ ìƒíƒœ
         state.status = 'failed';
         state.error = action.error.message;
       });

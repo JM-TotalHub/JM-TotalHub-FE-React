@@ -1,7 +1,7 @@
 import { createSlice } from '@reduxjs/toolkit';
 
 // 안쓰고 있는 중
-const socketConnectSlice = createSlice({
+const SocketConnectSlice = createSlice({
   name: 'socketConnect',
   initialState: {
     socket: null,
@@ -19,5 +19,5 @@ const socketConnectSlice = createSlice({
   },
 });
 
-export const { connectSocket, disconnectSocket } = socketConnectSlice.actions;
-export default socketConnectSlice;
+export const { connectSocket, disconnectSocket } = SocketConnectSlice.actions;
+export default SocketConnectSlice;

@@ -1,12 +1,12 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomDetailsByChatRoomId from '../../../../features/domains/chat/chat-room-message/actions/ChatRoomDetailsAction';
+import chatRoomDetailsByChatRoomId from '../../../../features/domains/chat/chat-room/actions/ChatRoomDetailsAction';
 import ChatRoomEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomEmitterHandler';
-import { chatRoomDetailsSliceResetState } from '../../../../features/domains/chat/chat-room-message/slices/ChatRoomDetailsSlice';
+import { chatRoomDetailsSliceResetState } from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
 import {
   offChatRoom,
   onChatRoom,
-} from '../../../../features/domains/chat/chat-room-message/slices/ChatRoomMessageStateSlice';
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomMessageStatusSlice.js';
 import { useSocket } from '../../../../utils/connections/SocketProvider';
 
 // 채팅방-메시지 데이터 로드및 채팅방 연결

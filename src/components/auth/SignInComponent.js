@@ -2,6 +2,7 @@ import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import authSignInByUserData from '../../features/domains/auth/actions/SignInAction';
+import userInfoByToken from '../../features/domains/auth/actions/UserInfoAction';
 
 const SignInComponent = () => {
   const [email, setEmail] = useState('');
@@ -14,6 +15,7 @@ const SignInComponent = () => {
   const { status } = useSelector((state) => state.auth.signIn);
 
   if (status === 'succeeded') {
+    dispatch(userInfoByToken());
     navigate('/');
   }
 

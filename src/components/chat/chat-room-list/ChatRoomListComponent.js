@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomListByNothing from '../../../features/domains/chat/chat-room-message/actions/ChatRoomListAction';
+import chatRoomListByNothing from '../../../features/domains/chat/chat-room/actions/ChatRoomListAction';
 import { useNavigate } from 'react-router-dom';
 
 const ChatRoomListComponent = () => {

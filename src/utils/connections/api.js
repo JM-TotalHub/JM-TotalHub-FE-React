@@ -1,5 +1,5 @@
-import ENV from '../env';
 import axios from 'axios';
+import ENV from '../env';
 
 console.log('EXPRESS_SERVER_BASE_URL : ', ENV.EXPRESS_SERVER_BASE_URL);
 
@@ -38,6 +38,8 @@ api.interceptors.response.use(
       error.response.data.err === 'TokenExpiredError' &&
       !originalRequest._retry
     ) {
+      console.log('api 요청에서 토큰 만료');
+
       originalRequest._retry = true;
 
       try {
@@ -48,6 +50,7 @@ api.interceptors.response.use(
             withCredentials: true,
           }
         );
+        console.log('api 요청에서 토큰 재발행 완료');
 
         return api(originalRequest);
       } catch (refreshError) {

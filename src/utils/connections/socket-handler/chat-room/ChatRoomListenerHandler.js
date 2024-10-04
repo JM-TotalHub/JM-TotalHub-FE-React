@@ -5,13 +5,13 @@ import {
   chatRoomAddMessage,
   chatRoomUserJoin,
   chatRoomUserLeave,
-} from '../../../../features/domains/chat/chat-room-message/slices/ChatRoomDetailsSlice';
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
 
 const ChatRoomListenerHandler = () => {
   const dispatch = useDispatch();
   const { socket } = useSocket();
   const { useChatRoom } = useSelector(
-    (state) => state.chat.chatRoomMessageState
+    (state) => state.chat.chatRoomMessageStatus
   );
 
   console.log('useChatRoom 상태값 : ', useChatRoom);
@@ -29,6 +29,8 @@ const ChatRoomListenerHandler = () => {
     return () => {
       socket.off('chat-room-join-success', handleJoinSuccess);
       socket.off('chat-room-new-message', handleMessageReceive);
+      socket.off('chat-room-user-join', handleUserJoin);
+      socket.off('chat-room-user-leave', handleUserLeave);
     };
   }, [socket, useChatRoom]);
 
