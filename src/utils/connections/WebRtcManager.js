@@ -31,7 +31,7 @@ const WebRtcManager = (socket, dispatch, peers) => {
   const createPeerConnection = useCallback(async (chatRoomId, userId) => {
     console.log(`createPeerConnection 호출됨`);
 
-    const { sendIceCandidate } = ChatRoomVideoEmitterHandler(socket);
+    const { sendIceCandidate } = ChatRoomVideoEmitterHandler();
 
     const pc = new RTCPeerConnection(iceServers);
     if (!pc) {
@@ -46,7 +46,7 @@ const WebRtcManager = (socket, dispatch, peers) => {
 
       if (event.candidate) {
         // ICE 후보를 전송하는 로직 추가 (소캣)
-        sendIceCandidate(userId, event.candidate);
+        sendIceCandidate(socket, userId, event.candidate);
       }
     };
 
@@ -69,7 +69,7 @@ const WebRtcManager = (socket, dispatch, peers) => {
   const createOffer = useCallback(async (peers, chatRoomId, userId) => {
     console.log(`createOffer 동작`);
 
-    const { sendOffer } = ChatRoomVideoEmitterHandler(socket);
+    const { sendOffer } = ChatRoomVideoEmitterHandler();
     console.log('여기까지 들어옴');
     console.log(peers);
 
@@ -85,7 +85,7 @@ const WebRtcManager = (socket, dispatch, peers) => {
 
     await pc.setLocalDescription(offer);
 
-    sendOffer(userId, offer);
+    sendOffer(socket, userId, offer);
   }, []);
 
   // return {

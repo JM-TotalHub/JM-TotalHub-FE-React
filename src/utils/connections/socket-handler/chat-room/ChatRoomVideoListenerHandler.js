@@ -145,14 +145,14 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       const answer = await pc.createAnswer(); // 비동기 처리
       await pc.setLocalDescription(answer); // 비동기 처리
 
-      const { sendAnswer } = ChatRoomVideoEmitterHandler(socket);
+      const { sendAnswer } = ChatRoomVideoEmitterHandler();
       console.log(`handleOffer의 생성된 answer`);
       console.log(answer);
       console.log(`answer 보내는 유저 : ${userInfo.email}`);
       console.log(`answer 보내는 채팅방 : ${chatRoomId}`);
       console.log(chatRoomId);
 
-      sendAnswer(chatRoomId, userInfo.id, answer); // answer 전송
+      sendAnswer(socket, chatRoomId, userInfo.id, answer); // answer 전송
 
       // ICE 후보 처리
       console.log(
@@ -213,7 +213,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     const pc = new RTCPeerConnection(iceServers);
 
-    const { sendIceCandidate } = ChatRoomVideoEmitterHandler(socket);
+    const { sendIceCandidate } = ChatRoomVideoEmitterHandler();
 
     const localStream = await navigator.mediaDevices.getUserMedia({
       video: true,
@@ -231,7 +231,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     pc.onicecandidate = (event) => {
       if (event.candidate && !sentCandidates.has(event.candidate.candidate)) {
         console.log(`onicecandidate 동작 : ${event.candidate.candidate}`);
-        sendIceCandidate(chatRoomId, userInfo.id, event.candidate);
+        sendIceCandidate(socket, chatRoomId, userInfo.id, event.candidate);
         sentCandidates.add(event.candidate.candidate);
       }
     };

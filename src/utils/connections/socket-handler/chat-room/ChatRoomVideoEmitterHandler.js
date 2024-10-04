@@ -1,26 +1,26 @@
-const ChatRoomVideoEmitterHandler = (socket) => {
-  console.log('ChatRoomVideoEmitterHandler 핸들러 호출');
-  if (!socket || !socket.connected) {
-    console.error('ChatRoomVideoEmitterHandler 소켓이 연결되지 않았습니다.');
-  } else {
-    console.log('ChatRoomVideoEmitterHandler 소캣 연결됨');
-  }
+const ChatRoomVideoEmitterHandler = () => {
+  // console.log('ChatRoomVideoEmitterHandler 핸들러 호출');
+  // if (!socket || !socket.connected) {
+  //   console.error('ChatRoomVideoEmitterHandler 소켓이 연결되지 않았습니다.');
+  // } else {
+  //   console.log('ChatRoomVideoEmitterHandler 소캣 연결됨');
+  // }
 
-  const joinChatRoomVideo = (chatRoomId) => {
+  const joinChatRoomVideo = (socket, chatRoomId) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', { type: 'join', chatRoomId });
       console.log('화상채팅방 참가 시도 chatRoomId => ', chatRoomId);
     }
   };
 
-  const leaveChatRoomVideo = (chatRoomId) => {
+  const leaveChatRoomVideo = (socket, chatRoomId) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', { type: 'leave', chatRoomId });
       console.log('화상채팅방 퇴장 시도 chatRoomId => ', chatRoomId);
     }
   };
 
-  const sendIceCandidate = (chatRoomId, userId, iceCandidate) => {
+  const sendIceCandidate = (socket, chatRoomId, userId, iceCandidate) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', {
         type: 'ice-candidate',
@@ -34,7 +34,7 @@ const ChatRoomVideoEmitterHandler = (socket) => {
     }
   };
 
-  const sendOffer = (chatRoomId, userId, offer) => {
+  const sendOffer = (socket, chatRoomId, userId, offer) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', {
         type: 'offer',
@@ -46,7 +46,7 @@ const ChatRoomVideoEmitterHandler = (socket) => {
     console.log(`화상채팅 offer 보냄 userId => ${userId}`);
   };
 
-  const sendAnswer = (chatRoomId, userId, answer) => {
+  const sendAnswer = (socket, chatRoomId, userId, answer) => {
     console.log(
       `answer 소캣 요청 보냄 : ${userId} , chatRoomId : ${chatRoomId}`
     );

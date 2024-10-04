@@ -44,7 +44,7 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
       return;
     }
 
-    const { sendIceCandidate } = ChatRoomVideoEmitterHandler(socket);
+    const { sendIceCandidate } = ChatRoomVideoEmitterHandler();
 
     const pc = new RTCPeerConnection(iceServers);
 
@@ -64,7 +64,7 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
     pc.onicecandidate = (event) => {
       if (event.candidate && !sentCandidates.has(event.candidate.candidate)) {
         console.log(`onicecandidate 동작 : ${event.candidate.candidate}`);
-        sendIceCandidate(chatRoomId, userInfo.id, event.candidate);
+        sendIceCandidate(socket, chatRoomId, userInfo.id, event.candidate);
         sentCandidates.add(event.candidate.candidate);
       }
     };
@@ -112,8 +112,8 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
     try {
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
-      const { sendOffer } = ChatRoomVideoEmitterHandler(socket);
-      sendOffer(chatRoomId, userInfo.id, offer);
+      const { sendOffer } = ChatRoomVideoEmitterHandler();
+      sendOffer(socket, chatRoomId, userInfo.id, offer);
     } catch (error) {
       console.error('Offer 생성 또는 전송 중 오류 발생:', error);
     }

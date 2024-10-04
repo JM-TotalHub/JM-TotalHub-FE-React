@@ -78,12 +78,15 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   // 화상채팅방 참가
   useEffect(() => {
-    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-    joinChatRoomVideo(chatRoomId);
+    console.log(`@@@@@@ ChatRoomVideoContext에서 socket : `);
+    console.log(socket);
+
+    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler();
+    joinChatRoomVideo(socket, chatRoomId);
 
     return () => {
-      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-      leaveChatRoomVideo(chatRoomId);
+      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler();
+      leaveChatRoomVideo(socket, chatRoomId);
     };
   }, [socket, chatRoomId]);
 
