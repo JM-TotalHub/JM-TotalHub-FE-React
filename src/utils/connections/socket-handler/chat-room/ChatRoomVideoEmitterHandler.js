@@ -7,7 +7,10 @@ const ChatRoomVideoEmitterHandler = (socket) => {
   // }
 
   const joinChatRoomVideo = (chatRoomId) => {
+    console.log(`joinChatRoomVideo 동작 == 소캣 : ${socket}`);
+
     if (socket && socket.connected) {
+      console.log(`joinChatRoomVideo 로직 동작 == 소캣 : ${socket}`);
       socket.emit('chat-room-video', { type: 'join', chatRoomId });
       console.log('화상채팅방 참가 시도 chatRoomId => ', chatRoomId);
     }

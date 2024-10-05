@@ -80,7 +80,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   // 화상채팅방 참가
   useEffect(() => {
-    console.log(`@@@@@@ ChatRoomVideoContext에서 socket : `);
+    console.log(`ChatRoomVideoContext에서 socket : `);
     console.log(socket);
 
     const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
