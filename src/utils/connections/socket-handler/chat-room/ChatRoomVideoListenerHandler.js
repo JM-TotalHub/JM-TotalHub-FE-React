@@ -5,16 +5,14 @@ import { useSocket } from '../../SocketProvider';
 import ChatRoomVideoEmitterHandler from './ChatRoomVideoEmitterHandler';
 
 const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
+  console.log(`ChatRoomVideoListenerHandler 동작`);
+
   const { socket } = useSocket();
   const { peers, iceServers, addPeer, removePeer, getPeer, addStream } =
     useWebRtc();
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { useChatRoom } = useSelector(
     (state) => state.chat.chatRoomMessageStatus
-  );
-
-  console.log(
-    `answer 확인용 ChatRoomVideoListenerHandler2의 chatRoomId : ${chatRoomId}`
   );
 
   // ICE 후보를 저장할 큐

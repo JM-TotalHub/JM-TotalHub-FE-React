@@ -12,6 +12,8 @@ const WebRtcContext = createContext();
 
 // 여기서 pc 객체를 통합 관리한다.
 export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
+  console.log(`ChatRoomVideoContext 동작`);
+
   const socket = useSocket();
   const peers = useRef({});
   const streams = useRef({});

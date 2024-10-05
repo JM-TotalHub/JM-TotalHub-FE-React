@@ -3,6 +3,8 @@ import { useSelector } from 'react-redux';
 import { useWebRtc } from '../logic/ChatRoomVideoContext';
 
 const ChatRoomVideoViewComponent = () => {
+  console.log(`ChatRoomVideoViewComponent 동작`);
+
   const { chatRoomVideoMembers, status } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
