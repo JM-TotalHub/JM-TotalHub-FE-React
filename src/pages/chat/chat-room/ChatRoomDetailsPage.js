@@ -49,17 +49,6 @@ const ChatRoomDetailsPage = () => {
         <button onClick={handleVideoComponent}>화상채팅</button>
       </div>
 
-      {/* 화상채팅 기능 컴포넌트 적용 */}
-      {/* {useChatRoomVideo && (
-        <ChatRoomVideoLoadComponent2 chatRoomId={chatRoomId} />
-      )} */}
-      {/* {useChatRoomVideo && (
-        <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
-      )} */}
-
-      {/* 화상채팅 UI 컴포넌트 적용 */}
-      {/* {useChatRoomVideo && <ChatRoomVideoViewComponent />} */}
-
       {useChatRoomVideo && (
         <ChatRoomVideoContext chatRoomId={chatRoomId}>
           <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />

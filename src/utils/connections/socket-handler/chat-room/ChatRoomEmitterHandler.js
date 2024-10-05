@@ -1,4 +1,4 @@
-const ChatRoomEmitterHandler = (socket, chatRoomId) => {
+const ChatRoomEmitterHandler = (socket) => {
   console.log('핸들러 호출');
 
   const username = 'test-username';

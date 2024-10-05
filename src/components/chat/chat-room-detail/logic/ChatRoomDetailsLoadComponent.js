@@ -19,7 +19,7 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   );
 
   useEffect(() => {
-    const { leaveChatRoom } = ChatRoomEmitterHandler(socket, chatRoomId);
+    const { leaveChatRoom } = ChatRoomEmitterHandler(socket);
 
     dispatch(
       chatRoomDetailsByChatRoomId({
@@ -39,7 +39,7 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
 
   useEffect(() => {
     if (status == 'succeeded') {
-      const { joinChatRoom } = ChatRoomEmitterHandler(socket, chatRoomId);
+      const { joinChatRoom } = ChatRoomEmitterHandler(socket);
 
       console.log('방참가');
       // 채팅방 참가

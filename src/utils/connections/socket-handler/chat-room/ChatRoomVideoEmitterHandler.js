@@ -1,13 +1,16 @@
 const ChatRoomVideoEmitterHandler = (socket) => {
-  // console.log('ChatRoomVideoEmitterHandler 핸들러 호출');
-  // if (!socket || !socket.connected) {
-  //   console.error('ChatRoomVideoEmitterHandler 소켓이 연결되지 않았습니다.');
-  // } else {
-  //   console.log('ChatRoomVideoEmitterHandler 소캣 연결됨');
-  // }
+  console.log('ChatRoomVideoEmitterHandler 핸들러 호출');
+  if (!socket || !socket.connected) {
+    console.error('ChatRoomVideoEmitterHandler 소켓이 연결되지 않았습니다. :');
+    console.log(socket);
+  } else {
+    console.log('ChatRoomVideoEmitterHandler 소캣 연결됨 :');
+    console.log(socket);
+  }
 
   const joinChatRoomVideo = (chatRoomId) => {
-    console.log(`joinChatRoomVideo 동작 == 소캣 : ${socket}`);
+    console.log(`joinChatRoomVideo 동작 == 소캣 : `);
+    console.log(socket);
 
     if (socket && socket.connected) {
       console.log(`joinChatRoomVideo 로직 동작 == 소캣 : ${socket}`);

@@ -12,18 +12,15 @@ const WebRtcContext = createContext();
 
 // 여기서 pc 객체를 통합 관리한다.
 export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
-  console.log(`ChatRoomVideoContext 동작`);
-
   const socket = useSocket();
   const peers = useRef({});
   const streams = useRef({});
+  const [checkSocket, setCheckSocket] = useState(1);
   const [streamReadyState, setStreamReadyState] = useState({}); // 각 사용자에 대해 스트림 준비 상태 관리
 
-  // const iceServers = {
-  //   iceServers: [
-  //     { urls: 'stun:stun.l.google.com:19302' }, // Google STUN 서버
-  //   ],
-  // };
+  console.log(`ChatRoomVideoContext 동작`);
+  console.log(`ChatRoomVideoContext의 소캣 :`);
+  console.log(socket);
 
   const iceServers = {
     iceServers: [
@@ -83,6 +80,16 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
     console.log(`ChatRoomVideoContext에서 socket : `);
     console.log(socket);
 
+    if (socket && socket.connected) {
+      console.log('체크 동작1');
+    }
+
+    if (!socket && !socket.connected) {
+      console.log('체크 동작2');
+
+      setCheckSocket(checkSocket + 1);
+    }
+
     const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
     joinChatRoomVideo(chatRoomId);
 
@@ -90,7 +97,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
       const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
       leaveChatRoomVideo(chatRoomId);
     };
-  }, [socket, chatRoomId]);
+  }, [socket, checkSocket, chatRoomId]);
 
   return (
     <WebRtcContext.Provider
