@@ -83,12 +83,12 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
     console.log(`@@@@@@ ChatRoomVideoContext에서 socket : `);
     console.log(socket);
 
-    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler();
-    joinChatRoomVideo(socket, chatRoomId);
+    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+    joinChatRoomVideo(chatRoomId);
 
     return () => {
-      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler();
-      leaveChatRoomVideo(socket, chatRoomId);
+      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+      leaveChatRoomVideo(chatRoomId);
     };
   }, [socket, chatRoomId]);
 
