@@ -14,12 +14,20 @@ const ENV = {
   //   ? `http://${process.env.REACT_APP_REACT_SERVER01_EC2_HOST}`
   //   : `http://${process.env.REACT_APP_SIGNAL_LOCAL_HOST}:${process.env.REACT_APP_SIGNAL_LOCAL_POST}`,
 
+  // EXPRESS_SERVER_BASE_URL: isProd
+  //   ? `https://${process.env.REACT_APP_REACT_SERVER01_EC2_HOST}/api` // HTTPS로 변경
+  //   : `http://${process.env.REACT_APP_EXPRESS_LOCAL_HOST}:${process.env.REACT_APP_EXPRESS_LOCAL_POST}`,
+
+  // SIGNAL_SERVER_SOCKET_BASE_URL: isProd
+  //   ? `wss://${process.env.REACT_APP_REACT_SERVER01_EC2_HOST}` // WSS로 변경
+  //   : `ws://${process.env.REACT_APP_SIGNAL_LOCAL_HOST}:${process.env.REACT_APP_SIGNAL_LOCAL_POST}`,
+
   EXPRESS_SERVER_BASE_URL: isProd
-    ? `https://${process.env.REACT_APP_REACT_SERVER01_EC2_HOST}/api` // HTTPS로 변경
+    ? `https://jmtotalhub.kro.kr/api` // 도메인 이름 사용
     : `http://${process.env.REACT_APP_EXPRESS_LOCAL_HOST}:${process.env.REACT_APP_EXPRESS_LOCAL_POST}`,
 
   SIGNAL_SERVER_SOCKET_BASE_URL: isProd
-    ? `wss://${process.env.REACT_APP_REACT_SERVER01_EC2_HOST}` // WSS로 변경
+    ? `wss://jmtotalhub.kro.kr` // 도메인 이름 사용
     : `ws://${process.env.REACT_APP_SIGNAL_LOCAL_HOST}:${process.env.REACT_APP_SIGNAL_LOCAL_POST}`,
 
   // 엔진엑스 서버
