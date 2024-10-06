@@ -9,6 +9,7 @@ const chatRoomDetailsSlice = createSlice({
     chatRoomMessages: [],
     chatRoomVideoMembers: [],
     status: 'idle',
+    videoStatus: 'idle',
     error: null,
   },
   reducers: {
@@ -32,7 +33,9 @@ const chatRoomDetailsSlice = createSlice({
     chatRoomVideoUserJoin: (state, action) => {
       console.log(`새로운 화상채팅 유저 리듀서함수 동작 : ${action.payload}`);
 
-      state.chatRoomVideoMembers.push(action.payload);
+      // state.chatRoomVideoMembers.push(action.payload);
+      state.chatRoomVideoMembers = action.payload;
+      state.videoStatus = 'succeeded';
     },
     chatRoomVideoUserLeave: (state, action) => {
       state.chatRoomVideoMembers = state.chatRoomVideoMembers.filter(
@@ -83,5 +86,7 @@ export const {
   chatRoomAddMessage,
   chatRoomUserJoin,
   chatRoomUserLeave,
+  chatRoomVideoUserJoin,
+  chatRoomVideoUserLeave,
 } = chatRoomDetailsSlice.actions;
 export default chatRoomDetailsSlice;

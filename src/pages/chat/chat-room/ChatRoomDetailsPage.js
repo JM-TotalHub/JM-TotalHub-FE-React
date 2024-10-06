@@ -3,7 +3,6 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomDetailsLoadComponent';
 import { ChatRoomVideoContext } from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoContext';
-import ChatRoomVideoLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent';
 import ChatRoomInfoComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomInfoComponent';
 import ChatRoomMemberComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMemberComponent';
 import ChatRoomMessageListComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageListComponent';
@@ -13,7 +12,8 @@ import {
   offChatRoomVideo,
   onChatRoomVideo,
 } from '../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
-import ChatRoomVideoListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
+import ChatRoomVideoListenerHandler2 from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler2';
+import ChatRoomVideoLoadComponent2 from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent2';
 
 const ChatRoomDetailsPage = () => {
   const { chatRoomId } = useParams();
@@ -49,13 +49,23 @@ const ChatRoomDetailsPage = () => {
         <button onClick={handleVideoComponent}>화상채팅</button>
       </div>
 
-      {useChatRoomVideo && (
+      {/* {useChatRoomVideo && (
         <ChatRoomVideoContext chatRoomId={chatRoomId}>
           <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
           <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
           <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
         </ChatRoomVideoContext>
+      )} */}
+
+
+      {useChatRoomVideo && (
+        <ChatRoomVideoContext chatRoomId={chatRoomId}>
+          <ChatRoomVideoLoadComponent2 chatRoomId={chatRoomId} />
+          <ChatRoomVideoListenerHandler2 chatRoomId={chatRoomId} />
+          <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
+        </ChatRoomVideoContext>
       )}
+
     </div>
   );
 };
