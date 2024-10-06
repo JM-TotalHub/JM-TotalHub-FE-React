@@ -1,18 +1,23 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWebRtc } from '../../../../components/chat/chat-room-detail/logic/ChatRoomVideoContext';
 import { useSocket } from '../../SocketProvider';
 import ChatRoomVideoEmitterHandler from './ChatRoomVideoEmitterHandler';
+import { chatRoomVideoUserJoin } from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
 
 const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
-  console.log(`ChatRoomVideoListenerHandler 동작`);
-
   const { socket } = useSocket();
   const { peers, iceServers, addPeer, removePeer, getPeer, addStream } =
     useWebRtc();
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { useChatRoom } = useSelector(
     (state) => state.chat.chatRoomMessageStatus
+  );
+
+  const dispatch = useDispatch();
+
+  console.log(
+    `answer 확인용 ChatRoomVideoListenerHandler2의 chatRoomId : ${chatRoomId}`
   );
 
   // ICE 후보를 저장할 큐
@@ -62,6 +67,9 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
   const handleJoinVideoSuccess = async (data) => {
     console.log(`소캣 리스너 화상학습 handleJoinVideoSuccess 동작 `);
+    console.log(data.newMember);
+
+    dispatch(chatRoomVideoUserJoin(data.newMember));
   };
 
   // ICE 후보 처리

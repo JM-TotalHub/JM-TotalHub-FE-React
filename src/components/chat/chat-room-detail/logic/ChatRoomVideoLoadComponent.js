@@ -5,8 +5,6 @@ import ChatRoomVideoEmitterHandler from '../../../../utils/connections/socket-ha
 import { useEffect } from 'react';
 
 const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
-  console.log(`ChatRoomVideoLoadComponent 동작`);
-
   const { socket } = useSocket();
   const {
     peers,
@@ -18,16 +16,14 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
     getStream,
   } = useWebRtc(); // 수정 부분: addStream, getStream 추가
 
+  console.log(
+    `answer 확인용 ChatRoomVideoLoadComponent2 chatRoomId : ${chatRoomId}`
+  );
+
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { chatRoomVideoMembers } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
-
-  // const iceServers = {
-  //   iceServers: [
-  //     { urls: 'stun:stun.l.google.com:19302' }, // Google STUN 서버
-  //   ],
-  // };
 
   // 피어연결 객체 생성 함수
   const createPeerConnection = async (chatRoomId, targetUserId) => {
