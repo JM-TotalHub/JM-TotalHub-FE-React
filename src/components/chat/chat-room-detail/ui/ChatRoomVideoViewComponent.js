@@ -5,20 +5,27 @@ import { useWebRtc } from '../logic/ChatRoomVideoContext';
 const ChatRoomVideoViewComponent = () => {
   console.log(`ChatRoomVideoViewComponent 동작`);
 
-  const { chatRoomVideoMembers, status, videoStatus } = useSelector(
+  // const { chatRoomVideoMembers, status, videoStatus } = useSelector(
+  const { chatRoomVideoMembers, status } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
-  const { getStream, isStreamReady } = useWebRtc(); // 스트림과 준비 상태 가져오기 함수 추가
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
 
-  console.log(`ChatRoomVideoViewComponent의 videoStatus : ${videoStatus}`);
+  const { getStream, isStreamReady, streamReadyState } = useWebRtc(); // 스트림과 준비 상태 가져오기 함수 추가
+
+  // console.log(`ChatRoomVideoViewComponent의 videoStatus : ${videoStatus}`);
   console.log(`ChatRoomVideoViewComponent의 chatRoomVideoMembers : `);
   console.log(chatRoomVideoMembers);
 
   // 멤버들의 스트림을 비디오 태그에 연결
   useEffect(() => {
-    if (videoStatus === 'succeeded' && chatRoomVideoMembers) {
-      console.log(`chatRoomVideoMembers :`);
-      console.log(chatRoomVideoMembers);
+    if (
+      // videoStatus === 'succeeded' &&
+      chatRoomVideoMembers &&
+      isStreamReady(userInfo.id)
+    ) {
+      console.log(`화면 동작 : `);
+      console.log(streamReadyState);
 
       chatRoomVideoMembers.forEach((member) => {
         const videoElement = document.getElementById(`video-${member.id}`);
@@ -39,11 +46,14 @@ const ChatRoomVideoViewComponent = () => {
         }
       });
     }
-  }, [chatRoomVideoMembers, getStream, status]);
+    // }, [chatRoomVideoMembers, status, streamReadyState]);
+  }, [streamReadyState]);
 
-  if (videoStatus === 'succeeded') {
+  // if (videoStatus === 'succeeded' && isStreamReady(userInfo.id)) {
+  if (isStreamReady(userInfo.id)) {
     console.log(`화면 재랜더링`);
     console.log(chatRoomVideoMembers);
+    console.log(streamReadyState);
 
     return (
       <div>

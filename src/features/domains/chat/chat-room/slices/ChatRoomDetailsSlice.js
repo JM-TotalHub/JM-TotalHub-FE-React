@@ -9,7 +9,7 @@ const chatRoomDetailsSlice = createSlice({
     chatRoomMessages: [],
     chatRoomVideoMembers: [],
     status: 'idle',
-    videoStatus: 'idle',
+    // videoStatus: 'idle',
     error: null,
   },
   reducers: {
@@ -30,12 +30,21 @@ const chatRoomDetailsSlice = createSlice({
         (member) => member.id !== action.payload
       );
     },
-    chatRoomVideoUserJoin: (state, action) => {
+    chatRoomVideoUsers: (state, action) => {
       console.log(`새로운 화상채팅 유저 리듀서함수 동작 : ${action.payload}`);
 
       // state.chatRoomVideoMembers.push(action.payload);
       state.chatRoomVideoMembers = action.payload;
-      state.videoStatus = 'succeeded';
+      // state.videoStatus = 'succeeded';
+    },
+    chatRoomVideoNewUserJoin: (state, action) => {
+      console.log(`chatRoomVideoNewUserJoin 동작 `);
+      console.log(action.payload);
+
+      state.chatRoomVideoMembers.push(action.payload);
+
+      console.log('새로운 유저 에 대한 슬라이스에서 chatRoomVideoMembers : ');
+      console.log(state.chatRoomVideoMembers);
     },
     chatRoomVideoUserLeave: (state, action) => {
       state.chatRoomVideoMembers = state.chatRoomVideoMembers.filter(
@@ -86,7 +95,8 @@ export const {
   chatRoomAddMessage,
   chatRoomUserJoin,
   chatRoomUserLeave,
-  chatRoomVideoUserJoin,
+  chatRoomVideoUsers,
+  chatRoomVideoNewUserJoin,
   chatRoomVideoUserLeave,
 } = chatRoomDetailsSlice.actions;
 export default chatRoomDetailsSlice;

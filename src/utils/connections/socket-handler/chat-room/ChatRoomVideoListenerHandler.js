@@ -1,14 +1,25 @@
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useWebRtc } from '../../../../components/chat/chat-room-detail/logic/ChatRoomVideoContext';
+import {
+  chatRoomVideoNewUserJoin,
+  chatRoomVideoUserLeave,
+  chatRoomVideoUsers,
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
 import { useSocket } from '../../SocketProvider';
 import ChatRoomVideoEmitterHandler from './ChatRoomVideoEmitterHandler';
-import { chatRoomVideoUserJoin } from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
 
 const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   const { socket } = useSocket();
-  const { peers, iceServers, addPeer, removePeer, getPeer, addStream } =
-    useWebRtc();
+  const {
+    peers,
+    iceServers,
+    addPeer,
+    removePeer,
+    getPeer,
+    addStream,
+    getStream,
+  } = useWebRtc();
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { useChatRoom } = useSelector(
     (state) => state.chat.chatRoomMessageStatus
@@ -39,8 +50,16 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     switch (data.type) {
       case 'members':
+        console.log('화상 채팅 새로운 참가자 members 메시지:', data.members);
+        handleVideoMembers(data);
+        break;
+      case 'member-join':
         console.log('화상 채팅 새로운 참가자 members 메시지:', data.newMember);
-        handleJoinVideoSuccess(data);
+        handleVideoNewMember(data);
+        break;
+      case 'member-leave':
+        console.log('화상 채팅 새로운 참가자 members 메시지:', data.newMember);
+        handleVideoLeaveMember(data);
         break;
       case 'ice-candidate':
         console.log(
@@ -65,11 +84,23 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     }
   };
 
-  const handleJoinVideoSuccess = async (data) => {
+  // 기존 화상채팅 유저 리스트 받아오기
+  const handleVideoMembers = async (data) => {
     console.log(`소캣 리스너 화상학습 handleJoinVideoSuccess 동작 `);
-    console.log(data.newMember);
 
-    dispatch(chatRoomVideoUserJoin(data.newMember));
+    dispatch(chatRoomVideoUsers(data.members));
+  };
+
+  const handleVideoNewMember = (data) => {
+    console.log(`소캣 리스너 화상학습 handleVideoNewMember 동작 `);
+
+    dispatch(chatRoomVideoNewUserJoin(data.newMember));
+  };
+
+  const handleVideoLeaveMember = (data) => {
+    console.log(`소캣 리스너 화상학습 handleVideoLeaveMember 동작 `);
+
+    dispatch(chatRoomVideoUserLeave(data.userId));
   };
 
   // ICE 후보 처리
@@ -84,7 +115,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     if (!pc && !peerConnectionFlags[data.userId]) {
       peerConnectionFlags[data.userId] = true; // 플래그 설정
       pc = await createPeerConnection(chatRoomId, data.userId);
-
       console.log(`handleOffer pc 생성 01 : ${pc}`);
     } else if (!pc) {
       // 피어 연결이 아직 생성되지 않았으면 대기
@@ -121,11 +151,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     if (userInfo.id === data.userId) return;
 
     console.log(`소캣 리스너 화상학습 handleOffer 동작 `);
-    console.log(data);
-    console.log(peers[data.userId]);
-
-    console.log(userInfo.id);
-    console.log(data.userId);
 
     let pc = getPeer(data.userId);
 
@@ -144,8 +169,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       }
     }
 
-    console.log(data.offer);
-
     try {
       await pc.setRemoteDescription(new RTCSessionDescription(data.offer)); // 비동기 처리
       const answer = await pc.createAnswer(); // 비동기 처리
@@ -154,9 +177,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       const { sendAnswer } = ChatRoomVideoEmitterHandler(socket);
       console.log(`handleOffer의 생성된 answer`);
       console.log(answer);
-      console.log(`answer 보내는 유저 : ${userInfo.email}`);
-      console.log(`answer 보내는 채팅방 : ${chatRoomId}`);
-      console.log(chatRoomId);
 
       sendAnswer(chatRoomId, userInfo.id, answer); // answer 전송
 
@@ -221,16 +241,18 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     const { sendIceCandidate } = ChatRoomVideoEmitterHandler(socket);
 
-    const localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
+    // const localStream = await navigator.mediaDevices.getUserMedia({
+    //   video: true,
+    //   audio: true,
+    // });
+
+    const localStream = getStream(userInfo.id);
 
     localStream.getTracks().forEach((track) => {
       pc.addTrack(track, localStream);
     });
 
-    addStream(userInfo.id, localStream);
+    // addStream(userInfo.id, localStream);
 
     const sentCandidates = new Set();
 

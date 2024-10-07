@@ -13,6 +13,7 @@ import { useSocket } from '../../../../utils/connections/SocketProvider';
 const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   const dispatch = useDispatch();
   const { socket } = useSocket();
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
 
   const { chatRoomInfo, status, error } = useSelector(
     (state) => state.chat.chatRoomDetails
@@ -27,13 +28,29 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
       })
     );
 
-    return () => {
-      // 채팅방 나가기
-      leaveChatRoom(chatRoomId);
+    // 언마운트 안되는 경우를 대비한 동작 ()
+    const handleBeforeUnload = (event) => {
+      // event.preventDefault();
+      // event.returnValue = '';
+
+      leaveChatRoom(userInfo.id, chatRoomId);
       // 채팅방 참가 상태값 변경
       dispatch(offChatRoom());
       // 채팅방 정보 상태값 초기화
       dispatch(chatRoomDetailsSliceResetState());
+    };
+
+    window.addEventListener('beforeunload', handleBeforeUnload);
+
+    return () => {
+      // 채팅방 나가기
+      leaveChatRoom(userInfo.id, chatRoomId);
+      // 채팅방 참가 상태값 변경
+      dispatch(offChatRoom());
+      // 채팅방 정보 상태값 초기화
+      dispatch(chatRoomDetailsSliceResetState());
+
+      window.removeEventListener('beforeunload', handleBeforeUnload);
     };
   }, [chatRoomId]);
 

@@ -9,16 +9,14 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
   const {
     peers,
     iceServers,
+    streamReadyState,
     addPeer,
     removePeer,
     getPeer,
     addStream,
     getStream,
+    isStreamReady,
   } = useWebRtc(); // 수정 부분: addStream, getStream 추가
-
-  console.log(
-    `answer 확인용 ChatRoomVideoLoadComponent2 chatRoomId : ${chatRoomId}`
-  );
 
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { chatRoomVideoMembers } = useSelector(
@@ -42,16 +40,18 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
 
     const pc = new RTCPeerConnection(iceServers);
 
-    const localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
+    // const localStream = await navigator.mediaDevices.getUserMedia({
+    //   video: true,
+    //   audio: true,
+    // });
+
+    const localStream = getStream(userInfo.id);
 
     localStream.getTracks().forEach((track) => {
       pc.addTrack(track, localStream);
     });
 
-    addStream(userInfo.id, localStream);
+    // addStream(userInfo.id, localStream);
 
     const sentCandidates = new Set();
 
@@ -79,9 +79,6 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
 
       // addStream(targetUserId, remoteStream);
     };
-
-    console.log(`addPeer 확인`);
-    console.log(pc);
 
     await addPeer(targetUserId, pc);
 
@@ -127,6 +124,8 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
   useEffect(() => {
     if (!chatRoomVideoMembers) return;
 
+    if (!isStreamReady(userInfo.id)) return;
+
     if (!socket) {
       console.log('webrtc 연결 시작 부분 소캣이 없다.');
     }
@@ -147,9 +146,9 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
         await createPeerConnection(chatRoomId, memberId);
       }
     });
-  }, [chatRoomVideoMembers, socket]); // peers 의존성 추가 필요한가?
+  }, [chatRoomVideoMembers, streamReadyState, socket]); // peers 의존성 추가 필요한가?
 
-  useEffect(() => {}, [peers]);
+  // useEffect(() => {}, [peers]);
 
   // 컴포넌트 언마운트 시 모든 연결 해제
   useEffect(() => {
