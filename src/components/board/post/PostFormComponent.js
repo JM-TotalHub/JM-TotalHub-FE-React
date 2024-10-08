@@ -40,7 +40,6 @@ const PostFormComponent = ({
   };
 
   const handleSubmit = (e) => {
-    console.log('저장버튼!!!');
     e.preventDefault();
     onSubmit({ title, content });
   };

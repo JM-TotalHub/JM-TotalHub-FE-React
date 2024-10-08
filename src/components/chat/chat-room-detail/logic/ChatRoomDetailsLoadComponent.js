@@ -58,7 +58,6 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
     if (status == 'succeeded') {
       const { joinChatRoom } = ChatRoomEmitterHandler(socket);
 
-      console.log('방참가');
       // 채팅방 참가
       joinChatRoom(chatRoomId);
       // 채팅방 참가 상태값 변경

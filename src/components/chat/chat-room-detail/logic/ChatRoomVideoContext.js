@@ -7,7 +7,15 @@ import React, {
 } from 'react';
 import { useSocket } from '../../../../utils/connections/SocketProvider';
 import ChatRoomVideoEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomVideoEmitterHandler';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  offChatRoomVideo,
+  offChatRoomVideoData,
+  offChatRoomVideoStarted,
+  offLocalStream,
+  onChatRoomVideoData,
+  onLocalStream,
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
 
 const WebRtcContext = createContext();
 
@@ -15,6 +23,12 @@ const WebRtcContext = createContext();
 export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   const { socket } = useSocket();
   const { userInfo } = useSelector((state) => state.auth.userInfo);
+
+  const { localStreamReady } = useSelector(
+    (state) => state.chat.chatRoomVideoStatus
+  );
+
+  const dispatch = useDispatch();
 
   const peers = useRef({});
   const streams = useRef({});
@@ -24,8 +38,6 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   console.log(peers);
   console.log(streams);
   console.log(streamReadyState);
-  console.log(`ChatRoomVideoContext의 소캣 :`);
-  console.log(socket);
 
   const iceServers = {
     iceServers: [
@@ -40,10 +52,11 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const addPeer = async (userId, pc) => {
-    console.log(`addPeer 동작 || userId : ${userId}, pc :${pc}`);
+    console.log('addPeer 동작 || userId : ', userId, 'pc : ', pc);
+
     peers.current[userId] = pc;
 
-    console.log(peers);
+    console.log('peer 저장 됨 : ', peers);
   };
 
   const removePeer = (userId, pc) => {
@@ -51,8 +64,8 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const getPeer = (userId) => {
-    console.log(`getPeer 동작 : ${userId} 의 pc : ${peers.current[userId]}`);
-    // return peers[userId];
+    console.log('getPeer 동작 : ', userId, '의 pc : ', peers.current[userId]);
+
     return peers.current[userId];
   };
 
@@ -66,10 +79,9 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const addStream = (userId, stream) => {
-    console.log(`addStream 동작 || userId : ${userId}`);
-    console.log(stream);
-
+    console.log('addStream 동작 || userId : ', userId, 'stream : ', stream);
     streams.current[userId] = stream;
+
     setStreamReadyState((prev) => ({ ...prev, [userId]: true }));
   };
 
@@ -93,47 +105,49 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   // 화상채팅방 참가
   useEffect(() => {
-    console.log(`ChatRoomVideoContext에서 socket : `);
-    console.log(socket);
+    if (!localStreamReady) {
+      const setupLocalStream = async () => {
+        const localStream = await createLocalStream();
+        console.log(`로컬 스트림 생성 :`, localStream);
+        // 로컬스트림 상태
+        dispatch(onLocalStream());
+        addStream(userInfo.id, localStream);
+      };
 
-    const setupLocalStream = async () => {
-      // 로컬 스트림 생성 (완료될 때까지 대기)
-      const localStream = await createLocalStream();
-      console.log(`로컬 스트림 생성 완료:`, localStream);
+      setupLocalStream();
+    } else {
+      const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+      joinChatRoomVideo(userInfo.id, chatRoomId);
 
-      // 스트림 저장
-      addStream(userInfo.id, localStream);
-    };
+      const handleBeforeUnload = (event) => {
+        // event.preventDefault();
+        // event.returnValue = '';
+        const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+        leaveChatRoomVideo(userInfo.id, chatRoomId);
 
-    setupLocalStream();
+        dispatch(offChatRoomVideo());
+        dispatch(offLocalStream());
+        dispatch(offChatRoomVideoData());
+        dispatch(offChatRoomVideoStarted());
+      };
 
-    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-    joinChatRoomVideo(userInfo.id, chatRoomId);
+      window.addEventListener('beforeunload', handleBeforeUnload);
 
-    // // 언마운트 안되는 경우를 대비한 동작 ()
-    const handleBeforeUnload = (event) => {
-      // 경고 메시지를 표시하는 방법
-      event.preventDefault(); // Chrome에서는 이 값이 필요함
-      event.returnValue = ''; // 사용자에게 경고 메시지를 표시
+      return () => {
+        console.log('ChatRoomVideoContext 언마운트');
 
-      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-      leaveChatRoomVideo(userInfo.id, chatRoomId);
-    };
+        const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+        leaveChatRoomVideo(userInfo.id, chatRoomId);
 
-    window.addEventListener('beforeunload', handleBeforeUnload);
+        dispatch(offChatRoomVideo());
+        dispatch(offLocalStream());
+        dispatch(offChatRoomVideoData());
+        dispatch(offChatRoomVideoStarted());
 
-    // 언마운트 시 동작
-    // 하지만 url통한 직접이동, 탭이나 브라우저 끄기, 새로고침 등에는 언마운트 동작안함 - 하지만 상태값은 초기화됨 재로드 개념이니
-    // 그래서 beforeunload 이벤트를 통해 필수 꺼지기 전 필수로직 동작시킴
-    return () => {
-      console.log('ChatRoomVideoContext 언마운트');
-
-      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-      leaveChatRoomVideo(userInfo.id, chatRoomId);
-
-      window.removeEventListener('beforeunload', handleBeforeUnload);
-    };
-  }, [socket, userInfo, chatRoomId]);
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
+    }
+  }, [socket, userInfo, chatRoomId, localStreamReady]);
 
   return (
     <WebRtcContext.Provider

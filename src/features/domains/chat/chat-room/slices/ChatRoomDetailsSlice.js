@@ -21,7 +21,7 @@ const chatRoomDetailsSlice = createSlice({
       state.chatRoomMessages.push(action.payload);
     },
     chatRoomUserJoin: (state, action) => {
-      console.log('새로운 채팅방 유저 리듀서함수 동작 :', action.payload);
+      console.log('채팅방 유저 리듀서함수 동작 :', action.payload);
 
       state.chatRoomMembers.push(action.payload);
     },
@@ -31,20 +31,19 @@ const chatRoomDetailsSlice = createSlice({
       );
     },
     chatRoomVideoUsers: (state, action) => {
-      console.log(`새로운 화상채팅 유저 리듀서함수 동작 : ${action.payload}`);
+      console.log(`새로운 화상채팅 유저 리듀서함수 동작 :`, action.payload);
 
-      // state.chatRoomVideoMembers.push(action.payload);
       state.chatRoomVideoMembers = action.payload;
-      // state.videoStatus = 'succeeded';
     },
     chatRoomVideoNewUserJoin: (state, action) => {
-      console.log(`chatRoomVideoNewUserJoin 동작 `);
-      console.log(action.payload);
+      console.log(`chatRoomVideoNewUserJoin 동작 : `, action.payload);
 
       state.chatRoomVideoMembers.push(action.payload);
 
-      console.log('새로운 유저 에 대한 슬라이스에서 chatRoomVideoMembers : ');
-      console.log(state.chatRoomVideoMembers);
+      console.log(
+        '새로운 유저 에 대한 슬라이스에서 chatRoomVideoMembers : ',
+        state.chatRoomVideoMembers
+      );
     },
     chatRoomVideoUserLeave: (state, action) => {
       state.chatRoomVideoMembers = state.chatRoomVideoMembers.filter(
@@ -79,8 +78,6 @@ const chatRoomDetailsSlice = createSlice({
         )
           ? action.payload.chatRoomVideoMembers
           : [];
-
-        console.log('여기!! : ', action.payload.chatRoomVideoMembers);
       })
       .addCase(chatRoomDetailsByChatRoomId.rejected, (state, action) => {
         // API 요청 실패 상태

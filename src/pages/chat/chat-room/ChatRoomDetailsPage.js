@@ -19,9 +19,12 @@ const ChatRoomDetailsPage = () => {
   const { chatRoomId } = useParams();
 
   const dispatch = useDispatch();
-  const { useChatRoomVideo } = useSelector(
-    (state) => state.chat.chatRoomVideoStatus
-  );
+  const {
+    useChatRoomVideo,
+    localStreamReady,
+    chatRoomVideoDataReady,
+    chatRoomVideoStart,
+  } = useSelector((state) => state.chat.chatRoomVideoStatus);
 
   const handleVideoComponent = () => {
     if (useChatRoomVideo) {
@@ -49,11 +52,23 @@ const ChatRoomDetailsPage = () => {
         <button onClick={handleVideoComponent}>화상채팅</button>
       </div>
 
-      {useChatRoomVideo && (
+      {/* {useChatRoomVideo && (
         <ChatRoomVideoContext chatRoomId={chatRoomId}>
           <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
           <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
           <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
+        </ChatRoomVideoContext>
+      )} */}
+
+      {useChatRoomVideo && (
+        <ChatRoomVideoContext chatRoomId={chatRoomId}>
+          <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
+          {localStreamReady && chatRoomVideoDataReady && (
+            <>
+              <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
+              <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
+            </>
+          )}
         </ChatRoomVideoContext>
       )}
     </div>
