@@ -7,20 +7,37 @@ import React, {
 } from 'react';
 import { useSocket } from '../../../../utils/connections/SocketProvider';
 import ChatRoomVideoEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomVideoEmitterHandler';
+import { useDispatch, useSelector } from 'react-redux';
+import {
+  offChatRoomVideo,
+  offChatRoomVideoData,
+  offChatRoomVideoStarted,
+  offLocalStream,
+  onChatRoomVideoData,
+  onLocalStream,
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
 
 const WebRtcContext = createContext();
 
 // 여기서 pc 객체를 통합 관리한다.
 export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   const { socket } = useSocket();
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
+
+  const { localStreamReady } = useSelector(
+    (state) => state.chat.chatRoomVideoStatus
+  );
+
+  const dispatch = useDispatch();
+
   const peers = useRef({});
   const streams = useRef({});
-  const [checkSocket, setCheckSocket] = useState(1);
   const [streamReadyState, setStreamReadyState] = useState({}); // 각 사용자에 대해 스트림 준비 상태 관리
 
   console.log(`ChatRoomVideoContext 동작`);
-  console.log(`ChatRoomVideoContext의 소캣 :`);
-  console.log(socket);
+  console.log(peers);
+  console.log(streams);
+  console.log(streamReadyState);
 
   const iceServers = {
     iceServers: [
@@ -35,10 +52,11 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const addPeer = async (userId, pc) => {
-    console.log(`addPeer 동작 || userId : ${userId}, pc :${pc}`);
+    console.log('addPeer 동작 || userId : ', userId, 'pc : ', pc);
+
     peers.current[userId] = pc;
 
-    console.log(peers);
+    console.log('peer 저장 됨 : ', peers);
   };
 
   const removePeer = (userId, pc) => {
@@ -46,14 +64,24 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const getPeer = (userId) => {
-    console.log(`getPeer 동작 : ${userId} 의 pc : ${peers.current[userId]}`);
-    // return peers[userId];
+    console.log('getPeer 동작 : ', userId, '의 pc : ', peers.current[userId]);
+
     return peers.current[userId];
   };
 
+  const createLocalStream = async () => {
+    const localStream = await navigator.mediaDevices.getUserMedia({
+      video: true,
+      audio: true,
+    });
+
+    return localStream;
+  };
+
   const addStream = (userId, stream) => {
-    console.log(`addStream 동작 || userId : ${userId}`);
+    console.log('addStream 동작 || userId : ', userId, 'stream : ', stream);
     streams.current[userId] = stream;
+
     setStreamReadyState((prev) => ({ ...prev, [userId]: true }));
   };
 
@@ -77,27 +105,49 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   // 화상채팅방 참가
   useEffect(() => {
-    console.log(`ChatRoomVideoContext에서 socket : `);
-    console.log(socket);
+    if (!localStreamReady) {
+      const setupLocalStream = async () => {
+        const localStream = await createLocalStream();
+        console.log(`로컬 스트림 생성 :`, localStream);
+        // 로컬스트림 상태
+        dispatch(onLocalStream());
+        addStream(userInfo.id, localStream);
+      };
 
-    if (socket && socket.connected) {
-      console.log('체크 동작1');
+      setupLocalStream();
+    } else {
+      const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+      joinChatRoomVideo(userInfo.id, chatRoomId);
+
+      const handleBeforeUnload = (event) => {
+        // event.preventDefault();
+        // event.returnValue = '';
+        const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+        leaveChatRoomVideo(userInfo.id, chatRoomId);
+
+        dispatch(offChatRoomVideo());
+        dispatch(offLocalStream());
+        dispatch(offChatRoomVideoData());
+        dispatch(offChatRoomVideoStarted());
+      };
+
+      window.addEventListener('beforeunload', handleBeforeUnload);
+
+      return () => {
+        console.log('ChatRoomVideoContext 언마운트');
+
+        const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
+        leaveChatRoomVideo(userInfo.id, chatRoomId);
+
+        dispatch(offChatRoomVideo());
+        dispatch(offLocalStream());
+        dispatch(offChatRoomVideoData());
+        dispatch(offChatRoomVideoStarted());
+
+        window.removeEventListener('beforeunload', handleBeforeUnload);
+      };
     }
-
-    if (!socket && !socket.connected) {
-      console.log('체크 동작2');
-
-      setCheckSocket(checkSocket + 1);
-    }
-
-    const { joinChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-    joinChatRoomVideo(chatRoomId);
-
-    return () => {
-      const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
-      leaveChatRoomVideo(chatRoomId);
-    };
-  }, [socket, checkSocket, chatRoomId]);
+  }, [socket, userInfo, chatRoomId, localStreamReady]);
 
   return (
     <WebRtcContext.Provider
@@ -105,6 +155,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
         peers,
         streams,
         iceServers,
+        streamReadyState,
         addPeer,
         removePeer,
         getPeer,

@@ -9,8 +9,6 @@ const NotifySocketHandler = () => {
   useEffect(() => {
     if (!socket || !socket.connected) return;
 
-    console.log('알림방 요청 보낸다~~~');
-
     // 알림 방 참가 요청
     socket.emit('join-notification-room');
 

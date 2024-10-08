@@ -18,7 +18,6 @@ const PostCreateComponent = ({ boardId, pageNum }) => {
 
   const submitHandler = useCallback(
     ({ title, content }) => {
-      console.log('title: ' + title);
       dispatch(
         postCreateByBoardIdAndData({
           boardId,

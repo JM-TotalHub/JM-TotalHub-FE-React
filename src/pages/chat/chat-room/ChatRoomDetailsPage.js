@@ -12,16 +12,19 @@ import {
   offChatRoomVideo,
   onChatRoomVideo,
 } from '../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
-import ChatRoomVideoListenerHandler2 from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler2';
-import ChatRoomVideoLoadComponent2 from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent2';
+import ChatRoomVideoListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
+import ChatRoomVideoLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent';
 
 const ChatRoomDetailsPage = () => {
   const { chatRoomId } = useParams();
 
   const dispatch = useDispatch();
-  const { useChatRoomVideo } = useSelector(
-    (state) => state.chat.chatRoomVideoStatus
-  );
+  const {
+    useChatRoomVideo,
+    localStreamReady,
+    chatRoomVideoDataReady,
+    chatRoomVideoStart,
+  } = useSelector((state) => state.chat.chatRoomVideoStatus);
 
   const handleVideoComponent = () => {
     if (useChatRoomVideo) {
@@ -57,15 +60,17 @@ const ChatRoomDetailsPage = () => {
         </ChatRoomVideoContext>
       )} */}
 
-
       {useChatRoomVideo && (
         <ChatRoomVideoContext chatRoomId={chatRoomId}>
-          <ChatRoomVideoLoadComponent2 chatRoomId={chatRoomId} />
-          <ChatRoomVideoListenerHandler2 chatRoomId={chatRoomId} />
-          <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
+          <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
+          {localStreamReady && chatRoomVideoDataReady && (
+            <>
+              <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
+              <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
+            </>
+          )}
         </ChatRoomVideoContext>
       )}
-
     </div>
   );
 };

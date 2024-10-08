@@ -10,9 +10,9 @@ const ChatRoomEmitterHandler = (socket) => {
     }
   };
 
-  const leaveChatRoom = (chatRoomId) => {
+  const leaveChatRoom = (userId, chatRoomId) => {
     if (socket && socket.connected) {
-      socket.emit('leave-chat-room', { chatRoomId });
+      socket.emit('leave-chat-room', { userId, chatRoomId });
     }
   };
 

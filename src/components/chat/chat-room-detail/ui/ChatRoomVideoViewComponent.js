@@ -5,27 +5,32 @@ import { useWebRtc } from '../logic/ChatRoomVideoContext';
 const ChatRoomVideoViewComponent = () => {
   console.log(`ChatRoomVideoViewComponent 동작`);
 
-  const { chatRoomVideoMembers, status, videoStatus } = useSelector(
+  const { chatRoomVideoMembers, status } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
-  const { getStream, isStreamReady } = useWebRtc(); // 스트림과 준비 상태 가져오기 함수 추가
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
 
-  console.log(`ChatRoomVideoViewComponent의 videoStatus : ${videoStatus}`);
-  console.log(`ChatRoomVideoViewComponent의 chatRoomVideoMembers : `);
-  console.log(chatRoomVideoMembers);
+  const { getStream, isStreamReady, streamReadyState } = useWebRtc(); // 스트림과 준비 상태 가져오기 함수 추가
+
+  console.log(
+    `ChatRoomVideoViewComponent의 chatRoomVideoMembers : `,
+    chatRoomVideoMembers
+  );
 
   // 멤버들의 스트림을 비디오 태그에 연결
   useEffect(() => {
-    if (videoStatus === 'succeeded' && chatRoomVideoMembers) {
-      console.log(`chatRoomVideoMembers :`);
-      console.log(chatRoomVideoMembers);
+    if (
+      // videoStatus === 'succeeded' &&
+      chatRoomVideoMembers &&
+      isStreamReady(userInfo.id)
+    ) {
+      console.log(`화면 동작 - streamReadyState : `, streamReadyState);
 
       chatRoomVideoMembers.forEach((member) => {
         const videoElement = document.getElementById(`video-${member.id}`);
         const stream = getStream(member.id); // 각 멤버의 스트림 가져오기
 
-        console.log(`페이지의 stream : `);
-        console.log(stream);
+        console.log(`페이지의 stream : `, stream);
 
         if (stream && videoElement) {
           videoElement.srcObject = stream; // 스트림을 video 태그에 연결
@@ -39,11 +44,17 @@ const ChatRoomVideoViewComponent = () => {
         }
       });
     }
-  }, [chatRoomVideoMembers, getStream, status]);
+    // }, [chatRoomVideoMembers, status, streamReadyState]);
+  }, [chatRoomVideoMembers, streamReadyState]);
 
-  if (videoStatus === 'succeeded') {
-    console.log(`화면 재랜더링`);
-    console.log(chatRoomVideoMembers);
+  // if (videoStatus === 'succeeded' && isStreamReady(userInfo.id)) {
+  if (isStreamReady(userInfo.id)) {
+    console.log(
+      `화면 재랜더링 - chatRoomVideoMembers : `,
+      chatRoomVideoMembers,
+      'streamReadyState : ',
+      streamReadyState
+    );
 
     return (
       <div>

@@ -1,18 +1,38 @@
 import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useWebRtc } from '../../../../components/chat/chat-room-detail/logic/ChatRoomVideoContext';
+import {
+  chatRoomVideoNewUserJoin,
+  chatRoomVideoUserLeave,
+  chatRoomVideoUsers,
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomDetailsSlice';
 import { useSocket } from '../../SocketProvider';
 import ChatRoomVideoEmitterHandler from './ChatRoomVideoEmitterHandler';
+import {
+  onChatRoomVideoData,
+  onChatRoomVideoStarted,
+} from '../../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
 
 const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
-  console.log(`ChatRoomVideoListenerHandler 동작`);
-
   const { socket } = useSocket();
-  const { peers, iceServers, addPeer, removePeer, getPeer, addStream } =
-    useWebRtc();
+  const {
+    peers,
+    iceServers,
+    addPeer,
+    removePeer,
+    getPeer,
+    addStream,
+    getStream,
+  } = useWebRtc();
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { useChatRoom } = useSelector(
     (state) => state.chat.chatRoomMessageStatus
+  );
+
+  const dispatch = useDispatch();
+
+  console.log(
+    `answer 확인용 ChatRoomVideoListenerHandler2의 chatRoomId : ${chatRoomId}`
   );
 
   // ICE 후보를 저장할 큐
@@ -34,24 +54,41 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     switch (data.type) {
       case 'members':
-        console.log('화상 채팅 새로운 참가자 members 메시지:', data.newMember);
-        handleJoinVideoSuccess(data);
+        console.log(
+          '이벤트 수신 / 화상 채팅 새로운 참가자 members 메시지:',
+          data.members
+        );
+        handleVideoMembers(data);
+        break;
+      case 'member-join':
+        console.log(
+          '이벤트 수신 / 화상 채팅 새로운 참가자 members 메시지:',
+          data.newMember
+        );
+        handleVideoNewMember(data);
+        break;
+      case 'member-leave':
+        console.log(
+          '이벤트 수신 / 화상 채팅 새로운 참가자 members 메시지:',
+          data.newMember
+        );
+        handleVideoLeaveMember(data);
         break;
       case 'ice-candidate':
         console.log(
-          `화상 채팅 이벤트 전송받음 ice-candidate => 발신자 : ${data.userId} & ice : ${data.ice} `
+          `이벤트 수신 / 화상 채팅 이벤트 전송받음 ice-candidate => 발신자 : ${data.userId} & ice : ${data.ice} `
         );
         handleIceCandidate(data);
         break;
       case 'offer':
         console.log(
-          `화상 채팅 이벤트 전송받음 offer => 발신자 : ${data.userId} & offer : ${data.offer} `
+          `이벤트 수신 / 화상 채팅 이벤트 전송받음 offer => 발신자 : ${data.userId} & offer : ${data.offer} `
         );
         handleOffer(data);
         break;
       case 'answer':
         console.log(
-          `화상 채팅 이벤트 전송받음 answer => 발신자 : ${data.userId} & answer : ${data.answer} `
+          `이벤트 수신 / 화상 채팅 이벤트 전송받음 answer => 발신자 : ${data.userId} & answer : ${data.answer} `
         );
         handleAnswer(data);
         break;
@@ -60,8 +97,26 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     }
   };
 
-  const handleJoinVideoSuccess = async (data) => {
+  // 기존 화상채팅 유저 리스트 받아오기
+  // 이건 처음 들어와서 처음만 동작
+  const handleVideoMembers = async (data) => {
     console.log(`소캣 리스너 화상학습 handleJoinVideoSuccess 동작 `);
+
+    dispatch(chatRoomVideoUsers(data.members));
+    dispatch(onChatRoomVideoData());
+  };
+
+  const handleVideoNewMember = (data) => {
+    console.log(`소캣 리스너 화상학습 handleVideoNewMember 동작 `);
+
+    dispatch(onChatRoomVideoStarted());
+    dispatch(chatRoomVideoNewUserJoin(data.newMember));
+  };
+
+  const handleVideoLeaveMember = (data) => {
+    console.log(`소캣 리스너 화상학습 handleVideoLeaveMember 동작 `);
+
+    dispatch(chatRoomVideoUserLeave(data.userId));
   };
 
   // ICE 후보 처리
@@ -74,13 +129,13 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     // 플래그로 피어 연결 생성 중인지 확인
     if (!pc && !peerConnectionFlags[data.userId]) {
-      peerConnectionFlags[data.userId] = true; // 플래그 설정
+      peerConnectionFlags[data.userId] = true; // pc 객체 생성 중
       pc = await createPeerConnection(chatRoomId, data.userId);
-
       console.log(`handleOffer pc 생성 01 : ${pc}`);
     } else if (!pc) {
       // 피어 연결이 아직 생성되지 않았으면 대기
       await delay(500); // 200ms 대기
+
       pc = getPeer(data.userId); // 다시 pc 확인
       if (!pc) {
         console.error(`피어 연결을 생성하는 데 실패했습니다: ${data.userId}`);
@@ -113,11 +168,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     if (userInfo.id === data.userId) return;
 
     console.log(`소캣 리스너 화상학습 handleOffer 동작 `);
-    console.log(data);
-    console.log(peers[data.userId]);
-
-    console.log(userInfo.id);
-    console.log(data.userId);
 
     let pc = getPeer(data.userId);
 
@@ -136,9 +186,9 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       }
     }
 
-    console.log(data.offer);
-
     try {
+      console.log('setRemoteDescription 동작 - handleOffer');
+
       await pc.setRemoteDescription(new RTCSessionDescription(data.offer)); // 비동기 처리
       const answer = await pc.createAnswer(); // 비동기 처리
       await pc.setLocalDescription(answer); // 비동기 처리
@@ -146,9 +196,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       const { sendAnswer } = ChatRoomVideoEmitterHandler(socket);
       console.log(`handleOffer의 생성된 answer`);
       console.log(answer);
-      console.log(`answer 보내는 유저 : ${userInfo.email}`);
-      console.log(`answer 보내는 채팅방 : ${chatRoomId}`);
-      console.log(chatRoomId);
 
       sendAnswer(chatRoomId, userInfo.id, answer); // answer 전송
 
@@ -174,7 +221,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     console.log(`소캣 리스너 화상학습 handleAnswer 동작 `);
     console.log(data);
-    console.log(peers[data.userId]);
 
     let pc = getPeer(data.userId);
 
@@ -183,9 +229,9 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       console.log(`handleAnswer pc 생성 01 : ${pc}`);
     }
 
-    console.log(data.answer);
-
     try {
+      console.log('setRemoteDescription 동작 - handleAnswer');
+
       await pc.setRemoteDescription(new RTCSessionDescription(data.answer)); // 비동기 처리
 
       // ICE 후보 처리
@@ -213,16 +259,11 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
     const { sendIceCandidate } = ChatRoomVideoEmitterHandler(socket);
 
-    const localStream = await navigator.mediaDevices.getUserMedia({
-      video: true,
-      audio: true,
-    });
+    const localStream = getStream(userInfo.id);
 
     localStream.getTracks().forEach((track) => {
       pc.addTrack(track, localStream);
     });
-
-    addStream(userInfo.id, localStream);
 
     const sentCandidates = new Set();
 
