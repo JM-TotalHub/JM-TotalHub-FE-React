@@ -20,6 +20,8 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   );
 
   useEffect(() => {
+    console.log('@@@ 이거 동작함111');
+
     const { leaveChatRoom } = ChatRoomEmitterHandler(socket);
 
     dispatch(

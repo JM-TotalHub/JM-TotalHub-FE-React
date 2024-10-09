@@ -52,14 +52,6 @@ const ChatRoomDetailsPage = () => {
         <button onClick={handleVideoComponent}>화상채팅</button>
       </div>
 
-      {/* {useChatRoomVideo && (
-        <ChatRoomVideoContext chatRoomId={chatRoomId}>
-          <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
-          <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
-          <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
-        </ChatRoomVideoContext>
-      )} */}
-
       {useChatRoomVideo && (
         <ChatRoomVideoContext chatRoomId={chatRoomId}>
           <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />

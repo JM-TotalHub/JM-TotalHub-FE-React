@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import chatRoomDetailsByChatRoomId from '../actions/ChatRoomDetailsAction';
+import ChatRoomMessageLoadAction from '../actions/ChatRoomMessageLoadAction';
 
 const chatRoomDetailsSlice = createSlice({
   name: 'chatRoomDetails',
@@ -18,7 +19,8 @@ const chatRoomDetailsSlice = createSlice({
       state.error = null;
     },
     chatRoomAddMessage: (state, action) => {
-      state.chatRoomMessages.push(action.payload);
+      // state.chatRoomMessages.push(action.payload);
+      state.chatRoomMessages = [...state.chatRoomMessages, action.payload];
     },
     chatRoomUserJoin: (state, action) => {
       console.log('채팅방 유저 리듀서함수 동작 :', action.payload);
@@ -69,8 +71,16 @@ const chatRoomDetailsSlice = createSlice({
           ? action.payload.chatRoomMembers
           : [];
 
+        // state.chatRoomMessages = Array.isArray(action.payload.chatRoomMessages)
+        //   ? action.payload.chatRoomMessages
+        //   : [];
         state.chatRoomMessages = Array.isArray(action.payload.chatRoomMessages)
-          ? action.payload.chatRoomMessages
+          ? action.payload.chatRoomMessages.map((message) => ({
+              message_id: message.id,
+              user_id: message.user_id,
+              content: message.content,
+              createdAt: message.created_at, // created_at을 createdAt으로 변경
+            }))
           : [];
 
         state.chatRoomVideoMembers = Array.isArray(
@@ -83,6 +93,24 @@ const chatRoomDetailsSlice = createSlice({
         // API 요청 실패 상태
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(ChatRoomMessageLoadAction.fulfilled, (state, action) => {
+        console.log('슬라이스', action.payload);
+
+        if (action.payload.length === 0) {
+          state.chatRoomMessages = ['end', ...state.chatRoomMessages];
+        } else {
+          const olderMessage = Array.isArray(action.payload)
+            ? action.payload.map((message) => ({
+                message_id: message.id,
+                user_id: message.user_id,
+                content: message.content,
+                createdAt: message.created_at, // created_at을 createdAt으로 변경
+              }))
+            : [];
+
+          state.chatRoomMessages = [...olderMessage, ...state.chatRoomMessages];
+        }
       });
   },
 });
