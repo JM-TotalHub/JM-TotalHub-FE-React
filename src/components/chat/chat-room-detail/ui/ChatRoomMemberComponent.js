@@ -15,8 +15,6 @@ const ChatRoomMemberComponent = () => {
   }
 
   if (status === 'succeeded') {
-    console.log('채팅방 멤버에서 멤버 데이터 : ', chatRoomMembers);
-
     return (
       <div>
         <div>

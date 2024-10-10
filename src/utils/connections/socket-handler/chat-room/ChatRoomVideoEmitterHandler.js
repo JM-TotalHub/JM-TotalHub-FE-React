@@ -34,19 +34,20 @@ const ChatRoomVideoEmitterHandler = (socket) => {
     }
   };
 
-  const sendOffer = (chatRoomId, userId, offer) => {
+  const sendOffer = (chatRoomId, userId, targetId, offer) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', {
         type: 'offer',
         chatRoomId,
         userId,
+        targetId,
         offer,
       });
     }
     console.log(`화상채팅 offer 보냄 userId => ${userId}`);
   };
 
-  const sendAnswer = (chatRoomId, userId, answer) => {
+  const sendAnswer = (chatRoomId, userId, targetId, answer) => {
     console.log(
       `answer 소캣 요청 보냄 : ${userId} , chatRoomId : ${chatRoomId}`
     );
@@ -56,6 +57,7 @@ const ChatRoomVideoEmitterHandler = (socket) => {
         type: 'answer',
         chatRoomId,
         userId,
+        targetId,
         answer,
       });
       console.log(`화상채팅 answer 보냄 userId => ${userId}`);

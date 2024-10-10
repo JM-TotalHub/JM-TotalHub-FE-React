@@ -20,8 +20,6 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   );
 
   useEffect(() => {
-    console.log('chatRoomInfo : ', chatRoomInfo);
-
     const { leaveChatRoom } = ChatRoomEmitterHandler(socket);
 
     dispatch(

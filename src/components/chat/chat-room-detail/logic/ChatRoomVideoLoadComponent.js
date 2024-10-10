@@ -117,7 +117,7 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
       const offer = await pc.createOffer();
       await pc.setLocalDescription(offer);
       const { sendOffer } = ChatRoomVideoEmitterHandler(socket);
-      sendOffer(chatRoomId, userInfo.id, offer);
+      sendOffer(chatRoomId, userInfo.id, targetUserId, offer);
     } catch (error) {
       console.error('Offer 생성 또는 전송 중 오류 발생:', error);
     }
