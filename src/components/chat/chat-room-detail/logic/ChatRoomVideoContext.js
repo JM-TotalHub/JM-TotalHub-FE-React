@@ -34,11 +34,6 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   const streams = useRef({});
   const [streamReadyState, setStreamReadyState] = useState({}); // 각 사용자에 대해 스트림 준비 상태 관리
 
-  console.log(`ChatRoomVideoContext 동작`);
-  console.log(peers);
-  console.log(streams);
-  console.log(streamReadyState);
-
   const iceServers = {
     iceServers: [
       // { urls: 'stun:15.165.250.99:3478' }, // Coturn STUN 서버
@@ -53,19 +48,15 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   const addPeer = async (userId, pc) => {
     console.log('addPeer 동작 || userId : ', userId, 'pc : ', pc);
-
     peers.current[userId] = pc;
-
-    console.log('peer 저장 됨 : ', peers);
   };
 
-  const removePeer = (userId, pc) => {
+  const removePeer = (userId) => {
     delete peers.current[userId];
   };
 
   const getPeer = (userId) => {
     console.log('getPeer 동작 : ', userId, '의 pc : ', peers.current[userId]);
-
     return peers.current[userId];
   };
 
@@ -98,7 +89,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
     return !!streamReadyState[userId]; // 스트림이 준비된 상태인지 확인
   };
 
-  const removeStream = (userId, pc) => {
+  const removeStream = (userId) => {
     delete streams.current[userId];
     setStreamReadyState((prev) => ({ ...prev, [userId]: false }));
   };

@@ -23,6 +23,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     getPeer,
     addStream,
     getStream,
+    removeStream,
   } = useWebRtc();
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { useChatRoom } = useSelector(
@@ -30,10 +31,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   );
 
   const dispatch = useDispatch();
-
-  console.log(
-    `answer 확인용 ChatRoomVideoListenerHandler2의 chatRoomId : ${chatRoomId}`
-  );
 
   // ICE 후보를 저장할 큐
   const peerConnectionFlags = {};
@@ -50,8 +47,6 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   }, [socket, useChatRoom]);
 
   const handleMessageReceive = (data) => {
-    console.log(`화상 채팅 이벤트 전송받음 type => ${data.type}`);
-
     switch (data.type) {
       case 'members':
         console.log(
@@ -117,6 +112,9 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     console.log(`소캣 리스너 화상학습 handleVideoLeaveMember 동작 `);
 
     dispatch(chatRoomVideoUserLeave(data.userId));
+    removePeer(data.userId);
+    removeStream(data.userId);
+    delete peerConnectionFlags[data.userId];
   };
 
   // ICE 후보 처리
@@ -138,7 +136,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
       pc = getPeer(data.userId); // 다시 pc 확인
       if (!pc) {
-        console.error(`피어 연결을 생성하는 데 실패했습니다: ${data.userId}`);
+        console.error(`피어 연결을 생성하는 데 실패했습니다1: ${data.userId}`);
         return;
       }
     }
@@ -175,13 +173,13 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     if (!pc && !peerConnectionFlags[data.userId]) {
       peerConnectionFlags[data.userId] = true; // 플래그 설정
       pc = await createPeerConnection(chatRoomId, data.userId);
-      console.log(`handleOffer pc 생성 01 : ${pc}`);
+      console.log(`handleOffer pc 생성 02 : ${pc}`);
     } else if (!pc) {
       // 피어 연결이 아직 생성되지 않았으면 대기
       await delay(500); // 200ms 대기
       pc = getPeer(data.userId); // 다시 pc 확인
       if (!pc) {
-        console.error(`피어 연결을 생성하는 데 실패했습니다: ${data.userId}`);
+        console.error(`피어 연결을 생성하는 데 실패했습니다2: ${data.userId}`);
         return;
       }
     }
@@ -197,7 +195,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       console.log(`handleOffer의 생성된 answer`);
       console.log(answer);
 
-      sendAnswer(chatRoomId, userInfo.id, answer); // answer 전송
+      sendAnswer(chatRoomId, userInfo.id, data.userId, answer); // answer 전송
 
       // ICE 후보 처리
       console.log(

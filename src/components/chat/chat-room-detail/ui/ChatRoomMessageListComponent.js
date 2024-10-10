@@ -76,8 +76,6 @@ const ChatRoomMessageListComponent = ({ chatRoomId }) => {
   }
 
   if (status === 'succeeded') {
-    console.log('현재 채팅 메시지 데이터 : ', chatRoomMessages);
-
     return (
       <div>
         <h2>채팅 메시지</h2>
