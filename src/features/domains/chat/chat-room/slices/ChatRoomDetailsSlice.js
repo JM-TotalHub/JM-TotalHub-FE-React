@@ -1,51 +1,50 @@
 import { createSlice } from '@reduxjs/toolkit';
 import chatRoomDetailsByChatRoomId from '../actions/ChatRoomDetailsAction';
 import ChatRoomMessageLoadAction from '../actions/ChatRoomMessageLoadAction';
+import ChatRoomUpdateAction from '../actions/ChatRoomUpdateAction';
 
 const chatRoomDetailsSlice = createSlice({
   name: 'chatRoomDetails',
   initialState: {
+    status: 'idle',
     chatRoomInfo: {},
     chatRoomMembers: [],
     chatRoomMessages: [],
     chatRoomVideoMembers: [],
-    status: 'idle',
-    // videoStatus: 'idle',
+    newMessage: null,
     error: null,
   },
   reducers: {
+    // 채팅방 처리상태 상태값 초기화
     chatRoomDetailsSliceResetState: (state) => {
       state.status = 'idle';
       state.error = null;
     },
+    // 채팅방 새 메시지
     chatRoomAddMessage: (state, action) => {
-      // state.chatRoomMessages.push(action.payload);
+      state.newMessage = action.payload.user_id;
       state.chatRoomMessages = [...state.chatRoomMessages, action.payload];
     },
+    // 채팅방 새로운 참가자 추가
     chatRoomUserJoin: (state, action) => {
-      console.log('채팅방 유저 리듀서함수 동작 :', action.payload);
-
-      state.chatRoomMembers.push(action.payload);
+      state.chatRoomMembers = [...state.chatRoomMembers, action.payload];
     },
+    // 채팅방 참가자 퇴장
     chatRoomUserLeave: (state, action) => {
       state.chatRoomMembers = state.chatRoomMembers.filter(
         (member) => member.id !== action.payload
       );
     },
+    // 기존 화상채팅 참가자 목록 업로드
     chatRoomVideoUsers: (state, action) => {
-      console.log(`새로운 화상채팅 유저 리듀서함수 동작 :`, action.payload);
-
       state.chatRoomVideoMembers = action.payload;
     },
+    // 화상채팅 새로운 참가자 추가
     chatRoomVideoNewUserJoin: (state, action) => {
-      console.log(`chatRoomVideoNewUserJoin 동작 : `, action.payload);
-
-      state.chatRoomVideoMembers.push(action.payload);
-
-      console.log(
-        '새로운 유저 에 대한 슬라이스에서 chatRoomVideoMembers : ',
-        state.chatRoomVideoMembers
-      );
+      state.chatRoomVideoMembers = [
+        ...state.chatRoomVideoMembers,
+        action.payload,
+      ];
     },
     chatRoomVideoUserLeave: (state, action) => {
       state.chatRoomVideoMembers = state.chatRoomVideoMembers.filter(
@@ -56,24 +55,18 @@ const chatRoomDetailsSlice = createSlice({
   extraReducers: (builder) => {
     builder
       .addCase(chatRoomDetailsByChatRoomId.pending, (state) => {
-        // API 요청 시작 상태
+        // 기본 채팅방 정보 API 요청 시작 상태
         state.status = 'loading';
       })
       .addCase(chatRoomDetailsByChatRoomId.fulfilled, (state, action) => {
-        // API 요청 성공 상태
+        // 기본 채팅방 정보 API 요청 성공 상태
         state.status = 'succeeded';
-
-        state.chatRoomDetails = action.payload;
+        state.newMessage = 'init';
 
         state.chatRoomInfo = action.payload.chatRoomInfo;
-
         state.chatRoomMembers = Array.isArray(action.payload.chatRoomMembers)
           ? action.payload.chatRoomMembers
           : [];
-
-        // state.chatRoomMessages = Array.isArray(action.payload.chatRoomMessages)
-        //   ? action.payload.chatRoomMessages
-        //   : [];
         state.chatRoomMessages = Array.isArray(action.payload.chatRoomMessages)
           ? action.payload.chatRoomMessages.map((message) => ({
               message_id: message.id,
@@ -89,13 +82,14 @@ const chatRoomDetailsSlice = createSlice({
           ? action.payload.chatRoomVideoMembers
           : [];
       })
+      // 기본 채팅방 정보 API 요청 실패 상태
       .addCase(chatRoomDetailsByChatRoomId.rejected, (state, action) => {
-        // API 요청 실패 상태
         state.status = 'failed';
         state.error = action.error.message;
       })
+      // 메시지 추가 로드
       .addCase(ChatRoomMessageLoadAction.fulfilled, (state, action) => {
-        console.log('슬라이스', action.payload);
+        state.newMessage = null;
 
         if (action.payload.length === 0) {
           state.chatRoomMessages = ['end', ...state.chatRoomMessages];
@@ -111,6 +105,12 @@ const chatRoomDetailsSlice = createSlice({
 
           state.chatRoomMessages = [...olderMessage, ...state.chatRoomMessages];
         }
+      })
+      .addCase(ChatRoomUpdateAction.fulfilled, (state, action) => {
+        console.log('기존 채팅방 정보 : ', state.chatRoomInfo);
+        console.log('수정된 채팅방 정보 : ', action.payload);
+
+        state.chatRoomInfo = action.payload;
       });
   },
 });

@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux';
 import ChatRoomMessageLoadAction from '../../../../features/domains/chat/chat-room/actions/ChatRoomMessageLoadAction';
 
 const ChatRoomMessageListComponent = ({ chatRoomId }) => {
-  const { chatRoomMessages, status, error } = useSelector(
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
+  const { chatRoomMessages, status, newMessage } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
 
@@ -11,28 +12,25 @@ const ChatRoomMessageListComponent = ({ chatRoomId }) => {
   const messageListRef = useRef(null);
   const [isFetching, setIsFetching] = useState(false); // 추가 데이터 로딩 상태
   const [lastMessage, setLastMessage] = useState(false);
-  const [initScroll, setInitScroll] = useState(true);
-
-  console.log('@@@@@@@ ChatRoomMessageListComponent 재랜더링');
 
   useEffect(() => {
-    // 처음 렌더링 시 스크롤을 가장 아래로 이동
-    if (messageListRef.current && initScroll) {
+    // newMessage 상태값으로 (첫입장 || 나의 새로운 메시지)일때 스크롤 가장 아래로
+    if (
+      messageListRef.current &&
+      (newMessage === userInfo.id || newMessage === 'init')
+    ) {
       messageListRef.current.scrollTop = messageListRef.current.scrollHeight;
     }
   }, [chatRoomMessages]);
 
   useEffect(() => {
     const handleScroll = () => {
-      // 일단 스크롤 움직이면 이제 끝 고정 풀기
-      setInitScroll(false);
-
       if (
         messageListRef.current.scrollTop === 0 &&
         !isFetching &&
         !lastMessage
       ) {
-        // 스크롤이 맨 위에 도달하고 현재 데이터를 로드 중이 아닐 때
+        // 지속적인 스크롤 + 메시지 추가요청 방지
         setIsFetching(true);
 
         dispatch(
@@ -51,15 +49,18 @@ const ChatRoomMessageListComponent = ({ chatRoomId }) => {
 
     const messageList = messageListRef.current;
 
+    // 스크롤 이벤트
     if (messageList) {
       messageList.addEventListener('scroll', handleScroll);
     }
 
+    // 채팅방의 마지막(최초) 메시지까지 로드 완료
     if (chatRoomMessages[0] === 'end') {
       setLastMessage(true);
     }
 
     return () => {
+      // 스크롤 이벤트 해제
       if (messageList) {
         messageList.removeEventListener('scroll', handleScroll);
       }
@@ -71,7 +72,7 @@ const ChatRoomMessageListComponent = ({ chatRoomId }) => {
   }
 
   if (status === 'idle') {
-    return <div>로딩 중입니다...</div>;
+    return <div>메시지를 불러오고 있습니다...</div>;
   }
 
   if (status === 'succeeded') {

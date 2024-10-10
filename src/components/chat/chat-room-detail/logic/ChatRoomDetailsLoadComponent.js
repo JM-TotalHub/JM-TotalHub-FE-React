@@ -20,7 +20,7 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
   );
 
   useEffect(() => {
-    console.log('@@@ 이거 동작함111');
+    console.log('chatRoomInfo : ', chatRoomInfo);
 
     const { leaveChatRoom } = ChatRoomEmitterHandler(socket);
 
@@ -77,6 +77,7 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
           <div>chatRoomInfo.description : {chatRoomInfo.description}</div>
           <div>chatRoomInfo.chat_type : {chatRoomInfo.chat_type}</div>
           <div>chatRoomInfo.created_at : {chatRoomInfo.created_at}</div>
+          <div>chatRoomInfo.user_id : {chatRoomInfo.user_id}</div>
         </div>
         <div></div>
       </div>

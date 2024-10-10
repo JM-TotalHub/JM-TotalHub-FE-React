@@ -6,13 +6,15 @@ import { useNavigate } from 'react-router-dom';
 const ChatRoomListComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { chatRoomList, status, error } = useSelector(
+  const { chatRoomList, newChatRoom, status, error } = useSelector(
     (state) => state.chat.chatRoomList
   );
 
+  console.log('채팅방 리스트 페이지 chatRoomList : ', chatRoomList);
+
   useEffect(() => {
     dispatch(chatRoomListByNothing());
-  }, []);
+  }, [newChatRoom]);
 
   if (status === 'failed') {
     console.log('api 통신 에러 : ' + error);

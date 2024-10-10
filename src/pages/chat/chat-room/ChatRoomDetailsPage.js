@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomDetailsLoadComponent';
@@ -14,17 +14,28 @@ import {
 } from '../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
 import ChatRoomVideoListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
 import ChatRoomVideoLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent';
+import ChatRoomManageComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomManageComponent';
 
 const ChatRoomDetailsPage = () => {
+  const dispatch = useDispatch();
+
   const { chatRoomId } = useParams();
 
-  const dispatch = useDispatch();
-  const {
-    useChatRoomVideo,
-    localStreamReady,
-    chatRoomVideoDataReady,
-    chatRoomVideoStart,
-  } = useSelector((state) => state.chat.chatRoomVideoStatus);
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
+  const { useChatRoomVideo, localStreamReady, chatRoomVideoDataReady } =
+    useSelector((state) => state.chat.chatRoomVideoStatus);
+
+  const { chatRoomInfo } = useSelector((state) => state.chat.chatRoomDetails);
+
+  const [manageOpen, setManageOpen] = useState(false);
+
+  const handleManageComponent = () => {
+    setManageOpen(true);
+  };
+
+  const ManageClose = () => {
+    setManageOpen(false);
+  };
 
   const handleVideoComponent = () => {
     if (useChatRoomVideo) {
@@ -34,12 +45,27 @@ const ChatRoomDetailsPage = () => {
     }
   };
 
+  console.log(
+    '채팅방 user_id : ',
+    chatRoomInfo.user_id,
+    'userInfo.id : ',
+    userInfo.id
+  );
+
   return (
     <div>
       <h1>ChatRoomDetailsPage</h1>
 
-      {/* 채팅 기능 컴포넌트 적용 */}
+      {/* 채팅방 기본 정보 로드 컴포넌트 적용 */}
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
+
+      {/* 채팅방 수정 & 삭제 모달 컴포넌트 - 모달로 구현*/}
+      <div>
+        {Number(chatRoomInfo.user_id) === userInfo.id && (
+          <button onClick={handleManageComponent}>채팅방 관리</button>
+        )}
+        <ChatRoomManageComponent isOpen={manageOpen} onClose={ManageClose} />
+      </div>
 
       {/* 채팅 UI 컴포넌트 적용 - 이 컴포넌트 나중에 memo 적용하기 */}
       <ChatRoomInfoComponent chatRoomId={chatRoomId} />
