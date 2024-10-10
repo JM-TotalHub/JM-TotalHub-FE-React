@@ -1,13 +1,15 @@
 import { createSlice } from '@reduxjs/toolkit';
 import chatRoomListByNothing from '../actions/ChatRoomListAction';
+import ChatRoomCreateAction from '../actions/ChatRoomCreateAction';
 
 const chatRoomListSlice = createSlice({
   name: 'chatRoomList',
   initialState: {
+    status: 'idle',
     chatRoomList: [],
     pageNum: 1,
     totalPage: 1,
-    status: 'idle',
+    newChatRoom: null,
     error: null,
   },
   reducers: {},
@@ -29,6 +31,9 @@ const chatRoomListSlice = createSlice({
         // API 요청 실패 상태
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(ChatRoomCreateAction.fulfilled, (state, action) => {
+        state.newChatRoom = action.payload.id;
       });
   },
 });

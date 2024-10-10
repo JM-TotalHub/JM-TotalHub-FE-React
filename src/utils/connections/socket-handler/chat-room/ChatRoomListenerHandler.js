@@ -42,6 +42,7 @@ const ChatRoomListenerHandler = () => {
 
   const handleMessageReceive = (data) => {
     console.log('채팅방 메시지 수신:', data);
+    // const newMessage = {user_id: data.userId, content: message, created_at: }
     dispatch(chatRoomAddMessage(data));
   };
 
