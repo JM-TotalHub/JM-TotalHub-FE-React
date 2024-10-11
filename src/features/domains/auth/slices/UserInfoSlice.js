@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import userInfoByToken from '../actions/UserInfoAction';
+import SignOutAction from '../actions/SignOutAction';
 
 const UserInfoSlice = createSlice({
   name: 'authStatus',
@@ -18,7 +19,11 @@ const UserInfoSlice = createSlice({
           state.loginStatus = true;
         }
       })
-      .addCase(userInfoByToken.rejected, (state, action) => {});
+      .addCase(userInfoByToken.rejected, (state, action) => {})
+      .addCase(SignOutAction.fulfilled, (state, action) => {
+        state.userInfo = null;
+        state.loginStatus = false;
+      });
   },
 });
 

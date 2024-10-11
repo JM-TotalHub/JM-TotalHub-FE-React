@@ -2,7 +2,7 @@ import './App.css';
 
 // App.js
 import React from 'react';
-import { Route, Routes } from 'react-router-dom';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 import MainPageComponents from './components/main/MainPageComponents';
 import Auth from './pages/auth';
@@ -19,6 +19,10 @@ import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-roo
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
 
 const App = () => {
+  // 현재 경로가 /auth로 시작하는지 확인
+  const location = useLocation();
+  const isAuthPath = location.pathname.startsWith('/auth');
+
   return (
     <SocketProvider>
       {/* 소캣 리스너 */}
@@ -28,11 +32,9 @@ const App = () => {
       {/* <ChatRoomVideoListenerHandler /> */}
       {/* <ChatRoomVideoListenerHandler2 /> */}
 
-      {/* 정보 로드 */}
+      {/* 유저 정보 로드 */}
       <UserInfoLoader />
-
-      {/* 테스트용 헤더 */}
-      <UserHeaderComponent />
+      {!isAuthPath && <UserHeaderComponent />}
 
       {/* 라우터 */}
       <Routes>

@@ -4,7 +4,7 @@ import SignInComponent from '../../components/auth/SignInComponent';
 const SignInPage = () => {
   return (
     <div>
-      SignInPage
+      <h1>로그인</h1>
       <SignInComponent />
     </div>
   );
