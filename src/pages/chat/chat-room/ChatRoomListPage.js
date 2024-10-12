@@ -19,7 +19,6 @@ const ChatRoomListPage = () => {
 
   return (
     <div>
-      <h1>ChatRoomListPage</h1>
       <div>
         <button onClick={handleVideoComponent}>채팅방 생성</button>
       </div>

@@ -14,12 +14,12 @@ const ChatRoomListenerHandler = () => {
     (state) => state.chat.chatRoomMessageStatus
   );
 
-  console.log('useChatRoom 상태값 : ', useChatRoom);
+  // console.log('useChatRoom 상태값 : ', useChatRoom);
 
   useEffect(() => {
     if (!socket || !useChatRoom) return;
 
-    console.log('채팅방 리스너 적용됨');
+    // console.log('채팅방 리스너 적용됨');
 
     socket.on('chat-room-join-success', handleJoinSuccess);
     socket.on('chat-room-new-message', handleMessageReceive);
@@ -34,7 +34,7 @@ const ChatRoomListenerHandler = () => {
     };
   }, [socket, useChatRoom]);
 
-  console.log('리스너가 동작한다!!!!!!', useChatRoom);
+  // console.log('리스너가 동작한다!!!!!!', useChatRoom);
 
   const handleJoinSuccess = (data) => {
     console.log('채팅방 연결 완료 : ', data);

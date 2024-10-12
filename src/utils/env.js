@@ -35,17 +35,17 @@ const ENV = {
     process.env.REACT_APP_NGINX_SERVER01_EC2_HOST,
 };
 
-console.log('모든 환경 변수 출력:');
-for (const key in process.env) {
-  if (process.env.hasOwnProperty(key)) {
-    console.log(`${key}: ${process.env[key]}`);
-  }
-}
+// console.log('모든 환경 변수 출력:');
+// for (const key in process.env) {
+//   if (process.env.hasOwnProperty(key)) {
+//     console.log(`${key}: ${process.env[key]}`);
+//   }
+// }
 
-console.log('EXPRESS_SERVER_BASE_URL: ', ENV.EXPRESS_SERVER_BASE_URL);
-console.log(
-  'SIGNAL_SERVER_SOCKET_BASE_URL: ',
-  ENV.SIGNAL_SERVER_SOCKET_BASE_URL
-);
+// console.log('EXPRESS_SERVER_BASE_URL: ', ENV.EXPRESS_SERVER_BASE_URL);
+// console.log(
+//   'SIGNAL_SERVER_SOCKET_BASE_URL: ',
+//   ENV.SIGNAL_SERVER_SOCKET_BASE_URL
+// );
 
 export default ENV;
