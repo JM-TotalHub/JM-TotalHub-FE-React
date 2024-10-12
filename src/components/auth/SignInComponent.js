@@ -7,8 +7,8 @@ import userInfoByToken from '../../features/domains/auth/actions/UserInfoAction'
 const SignInComponent = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
-  const [loginType, setLoginType] = useState('');
-  const [roleType, setRoleType] = useState('');
+  // const [loginType, setLoginType] = useState('normal');
+  // const [roleType, setRoleType] = useState('normal'); // admin은 DB로 직접 생성하도록 수정
 
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -55,32 +55,7 @@ const SignInComponent = () => {
             required
           />
         </div>
-        <div>
-          <label htmlFor="loginType">Login Type:</label>
-          <select
-            id="loginType"
-            value={loginType}
-            onChange={(e) => setLoginType(e.target.value)}
-            required
-          >
-            <option value="normal">normal</option>
-            <option value="admin">admin</option>
-          </select>
-        </div>
-        <div>
-          <label htmlFor="roleType">Role Type:</label>
-          <select
-            id="roleType"
-            value={roleType}
-            onChange={(e) => setRoleType(e.target.value)}
-            required
-          >
-            <option value="normal">normal</option>
-            <option value="naver">naver</option>
-            <option value="google">google</option>
-          </select>
-        </div>
-        <button type="submit">Sign Up</button>
+        <button type="submit">로그인</button>
       </form>
     </div>
   );

@@ -12,27 +12,27 @@ export const SocketProvider = ({ children }) => {
   const { status } = useSelector((state) => state.auth.signIn);
   const { accessToken } = useSelector((state) => state.auth.authStatus);
 
-  console.log('소캣 연결 요청 대상 : ', ENV.SIGNAL_SERVER_SOCKET_BASE_URL);
+  // console.log('소캣 연결 요청 대상 : ', ENV.SIGNAL_SERVER_SOCKET_BASE_URL);
 
   useEffect(() => {
-    console.log(
-      `소캣 연결 시도!!! signIn-status : ${status}, accessToken : ${accessToken}`
-    );
+    // console.log(
+    //   `소캣 연결 시도!!! signIn-status : ${status}, accessToken : ${accessToken}`
+    // );
 
     if ((status !== 'idle' && status !== 'succeeded') || !accessToken) {
-      console.log(
-        `소캣 연결 시도!!! 하지만 하면 안됨 if문 signIn-status : ${status}, accessToken : ${accessToken}`
-      );
+      // console.log(
+      //   `소캣 연결 시도!!! 하지만 하면 안됨 if문 signIn-status : ${status}, accessToken : ${accessToken}`
+      // );
       return;
     }
 
-    console.log(
-      `실제 소캣 연결 시도!!! signIn-status : ${status}, accessToken : ${accessToken}`
-    );
+    // console.log(
+    //   `실제 소캣 연결 시도!!! signIn-status : ${status}, accessToken : ${accessToken}`
+    // );
 
     // 소켓이 이미 연결된 상태라면, 재연결을 하지 않도록 조건부로 처리
     if (socket && socket.connected && accessToken) {
-      console.log('소켓이 이미 연결됨, 중복 연결 방지');
+      // console.log('소켓이 이미 연결됨, 중복 연결 방지');
       return;
     }
 
@@ -44,7 +44,7 @@ export const SocketProvider = ({ children }) => {
 
     // 소캣 연결 됨
     connectedSocket.on('connect', () => {
-      console.log('Connected to signal server : ', connectedSocket.id);
+      // console.log('Connected to signal server : ', connectedSocket.id);
       setSocket(connectedSocket);
     });
 

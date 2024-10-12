@@ -43,7 +43,7 @@ const AuthListenerHandler = () => {
     };
   }, [socket]);
 
-  console.log('AccessToken Status : ', accessToken);
+  // console.log('AccessToken Status : ', accessToken);
 };
 
 export default AuthListenerHandler;

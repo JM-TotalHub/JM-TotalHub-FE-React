@@ -1,5 +1,6 @@
 import { createSlice } from '@reduxjs/toolkit';
 import authSignInByUserData from '../actions/SignInAction';
+import SignOutAction from '../actions/SignOutAction';
 
 const authSignInSlice = createSlice({
   name: 'authSignIn',
@@ -25,6 +26,10 @@ const authSignInSlice = createSlice({
         // API 요청 실패 상태
         state.status = 'failed';
         state.error = action.error.message;
+      })
+      .addCase(SignOutAction.fulfilled, (state, action) => {
+        state.accessToken = null;
+        state.status = 'idle';
       });
   },
 });
