@@ -5,7 +5,7 @@ import api from '../../../../../utils/connections/api';
 const ChatRoomMessageLoadAction = createAsyncThunk(
   'chatRoomDetails/ChatRoomMessageLoadAction',
   async ({ chatRoomId, lastMessageId, messageNum }) => {
-    console.log('액션 동작 => ', chatRoomId, lastMessageId, messageNum);
+    // console.log('액션 동작 => ', chatRoomId, lastMessageId, messageNum);
 
     const response = await api.get(`/chats/chat-rooms/messages-load`, {
       params: {
@@ -14,7 +14,7 @@ const ChatRoomMessageLoadAction = createAsyncThunk(
         messageNum,
       },
     });
-    console.log(response);
+    // console.log(response);
     return response.data;
   }
 );

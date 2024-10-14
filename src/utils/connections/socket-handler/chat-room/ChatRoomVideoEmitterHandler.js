@@ -9,14 +9,14 @@ const ChatRoomVideoEmitterHandler = (socket) => {
   const joinChatRoomVideo = (userId, chatRoomId) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', { type: 'join', userId, chatRoomId });
-      console.log('화상채팅방 참가 시도 chatRoomId => ', chatRoomId);
+      console.log('[화상채팅] 참가 시도 chatRoomId => ', chatRoomId);
     }
   };
 
   const leaveChatRoomVideo = (userId, chatRoomId) => {
     if (socket && socket.connected) {
       socket.emit('chat-room-video', { type: 'leave', userId, chatRoomId });
-      console.log('화상채팅방 퇴장 시도 chatRoomId => ', chatRoomId);
+      console.log('[화상채팅] 퇴장 시도 chatRoomId => ', chatRoomId);
     }
   };
 
@@ -28,7 +28,7 @@ const ChatRoomVideoEmitterHandler = (socket) => {
         userId,
         iceCandidate,
       });
-      console.log(`화상채팅 ice 후보 보냄 userId => ${userId}`);
+      console.log(`[화상채팅] ice 후보 보냄 userId => ${userId}`);
     } else {
       console.error('소켓 연결이 끊겼습니다. ICE 후보 전송 실패.');
     }
@@ -44,7 +44,7 @@ const ChatRoomVideoEmitterHandler = (socket) => {
         offer,
       });
     }
-    console.log(`화상채팅 offer 보냄 userId => ${userId}`);
+    console.log(`[화상채팅] offer 보냄 userId => ${userId}`);
   };
 
   const sendAnswer = (chatRoomId, userId, targetId, answer) => {
@@ -60,7 +60,7 @@ const ChatRoomVideoEmitterHandler = (socket) => {
         targetId,
         answer,
       });
-      console.log(`화상채팅 answer 보냄 userId => ${userId}`);
+      console.log(`[화상채팅] answer 보냄 userId => ${userId}`);
     }
   };
 

@@ -45,12 +45,12 @@ const ChatRoomDetailsPage = () => {
     }
   };
 
-  console.log(
-    '채팅방 user_id : ',
-    chatRoomInfo.user_id,
-    'userInfo.id : ',
-    userInfo.id
-  );
+  // console.log(
+  //   '채팅방 user_id : ',
+  //   chatRoomInfo.user_id,
+  //   'userInfo.id : ',
+  //   userInfo.id
+  // );
 
   return (
     <div>

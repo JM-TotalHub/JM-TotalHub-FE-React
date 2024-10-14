@@ -49,41 +49,41 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   const handleMessageReceive = (data) => {
     switch (data.type) {
       case 'members':
-        console.log(
-          '이벤트 수신 / 화상 채팅 새로운 참가자 members 메시지:',
-          data.members
-        );
+        console.log('[화상채팅] members 이벤트 수신:', data.members);
         handleVideoMembers(data);
         break;
       case 'member-join':
-        console.log(
-          '이벤트 수신 / 화상 채팅 새로운 참가자 members 메시지:',
-          data.newMember
-        );
+        console.log('[화상채팅] member-join 이벤트 수신:', data.newMember);
         handleVideoNewMember(data);
         break;
       case 'member-leave':
-        console.log(
-          '이벤트 수신 / 화상 채팅 새로운 참가자 members 메시지:',
-          data.newMember
-        );
+        console.log('[화상채팅] members-leave 이벤트 수신:', data.userId);
         handleVideoLeaveMember(data);
         break;
       case 'ice-candidate':
         console.log(
-          `이벤트 수신 / 화상 채팅 이벤트 전송받음 ice-candidate => 발신자 : ${data.userId} & ice : ${data.ice} `
+          '[화상채팅] ice-candidate 이벤트 수신: => 발신자 : ',
+          data.userId,
+          ' & ice :',
+          data.ice
         );
         handleIceCandidate(data);
         break;
       case 'offer':
         console.log(
-          `이벤트 수신 / 화상 채팅 이벤트 전송받음 offer => 발신자 : ${data.userId} & offer : ${data.offer} `
+          '[화상채팅] offer 이벤트 수신: => 발신자 : ',
+          data.userId,
+          ' & ice :',
+          data.offer
         );
         handleOffer(data);
         break;
       case 'answer':
         console.log(
-          `이벤트 수신 / 화상 채팅 이벤트 전송받음 answer => 발신자 : ${data.userId} & answer : ${data.answer} `
+          '[화상채팅] answer 이벤트 수신: => 발신자 : ',
+          data.userId,
+          ' & ice :',
+          data.answer
         );
         handleAnswer(data);
         break;
@@ -136,7 +136,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
 
       pc = getPeer(data.userId); // 다시 pc 확인
       if (!pc) {
-        console.error(`피어 연결을 생성하는 데 실패했습니다1: ${data.userId}`);
+        console.error(`피어 연결을 생성하는 데 실패했습니다01: ${data.userId}`);
         return;
       }
     }
@@ -154,7 +154,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
     } else {
       // remoteDescription이 설정되었다면 ICE 후보를 추가
       try {
-        console.log('ICE 후보 추가 중:', data.ice);
+        console.log('ICE 후보 pc 등록 중01:', data.ice);
         await pc.addIceCandidate(new RTCIceCandidate(data.ice));
       } catch (error) {
         console.error('ICE 후보 추가 중 오류 발생:', error);
@@ -203,7 +203,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       );
 
       if (iceCandidateQueue[data.userId]) {
-        console.log('ICE 후보 추가 중:', data.ice);
+        console.log('ICE 후보 pc 등록 중02', data.ice);
         while (iceCandidateQueue[data.userId].length > 0) {
           const ice = iceCandidateQueue[data.userId].shift();
           await pc.addIceCandidate(new RTCIceCandidate(ice));
