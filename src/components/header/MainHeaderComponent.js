@@ -71,6 +71,9 @@ const MainHeaderComponent = () => {
         >
           채팅
         </NavLinkItem>
+        <NavLinkItem to={`#`}>준비중</NavLinkItem>
+        <NavLinkItem to={`#`}>준비중</NavLinkItem>
+        <NavLinkItem to={`#`}>준비중</NavLinkItem>
       </NavLinksContainer>
     </MainHeaderWrapper>
   );

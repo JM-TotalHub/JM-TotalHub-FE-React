@@ -49,20 +49,20 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   const handleMessageReceive = (data) => {
     switch (data.type) {
       case 'members':
-        console.log('[화상채팅] members 이벤트 수신:', data.members);
+        console.log('[소캣] 화상채팅 members 이벤트 수신:', data.members);
         handleVideoMembers(data);
         break;
       case 'member-join':
-        console.log('[화상채팅] member-join 이벤트 수신:', data.newMember);
+        console.log('[소캣] 화상채팅 member-join 이벤트 수신:', data.newMember);
         handleVideoNewMember(data);
         break;
       case 'member-leave':
-        console.log('[화상채팅] members-leave 이벤트 수신:', data.userId);
+        console.log('[소캣]  화상채팅 members-leave 이벤트 수신:', data.userId);
         handleVideoLeaveMember(data);
         break;
       case 'ice-candidate':
         console.log(
-          '[화상채팅] ice-candidate 이벤트 수신: => 발신자 : ',
+          '[소캣] 화상채팅 ice-candidate 이벤트 수신: => 발신자 : ',
           data.userId,
           ' & ice :',
           data.ice
@@ -71,7 +71,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
         break;
       case 'offer':
         console.log(
-          '[화상채팅] offer 이벤트 수신: => 발신자 : ',
+          '[소캣] 화상채팅 offer 이벤트 수신: => 발신자 : ',
           data.userId,
           ' & ice :',
           data.offer
@@ -80,7 +80,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
         break;
       case 'answer':
         console.log(
-          '[화상채팅] answer 이벤트 수신: => 발신자 : ',
+          '[소캣] 화상채팅 answer 이벤트 수신: => 발신자 : ',
           data.userId,
           ' & ice :',
           data.answer
@@ -95,21 +95,21 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   // 기존 화상채팅 유저 리스트 받아오기
   // 이건 처음 들어와서 처음만 동작
   const handleVideoMembers = async (data) => {
-    console.log(`소캣 리스너 화상학습 handleJoinVideoSuccess 동작 `);
+    // console.log(`[소캣] 리스너 화상학습 handleJoinVideoSuccess 동작 `);
 
     dispatch(chatRoomVideoUsers(data.members));
     dispatch(onChatRoomVideoData());
   };
 
   const handleVideoNewMember = (data) => {
-    console.log(`소캣 리스너 화상학습 handleVideoNewMember 동작 `);
+    // console.log(`[소캣] 리스너 화상학습 handleVideoNewMember 동작 `);
 
     dispatch(onChatRoomVideoStarted());
     dispatch(chatRoomVideoNewUserJoin(data.newMember));
   };
 
   const handleVideoLeaveMember = (data) => {
-    console.log(`소캣 리스너 화상학습 handleVideoLeaveMember 동작 `);
+    // console.log(`[소캣] 리스너 화상학습 handleVideoLeaveMember 동작 `);
 
     dispatch(chatRoomVideoUserLeave(data.userId));
     removePeer(data.userId);
@@ -121,7 +121,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   const handleIceCandidate = async (data) => {
     if (userInfo.id === data.userId) return;
 
-    console.log(`소캣 리스너 화상학습 handleIceCandidate 동작 `);
+    // console.log(`[소캣] 리스너 화상학습 handleIceCandidate 동작 `);
 
     let pc = getPeer(data.userId);
 
@@ -165,7 +165,7 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
   const handleOffer = async (data) => {
     if (userInfo.id === data.userId) return;
 
-    console.log(`소캣 리스너 화상학습 handleOffer 동작 `);
+    // console.log(`소캣 리스너 화상학습 handleOffer 동작 `);
 
     let pc = getPeer(data.userId);
 

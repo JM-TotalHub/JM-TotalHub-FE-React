@@ -78,9 +78,12 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   const getStream = (userId) => {
     console.log(
-      `getStream 동작 : ${userId} 의 stream : ${streams.current[userId]}`
+      'getStream 동작 :',
+      userId,
+      '의 stream :',
+      streams.current[userId]
     );
-    console.log(streams.current[userId]);
+    // console.log(streams.current[userId]);
 
     return streams.current[userId];
   };
