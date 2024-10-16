@@ -22,10 +22,13 @@ import {
   IdColumn,
   TitleColumn,
   CreatedAtColumn,
+  UserColumn,
 } from './styles/PostListStyles'; // 스타일 컴포넌트 임포트
+import { debounce } from 'lodash';
 
 const PostsListComponent = ({ boardId }) => {
   const dispatch = useDispatch();
+
   const { postList, totalPage, pageNum, status, error } = useSelector(
     (state) => state.board.postList
   );
@@ -42,16 +45,6 @@ const PostsListComponent = ({ boardId }) => {
     setCurrentPage(page);
   };
 
-  useEffect(() => {
-    dispatch(
-      postListByBoardId({
-        boardId,
-        // queryData: { pageNum: 1, dataPerPage: 10, searchType: 'title', searchText: '테스트' },
-        queryData: { pageNum: currentPage, dataPerPage: 10 },
-      })
-    );
-  }, [currentPage]);
-
   const navigate = useNavigate();
 
   const handleGotoBoardListClick = () => {
@@ -61,6 +54,37 @@ const PostsListComponent = ({ boardId }) => {
   const handleGotoBoardCreateClick = () => {
     navigate('new');
   };
+
+  // 화면 크기 체크
+  // const isMobile = window.innerWidth < 768;
+  // 화면 크기 체크 및 상태 관리
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
+  console.log('isMobile : ', isMobile);
+
+  // 디바운스된 resize 핸들러 생성
+  const handleResize = debounce(() => {
+    setIsMobile(window.innerWidth < 768);
+  }, 200); // 200ms 대기 후 실행
+
+  useEffect(() => {
+    // Resize 이벤트 리스너 등록
+    window.addEventListener('resize', handleResize);
+
+    // 컴포넌트 언마운트 시 이벤트 리스너 제거
+    return () => {
+      window.removeEventListener('resize', handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    dispatch(
+      postListByBoardId({
+        boardId,
+        // queryData: { pageNum: 1, dataPerPage: 10, searchType: 'title', searchText: '테스트' },
+        queryData: { pageNum: currentPage, dataPerPage: 10 },
+      })
+    );
+  }, [currentPage]);
 
   if (status === 'idle') {
     return <div>Loading... 데이터를 요청합니다.</div>;
@@ -79,24 +103,27 @@ const PostsListComponent = ({ boardId }) => {
     <Container>
       <Table>
         <colgroup>
-          <IdColumn />
+          {!isMobile && <IdColumn />}
           <TitleColumn />
+          <UserColumn />
           <CreatedAtColumn />
         </colgroup>
         <TableHead>
           <TableRow>
-            <TableHeadCell>ID</TableHeadCell>
+            {!isMobile && <TableHeadCell>ID</TableHeadCell>}
             <TableHeadCell>제목</TableHeadCell>
+            <TableHeadCell>작성자</TableHeadCell>
             <TableHeadCell>작성일</TableHeadCell>
           </TableRow>
         </TableHead>
         <tbody>
           {postList.map((post) => (
             <TableRow key={post.id}>
-              <TableCell>{post.id}</TableCell>
+              {!isMobile && <TableCell>{post.id}</TableCell>}
               <TableCell>
                 <Link to={`${post.id}`}>{post.title}</Link>
               </TableCell>
+              <TableCell>{post.user.nickname}</TableCell>
               <TableCell>
                 {/* {new Date(post.created_at).toLocaleString()} */}
                 {formatDateWithToday(post.created_at)}

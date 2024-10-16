@@ -17,6 +17,7 @@ export const Table = styled.table`
   width: 100%;
   border-collapse: collapse;
   margin: 1rem auto;
+  table-layout: fixed;
 `;
 
 export const TableHead = styled.thead`
@@ -49,7 +50,11 @@ export const IdColumn = styled.col`
 `;
 
 export const TitleColumn = styled.col`
-  width: 85%;
+  width: 75%;
+`;
+
+export const UserColumn = styled.col`
+  width: 10%;
 `;
 
 export const CreatedAtColumn = styled.col`
