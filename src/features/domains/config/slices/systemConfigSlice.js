@@ -4,11 +4,11 @@ import React from 'react';
 const systemConfigSlice = createSlice({
   name: 'systemConfigSlice',
   initialState: {
-    device: 'desktop', // 기본값을 'desktop'으로 설정
+    device: 'desktop',
     screenSize: window.innerWidth,
   },
   reducers: {
-    updateDevice: (state, action) => {
+    updateScreenSize: (state, action) => {
       const screenSize = action.payload;
 
       state.screenSize = screenSize;
@@ -24,4 +24,5 @@ const systemConfigSlice = createSlice({
   },
 });
 
+export const { updateScreenSize } = systemConfigSlice.actions;
 export default systemConfigSlice;

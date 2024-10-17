@@ -28,14 +28,18 @@ import { debounce } from 'lodash';
 
 const PostsListComponent = ({ boardId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
+
+  const { device, screenSize } = useSelector(
+    (state) => state.config.systemConfig
+  );
   const { postList, totalPage, pageNum, status, error } = useSelector(
     (state) => state.board.postList
   );
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const pageParam = searchParams.get('page');
   const [currentPage, setCurrentPage] = useState(
     pageParam ? parseInt(pageParam) : 1
   );
@@ -45,8 +49,6 @@ const PostsListComponent = ({ boardId }) => {
     setCurrentPage(page);
   };
 
-  const navigate = useNavigate();
-
   const handleGotoBoardListClick = () => {
     navigate('/boards');
   };
@@ -54,27 +56,6 @@ const PostsListComponent = ({ boardId }) => {
   const handleGotoBoardCreateClick = () => {
     navigate('new');
   };
-
-  // 화면 크기 체크
-  // const isMobile = window.innerWidth < 768;
-  // 화면 크기 체크 및 상태 관리
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
-  console.log('isMobile : ', isMobile);
-
-  // 디바운스된 resize 핸들러 생성
-  const handleResize = debounce(() => {
-    setIsMobile(window.innerWidth < 768);
-  }, 200); // 200ms 대기 후 실행
-
-  useEffect(() => {
-    // Resize 이벤트 리스너 등록
-    window.addEventListener('resize', handleResize);
-
-    // 컴포넌트 언마운트 시 이벤트 리스너 제거
-    return () => {
-      window.removeEventListener('resize', handleResize);
-    };
-  }, []);
 
   useEffect(() => {
     dispatch(
@@ -103,14 +84,15 @@ const PostsListComponent = ({ boardId }) => {
     <Container>
       <Table>
         <colgroup>
-          {!isMobile && <IdColumn />}
+          {/* {!isMobile && <IdColumn />} */}
+          {screenSize >= 768 && <IdColumn />}
           <TitleColumn />
           <UserColumn />
           <CreatedAtColumn />
         </colgroup>
         <TableHead>
           <TableRow>
-            {!isMobile && <TableHeadCell>ID</TableHeadCell>}
+            {screenSize >= 768 && <TableHeadCell>ID</TableHeadCell>}
             <TableHeadCell>제목</TableHeadCell>
             <TableHeadCell>작성자</TableHeadCell>
             <TableHeadCell>작성일</TableHeadCell>
@@ -119,7 +101,7 @@ const PostsListComponent = ({ boardId }) => {
         <tbody>
           {postList.map((post) => (
             <TableRow key={post.id}>
-              {!isMobile && <TableCell>{post.id}</TableCell>}
+              {screenSize >= 768 && <TableCell>{post.id}</TableCell>}
               <TableCell>
                 <Link to={`${post.id}`}>{post.title}</Link>
               </TableCell>
