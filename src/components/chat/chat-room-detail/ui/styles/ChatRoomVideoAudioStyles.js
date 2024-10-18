@@ -15,7 +15,7 @@ export const VolumeSlider = styled.input`
 
 export const MuteButton = styled.button`
   background-color: ${(props) => (props.isMuted ? 'red' : 'gray')};
-  color: white;
+  color: ${(props) => (props.isMuted ? 'white' : 'black')}; // 글자 색 변경
   padding: 5px 10px;
   border: none;
   cursor: pointer;

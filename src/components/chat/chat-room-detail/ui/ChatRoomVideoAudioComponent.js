@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
   ControlsContainer,
   MuteButton,
@@ -6,18 +6,28 @@ import {
 } from './styles/ChatRoomVideoAudioStyles';
 
 const ChatRoomVideoAudioComponent = ({ videoRef }) => {
+  console.log('videoRef : ', videoRef);
+
+  const [isMuted, setIsMuted] = useState(videoRef?.muted || false);
+
   const handleVolumeChange = (event) => {
+    console.log('음량조절');
     const volume = event.target.value;
     if (videoRef) {
+      console.log('음량조절2');
       videoRef.volume = volume;
       videoRef.muted = false; // 볼륨 조절 시 음소거 해제
+      setIsMuted(false); // 상태도 음소거 해제로 업데이트
     }
   };
 
   const toggleMute = () => {
+    console.log('음소거');
     if (videoRef) {
-      const isMuted = !videoRef.muted;
-      videoRef.muted = isMuted;
+      console.log('음소거2');
+      const newMutedState = !videoRef.muted;
+      videoRef.muted = newMutedState;
+      setIsMuted(newMutedState); // 상태 업데이트
     }
   };
 

@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWebRtc } from '../logic/ChatRoomVideoContext';
 import ChatRoomVideoAudioComponent from './ChatRoomVideoAudioComponent';
@@ -9,22 +9,32 @@ const ChatRoomVideoViewComponent = () => {
   );
   const { userInfo } = useSelector((state) => state.auth.userInfo);
 
-  const { getStream, isStreamReady, streamReadyState } = useWebRtc();
+  const { getStream, isAllStreamReady, streamReadyState } = useWebRtc(); // webrtc 관련 함수
 
-  const videoRefs = useRef({});
+  const videoRefs = useRef({}); // 비디오 객체 리스트
 
-  console.log('ChatRoomVideoViewComponent');
+  const [videoReady, setVideoReady] = useState('false'); // 비디오 설정 완료 체크(이것이 최종 체크변수)
+
+  console.log(
+    'ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
+    'chatRoomVideoMembers: ',
+    chatRoomVideoMembers,
+    'videoRefs : ',
+    videoRefs,
+    'videoReady : ',
+    videoReady
+  );
 
   useEffect(() => {
-    if (chatRoomVideoMembers && isStreamReady(userInfo.id)) {
-      console.log(
-        '화상화면 useEffect 동작',
-        'streamReadyState : ',
-        streamReadyState
-      );
+    if (!chatRoomVideoMembers) return;
 
+    setVideoReady(false);
+
+    const joinUserIds = chatRoomVideoMembers.map((member) => member.id);
+    console.log('joinUserIds :', joinUserIds);
+
+    if (chatRoomVideoMembers && isAllStreamReady(joinUserIds)) {
       chatRoomVideoMembers.forEach((member) => {
-        // const videoElement = document.getElementById(`video-${member.id}`);
         const videoElement = videoRefs.current[member.id];
         const stream = getStream(member.id);
 
@@ -39,20 +49,13 @@ const ChatRoomVideoViewComponent = () => {
           console.log(`비디오 태그가 아직 존재하지 않음 또는 스트림 없음`);
         }
       });
+      setVideoReady(true);
     }
-    // }, [chatRoomVideoMembers, status, streamReadyState]);
-  }, [chatRoomVideoMembers, streamReadyState]);
+    // }, [chatRoomVideoMembers, streamReadyState, videoReady]);
+  }, [streamReadyState, videoReady]);
 
-  // if (videoStatus === 'succeeded' && isStreamReady(userInfo.id)) {
-  if (isStreamReady(userInfo.id)) {
-    console.log(
-      '화면 재랜더링',
-      'chatRoomVideoMembers: ',
-      chatRoomVideoMembers,
-      'streamReadyState : ',
-      streamReadyState
-    );
-
+  // if (isStreamReady(userInfo.id) && videoReady) {
+  if (videoReady) {
     return (
       <div>
         <h3>화상채팅 페이지</h3>
@@ -63,31 +66,33 @@ const ChatRoomVideoViewComponent = () => {
               <div>ID: {member.id}</div>
               <div>Email: {member.email}</div>
               <div>NickName: {member.nickname}</div>
-              {isStreamReady(member.id) ? ( // 스트림 준비 상태가 true일 때만 비디오 렌더링
-                <>
-                  <video
-                    ref={(el) => (videoRefs.current[member.id] = el)} // ref에 비디오 요소 저장
-                    id={`video-${member.id}`} // 각 멤버의 video 태그에 고유 ID 할당
-                    autoPlay
-                    playsInline
-                    style={{
-                      width: '300px',
-                      height: '200px',
-                      backgroundColor: 'black', // 문제 해결을 위해 제거
-                    }}
-                  ></video>
-                  <ChatRoomVideoAudioComponent
-                    videoRefs={videoRefs.current[member.id]}
-                  />
-                </>
-              ) : (
+              {/* {isStreamReady(member.id) ? ( // 스트림 준비 상태가 true일 때만 비디오 렌더링 */}
+              <>
+                <video
+                  ref={(el) => (videoRefs.current[member.id] = el)} // ref에 비디오 요소 저장
+                  id={`video-${member.id}`} // 각 멤버의 video 태그에 고유 ID 할당
+                  autoPlay
+                  playsInline
+                  style={{
+                    width: '300px',
+                    height: '200px',
+                    backgroundColor: 'black', // 문제 해결을 위해 제거
+                  }}
+                ></video>
+                <ChatRoomVideoAudioComponent
+                  videoRef={videoRefs.current[member.id]}
+                />
+              </>
+              {/* ) : (
                 <p>스트림 준비 중...</p> // 스트림이 준비되지 않았을 때 표시
-              )}
+              )} */}
             </div>
           ))}
         </div>
       </div>
     );
+  } else {
+    <p>스트림 준비 중...</p>;
   }
 
   return null;
