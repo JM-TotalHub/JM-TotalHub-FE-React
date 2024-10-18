@@ -60,15 +60,26 @@ export const AuthLink = styled(Link)`
 // 수정된 부분: 네비게이션 링크들을 한 줄로 표시할 컨테이너
 export const NavLinksContainer = styled.div`
   display: flex;
-  align-items: center;
+  box-sizing: border-box;
   margin: auto;
-  margin-left: 2rem;
+  /* padding: 1rem 2rem; */
+  width: 100%;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 // 수정된 부분: 네비게이션 링크 항목 스타일 정의
 export const NavLinkItem = styled(Link)`
   margin: 0 1rem;
-  font-size: 1.2rem;
+
+  width: 100%;
+  height: 100%;
+
+  background-color: #008b8b;
+
+  text-align: center;
+  font-size: 1.4rem;
+  font-weight: 600;
   text-decoration: none;
   color: white;
 

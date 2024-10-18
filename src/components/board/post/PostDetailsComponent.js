@@ -54,11 +54,9 @@ const PostDetailsComponent = ({ postId }) => {
       </Row>
       <Row>
         <Column flex={10}>
-          <Label htmlFor="userInfo" style={{ color: 'red' }}>
-            사용자:
-          </Label>
-          <Value id="userInfo" style={{ color: 'red' }}>
-            사용자정보(구현 중)
+          <Label htmlFor="userInfo">작성자:</Label>
+          <Value id="userInfo">
+            {postDetails.user.nickname} ({postDetails.user.email})
           </Value>
         </Column>
       </Row>
@@ -72,7 +70,7 @@ const PostDetailsComponent = ({ postId }) => {
           <Value id="createdAt">{formatDate(postDetails.created_at)}</Value>
         </Column>
         <Column flex={4}>
-          <Label htmlFor="updatedAt">업데이트 일:</Label>
+          <Label htmlFor="updatedAt">수정일:</Label>
           <Value id="updatedAt">{formatDate(postDetails.updated_at)}</Value>
         </Column>
       </Row>

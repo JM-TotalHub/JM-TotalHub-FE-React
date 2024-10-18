@@ -18,7 +18,10 @@ import { Container } from './styles/PostDetailsStyles';
 
 const PostDetailsPage = () => {
   const { boardId, postId } = useParams();
+
   const { pageNum } = useSelector((state) => state.board.postList);
+  const { userInfo } = useSelector((state) => state.auth.userInfo);
+  const { postDetails } = useSelector((state) => state.board.postDetails);
 
   const navigate = useNavigate();
 
@@ -33,18 +36,21 @@ const PostDetailsPage = () => {
   return (
     <Container>
       <PostDetailsComponent postId={postId}></PostDetailsComponent>
+
       <ButtonContainer>
         <LeftButtonGroup>
           <BoardButton onClick={handleListClick}>목록</BoardButton>
         </LeftButtonGroup>
-        <RightButtonGroup>
-          <BoardButton onClick={handleEditClick}>글 수정</BoardButton>
-          <PostDeleteButtonComponent
-            boardId={boardId}
-            postId={postId}
-            pageNum={pageNum}
-          />
-        </RightButtonGroup>
+        {userInfo.id === postDetails?.user?.id && (
+          <RightButtonGroup>
+            <BoardButton onClick={handleEditClick}>글 수정</BoardButton>
+            <PostDeleteButtonComponent
+              boardId={boardId}
+              postId={postId}
+              pageNum={pageNum}
+            />
+          </RightButtonGroup>
+        )}
       </ButtonContainer>
 
       <CommentCreateComponent postId={postId}></CommentCreateComponent>

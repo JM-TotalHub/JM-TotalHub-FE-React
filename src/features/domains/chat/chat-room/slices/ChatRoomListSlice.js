@@ -25,7 +25,7 @@ const chatRoomListSlice = createSlice({
         state.chatRoomList = action.payload.chatRoomList;
         state.pageNum = action.payload.pageNum;
         state.totalPage = action.payload.totalPage;
-        console.log(state.chatRoomList);
+        // console.log(state.chatRoomList);
       })
       .addCase(chatRoomListByNothing.rejected, (state, action) => {
         // API 요청 실패 상태

@@ -45,16 +45,10 @@ const ChatRoomDetailsPage = () => {
     }
   };
 
-  console.log(
-    '채팅방 user_id : ',
-    chatRoomInfo.user_id,
-    'userInfo.id : ',
-    userInfo.id
-  );
-
   return (
     <div>
       <h1>ChatRoomDetailsPage</h1>
+      <h3>정보 확인용</h3>
 
       {/* 채팅방 기본 정보 로드 컴포넌트 적용 */}
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />

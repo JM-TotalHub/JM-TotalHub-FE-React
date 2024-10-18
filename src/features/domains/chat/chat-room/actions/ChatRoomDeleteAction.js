@@ -7,15 +7,15 @@ import api from '../../../../../utils/connections/api';
 const ChatRoomDeleteAction = createAsyncThunk(
   'chatRoomDetails/ChatRoomDeleteAction',
   async ({ chatRoomId, userId }) => {
-    console.log('채팅방 삭제 chatRoomId : ', chatRoomId);
-    console.log('채팅방 삭제 params : ', userId);
+    // console.log('채팅방 삭제 chatRoomId : ', chatRoomId);
+    // console.log('채팅방 삭제 params : ', userId);
 
-    console.log(`주소 => /chats/chat-rooms/${chatRoomId}`);
+    // console.log(`주소 => /chats/chat-rooms/${chatRoomId}`);
 
     const response = await api.delete(`/chats/chat-rooms/${chatRoomId}`);
     // await api.delete(`boards/posts/${postId}`);
 
-    console.log('삭제 동작 완료 : ', response);
+    // console.log('삭제 동작 완료 : ', response);
 
     return response.data;
   }

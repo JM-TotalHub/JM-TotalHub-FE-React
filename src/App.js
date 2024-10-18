@@ -9,14 +9,14 @@ import Test from './pages/test/Test';
 
 import { SocketProvider } from './utils/connections/SocketProvider';
 
-import UserInfoLoader from './components/auth/UserInfoLoader';
+import { StyledMainContent } from './AppCss';
+import CommonAlertComponent from './components/alert/CommonAlertComponent';
 import MainHeaderComponent from './components/header/MainHeaderComponent';
 import MainPage from './pages/MainPage';
 import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
 import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
-import { StyledMainContent } from './AppCss';
-import CommonAlertComponent from './components/alert/CommonAlertComponent';
+import ScreenSizeConfigComponent from './components/config/ScreenSizeConfigComponent';
 
 const App = () => {
   const location = useLocation();
@@ -31,6 +31,9 @@ const App = () => {
 
       {/* 유저 정보 로드 */}
       {/* <UserInfoLoader /> */}
+
+      {/* 설정 관련 */}
+      <ScreenSizeConfigComponent />
 
       {/* 알림창 */}
       <CommonAlertComponent />

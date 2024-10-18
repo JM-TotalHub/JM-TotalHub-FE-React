@@ -78,15 +78,24 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
 
   const getStream = (userId) => {
     console.log(
-      `getStream 동작 : ${userId} 의 stream : ${streams.current[userId]}`
+      'getStream 동작 :',
+      userId,
+      '의 stream :',
+      streams.current[userId]
     );
-    console.log(streams.current[userId]);
+    // console.log(streams.current[userId]);
 
     return streams.current[userId];
   };
 
   const isStreamReady = (userId) => {
-    return !!streamReadyState[userId]; // 스트림이 준비된 상태인지 확인
+    return streamReadyState[userId]; // 스트림이 준비된 상태인지 확인
+  };
+
+  const isAllStreamReady = (userIds) => {
+    // 이제 전체 스트림 확인
+    // 참가자들의 id 리스트를 건내받아서 각각의 스트림이 준비되었는지 확인
+    return userIds.every((userId) => streamReadyState[userId] === true);
   };
 
   const removeStream = (userId) => {
@@ -154,6 +163,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
         getStream,
         removeStream,
         isStreamReady,
+        isAllStreamReady,
       }}
     >
       {children}

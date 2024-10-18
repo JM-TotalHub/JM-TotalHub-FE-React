@@ -11,8 +11,6 @@ const BoardContentPage = () => {
 
   return (
     <div>
-      {/* 게시판 전용 헤더 만들기 - 해당 게시판 내용*/}
-      <h2>특정 게시판에 대한 내용</h2>
       <Routes>
         <Route path="posts" element={<PostListPage />} />
         <Route path="posts/:postId" element={<PostDetailsPage />} />

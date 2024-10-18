@@ -22,17 +22,24 @@ import {
   IdColumn,
   TitleColumn,
   CreatedAtColumn,
+  UserColumn,
 } from './styles/PostListStyles'; // 스타일 컴포넌트 임포트
+import { debounce } from 'lodash';
 
 const PostsListComponent = ({ boardId }) => {
   const dispatch = useDispatch();
+  const navigate = useNavigate();
+
+  const [searchParams, setSearchParams] = useSearchParams();
+  const pageParam = searchParams.get('page');
+
+  const { device, screenSize } = useSelector(
+    (state) => state.config.systemConfig
+  );
   const { postList, totalPage, pageNum, status, error } = useSelector(
     (state) => state.board.postList
   );
 
-  const [searchParams, setSearchParams] = useSearchParams();
-
-  const pageParam = searchParams.get('page');
   const [currentPage, setCurrentPage] = useState(
     pageParam ? parseInt(pageParam) : 1
   );
@@ -40,6 +47,14 @@ const PostsListComponent = ({ boardId }) => {
   const handlePageNum = (page) => {
     setSearchParams({ page });
     setCurrentPage(page);
+  };
+
+  const handleGotoBoardListClick = () => {
+    navigate('/boards');
+  };
+
+  const handleGotoBoardCreateClick = () => {
+    navigate('new');
   };
 
   useEffect(() => {
@@ -51,16 +66,6 @@ const PostsListComponent = ({ boardId }) => {
       })
     );
   }, [currentPage]);
-
-  const navigate = useNavigate();
-
-  const handleGotoBoardListClick = () => {
-    navigate('/boards');
-  };
-
-  const handleGotoBoardCreateClick = () => {
-    navigate('new');
-  };
 
   if (status === 'idle') {
     return <div>Loading... 데이터를 요청합니다.</div>;
@@ -79,24 +84,28 @@ const PostsListComponent = ({ boardId }) => {
     <Container>
       <Table>
         <colgroup>
-          <IdColumn />
+          {/* {!isMobile && <IdColumn />} */}
+          {screenSize >= 768 && <IdColumn />}
           <TitleColumn />
+          <UserColumn />
           <CreatedAtColumn />
         </colgroup>
         <TableHead>
           <TableRow>
-            <TableHeadCell>ID</TableHeadCell>
+            {screenSize >= 768 && <TableHeadCell>ID</TableHeadCell>}
             <TableHeadCell>제목</TableHeadCell>
+            <TableHeadCell>작성자</TableHeadCell>
             <TableHeadCell>작성일</TableHeadCell>
           </TableRow>
         </TableHead>
         <tbody>
           {postList.map((post) => (
             <TableRow key={post.id}>
-              <TableCell>{post.id}</TableCell>
+              {screenSize >= 768 && <TableCell>{post.id}</TableCell>}
               <TableCell>
                 <Link to={`${post.id}`}>{post.title}</Link>
               </TableCell>
+              <TableCell>{post.user.nickname}</TableCell>
               <TableCell>
                 {/* {new Date(post.created_at).toLocaleString()} */}
                 {formatDateWithToday(post.created_at)}

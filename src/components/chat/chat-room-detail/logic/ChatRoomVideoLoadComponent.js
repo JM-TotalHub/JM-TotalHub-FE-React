@@ -34,7 +34,8 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
   const dispatch = useDispatch();
 
   console.log(
-    'ChatRoomVideoLoadComponent 동작 = chatRoomVideoMembers : ',
+    'ChatRoomVideoLoadComponent동작,',
+    'chatRoomVideoMembers : ',
     chatRoomVideoMembers,
     'localStreamReady : ',
     localStreamReady
@@ -145,8 +146,6 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
 
     if (chatRoomVideoStarted) return;
 
-    console.log(`ChatRoomVideoLoadComponent의 useEffect 동작 `);
-
     // TODO: 이제 이부분은 처음 들어 왔을떄만 동작
 
     // 이미 pc 객체 만들어진 인원들의 userId
@@ -158,7 +157,11 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
       .map((member) => member.id)
       .filter((memberId) => !connectedUserIds.includes(memberId));
 
-    console.log('로드 컴포넌트의 useEffect - targetMembers : ', targetMembers);
+    console.log(
+      'ChatRoomVideoLoadComponent useEffect동작',
+      'targetMembers: ',
+      targetMembers
+    );
 
     targetMembers.forEach(async (memberId) => {
       if (!getPeer(memberId)) {

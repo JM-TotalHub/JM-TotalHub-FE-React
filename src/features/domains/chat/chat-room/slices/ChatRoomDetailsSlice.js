@@ -107,8 +107,8 @@ const chatRoomDetailsSlice = createSlice({
         }
       })
       .addCase(ChatRoomUpdateAction.fulfilled, (state, action) => {
-        console.log('기존 채팅방 정보 : ', state.chatRoomInfo);
-        console.log('수정된 채팅방 정보 : ', action.payload);
+        // console.log('기존 채팅방 정보 : ', state.chatRoomInfo);
+        // console.log('수정된 채팅방 정보 : ', action.payload);
 
         state.chatRoomInfo = action.payload;
       });
