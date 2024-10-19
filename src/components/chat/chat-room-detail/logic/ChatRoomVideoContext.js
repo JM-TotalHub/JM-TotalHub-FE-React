@@ -95,6 +95,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   const isAllStreamReady = (userIds) => {
     // 이제 전체 스트림 확인
     // 참가자들의 id 리스트를 건내받아서 각각의 스트림이 준비되었는지 확인
+    console.log('isAllStreamReady의 streamReadyState : ', streamReadyState);
     return userIds.every((userId) => streamReadyState[userId] === true);
   };
 

@@ -31,12 +31,22 @@ const ChatRoomVideoViewComponent = () => {
     setVideoReady(false);
 
     const joinUserIds = chatRoomVideoMembers.map((member) => member.id);
-    console.log('joinUserIds :', joinUserIds);
+    console.log('비디오 화면 useEffect = joinUserIds :', joinUserIds);
+    console.log(
+      '비디오 화면 useEffect = chatRoomVideoMembers :',
+      chatRoomVideoMembers
+    );
+    console.log(
+      '비디오 화면 useEffect = isAllStreamReady :',
+      isAllStreamReady(joinUserIds)
+    );
 
     if (chatRoomVideoMembers && isAllStreamReady(joinUserIds)) {
       chatRoomVideoMembers.forEach((member) => {
         const videoElement = videoRefs.current[member.id];
         const stream = getStream(member.id);
+
+        console.log(member.email, '의 videoRefs 삽입');
 
         if (stream && videoElement) {
           videoElement.srcObject = stream;
