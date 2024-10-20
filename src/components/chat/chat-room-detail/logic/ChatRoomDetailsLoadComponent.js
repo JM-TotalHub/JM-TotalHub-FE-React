@@ -30,9 +30,6 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
 
     // 언마운트 안되는 경우를 대비한 동작 ()
     const handleBeforeUnload = (event) => {
-      // event.preventDefault();
-      // event.returnValue = '';
-
       leaveChatRoom(userInfo.id, chatRoomId);
       // 채팅방 참가 상태값 변경
       dispatch(offChatRoom());
@@ -65,22 +62,22 @@ const ChatRoomDetailsLoadComponent = ({ chatRoomId }) => {
     }
   }, [chatRoomId, status]);
 
-  if (status === 'succeeded') {
-    return (
-      <div>
-        <h3>개발용 채팅방 데이터 확인</h3>
-        <div>
-          <div>chatRoomInfo.id : {chatRoomInfo.id}</div>
-          <div>chatRoomInfo.name : {chatRoomInfo.name}</div>
-          <div>chatRoomInfo.description : {chatRoomInfo.description}</div>
-          <div>chatRoomInfo.chat_type : {chatRoomInfo.chat_type}</div>
-          <div>chatRoomInfo.created_at : {chatRoomInfo.created_at}</div>
-          <div>chatRoomInfo.user_id : {chatRoomInfo.user_id}</div>
-        </div>
-        <div></div>
-      </div>
-    );
-  }
+  // if (status === 'succeeded') {
+  //   return (
+  //     <div>
+  //       <h3>개발용 채팅방 데이터 확인</h3>
+  //       <div>
+  //         <div>chatRoomInfo.id : {chatRoomInfo.id}</div>
+  //         <div>chatRoomInfo.name : {chatRoomInfo.name}</div>
+  //         <div>chatRoomInfo.description : {chatRoomInfo.description}</div>
+  //         <div>chatRoomInfo.chat_type : {chatRoomInfo.chat_type}</div>
+  //         <div>chatRoomInfo.created_at : {chatRoomInfo.created_at}</div>
+  //         <div>chatRoomInfo.user_id : {chatRoomInfo.user_id}</div>
+  //       </div>
+  //       <div></div>
+  //     </div>
+  //   );
+  // }
 };
 
 export default ChatRoomDetailsLoadComponent;

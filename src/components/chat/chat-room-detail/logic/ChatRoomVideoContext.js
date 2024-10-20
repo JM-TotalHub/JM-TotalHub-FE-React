@@ -47,7 +47,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const addPeer = async (userId, pc) => {
-    console.log('addPeer 동작 || userId : ', userId, 'pc : ', pc);
+    // console.log('addPeer 동작 || userId : ', userId, 'pc : ', pc);
     peers.current[userId] = pc;
   };
 
@@ -56,7 +56,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const getPeer = (userId) => {
-    console.log('getPeer 동작 : ', userId, '의 pc : ', peers.current[userId]);
+    // console.log('getPeer 동작 : ', userId, '의 pc : ', peers.current[userId]);
     return peers.current[userId];
   };
 
@@ -70,19 +70,19 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   };
 
   const addStream = (userId, stream) => {
-    console.log('addStream 동작 || userId : ', userId, 'stream : ', stream);
+    // console.log('addStream 동작 || userId : ', userId, 'stream : ', stream);
     streams.current[userId] = stream;
 
     setStreamReadyState((prev) => ({ ...prev, [userId]: true }));
   };
 
   const getStream = (userId) => {
-    console.log(
-      'getStream 동작 :',
-      userId,
-      '의 stream :',
-      streams.current[userId]
-    );
+    // console.log(
+    //   'getStream 동작 :',
+    //   userId,
+    //   '의 stream :',
+    //   streams.current[userId]
+    // );
     // console.log(streams.current[userId]);
 
     return streams.current[userId];
@@ -95,7 +95,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
   const isAllStreamReady = (userIds) => {
     // 이제 전체 스트림 확인
     // 참가자들의 id 리스트를 건내받아서 각각의 스트림이 준비되었는지 확인
-    console.log('isAllStreamReady의 streamReadyState : ', streamReadyState);
+    // console.log('isAllStreamReady의 streamReadyState : ', streamReadyState);
     return userIds.every((userId) => streamReadyState[userId] === true);
   };
 
@@ -109,7 +109,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
     if (!localStreamReady) {
       const setupLocalStream = async () => {
         const localStream = await createLocalStream();
-        console.log(`로컬 스트림 생성 :`, localStream);
+        // console.log(`로컬 스트림 생성 :`, localStream);
         // 로컬스트림 상태
         dispatch(onLocalStream());
         addStream(userInfo.id, localStream);
@@ -135,7 +135,7 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
       window.addEventListener('beforeunload', handleBeforeUnload);
 
       return () => {
-        console.log('ChatRoomVideoContext 언마운트');
+        // console.log('ChatRoomVideoContext 언마운트');
 
         const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
         leaveChatRoomVideo(userInfo.id, chatRoomId);

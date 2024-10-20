@@ -16,17 +16,17 @@ const ChatRoomVideoViewComponent = () => {
   const [videoReady, setVideoReady] = useState('false'); // 비디오 설정 완료 체크(이것이 최종 체크변수)
   const [videoReadyTrigger, setVideoReadyTrigger] = useState(false);
 
-  console.log(
-    '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
-    'chatRoomVideoMembers: ',
-    chatRoomVideoMembers,
-    'streamReadyState : ',
-    streamReadyState,
-    'videoRefs : ',
-    videoRefs,
-    'videoReady : ',
-    videoReady
-  );
+  // console.log(
+  //   '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
+  //   'chatRoomVideoMembers: ',
+  //   chatRoomVideoMembers,
+  //   'streamReadyState : ',
+  //   streamReadyState,
+  //   'videoRefs : ',
+  //   videoRefs,
+  //   'videoReady : ',
+  //   videoReady
+  // );
 
   useEffect(() => {
     if (!chatRoomVideoMembers) return;
@@ -34,28 +34,28 @@ const ChatRoomVideoViewComponent = () => {
     setVideoReady(false);
 
     const joinUserIds = chatRoomVideoMembers.map((member) => member.id);
-    console.log('비디오 화면 useEffect = joinUserIds :', joinUserIds);
-    console.log(
-      '비디오 화면 useEffect = chatRoomVideoMembers :',
-      chatRoomVideoMembers
-    );
-    console.log(
-      '비디오 화면 useEffect = isAllStreamReady :',
-      isAllStreamReady(joinUserIds)
-    );
+    // console.log('비디오 화면 useEffect = joinUserIds :', joinUserIds);
+    // console.log(
+    //   '비디오 화면 useEffect = chatRoomVideoMembers :',
+    //   chatRoomVideoMembers
+    // );
+    // console.log(
+    //   '비디오 화면 useEffect = isAllStreamReady :',
+    //   isAllStreamReady(joinUserIds)
+    // );
 
     if (chatRoomVideoMembers && isAllStreamReady(joinUserIds)) {
       chatRoomVideoMembers.forEach((member) => {
         const videoElement = videoRefs.current[member.id];
         const stream = getStream(member.id);
 
-        console.log(member.email, '의 videoRefs 삽입 작업');
-        console.log(videoElement);
-        console.log(stream);
+        // console.log(member.email, '의 videoRefs 삽입 작업');
+        // console.log(videoElement);
+        // console.log(stream);
 
         if (stream && videoElement) {
           videoElement.srcObject = stream;
-          console.log('화면 출력 stream : ', stream, 'userId : ', member.id);
+          // console.log('화면 출력 stream : ', stream, 'userId : ', member.id);
 
           videoElement.play().catch((error) => {
             console.error('비디오 재생 중 오류 발생:', error);
@@ -70,7 +70,7 @@ const ChatRoomVideoViewComponent = () => {
   }, [streamReadyState, videoReady]);
 
   if (videoReady) {
-    console.log('화면 구성시작 = videoRefs : ', videoRefs);
+    // console.log('화면 구성시작 = videoRefs : ', videoRefs);
 
     return (
       <div>

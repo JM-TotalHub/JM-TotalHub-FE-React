@@ -1,11 +1,11 @@
 const ChatRoomEmitterHandler = (socket) => {
-  console.log('핸들러 호출');
+  // console.log('핸들러 호출');
 
   const username = 'test-username';
 
   const joinChatRoom = (chatRoomId) => {
     if (socket && socket.connected) {
-      console.log('방 참가 시도');
+      // console.log('방 참가 시도');
       socket.emit('join-chat-room', { chatRoomId });
     }
   };

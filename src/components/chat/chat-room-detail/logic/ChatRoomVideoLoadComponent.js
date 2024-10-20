@@ -33,26 +33,26 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
 
   const dispatch = useDispatch();
 
-  console.log(
-    'ChatRoomVideoLoadComponent동작,',
-    'chatRoomVideoMembers : ',
-    chatRoomVideoMembers,
-    'localStreamReady : ',
-    localStreamReady
-  );
+  // console.log(
+  //   'ChatRoomVideoLoadComponent동작,',
+  //   'chatRoomVideoMembers : ',
+  //   chatRoomVideoMembers,
+  //   'localStreamReady : ',
+  //   localStreamReady
+  // );
 
   // 피어연결 객체 생성 함수
   const createPeerConnection = async (chatRoomId, targetUserId) => {
-    console.log(
-      '로드 컴포넌트 createPeerConnection 동작 = 타켓유저 : ',
-      targetUserId
-    );
+    // console.log(
+    //   '로드 컴포넌트 createPeerConnection 동작 = 타켓유저 : ',
+    //   targetUserId
+    // );
 
     if (getPeer(targetUserId)) {
-      console.log(
-        targetUserId,
-        ' 사용자 에 대한 해당 피어 연결 객체가 이미 존재합니다'
-      );
+      // console.log(
+      //   targetUserId,
+      //   ' 사용자 에 대한 해당 피어 연결 객체가 이미 존재합니다'
+      // );
       return;
     }
 
@@ -77,14 +77,14 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
     };
 
     pc.ontrack = (event) => {
-      console.log(`ontrack 동작 - 로드 컴포넌트`);
+      // console.log(`ontrack 동작 - 로드 컴포넌트`);
 
       const remoteStream = event.streams[0];
 
       if (remoteStream) {
-        console.log('원격 스트림 수신 성공', remoteStream);
-        console.log('비디오 트랙:', remoteStream.getVideoTracks());
-        console.log('오디오 트랙:', remoteStream.getAudioTracks());
+        // console.log('원격 스트림 수신 성공', remoteStream);
+        // console.log('비디오 트랙:', remoteStream.getVideoTracks());
+        // console.log('오디오 트랙:', remoteStream.getAudioTracks());
         addStream(targetUserId, remoteStream); // 원격 스트림 저장
       } else {
         console.error('원격 스트림 수신 실패');
@@ -104,14 +104,14 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
   const createOffer = async (chatRoomId, targetUserId, pc) => {
     // const pc = getPeer(userId);
     if (!pc) {
-      console.log(
-        'offer 생성을 위한 ',
-        targetUserId,
-        '사용자에 대한 피어 연결이 없습니다'
-      );
+      // console.log(
+      //   'offer 생성을 위한 ',
+      //   targetUserId,
+      //   '사용자에 대한 피어 연결이 없습니다'
+      // );
       return;
     } else {
-      console.log(`createOffer 동작 시작`);
+      // console.log(`createOffer 동작 시작`);
     }
 
     try {
@@ -157,11 +157,11 @@ const ChatRoomVideoLoadComponent = ({ chatRoomId }) => {
       .map((member) => member.id)
       .filter((memberId) => !connectedUserIds.includes(memberId));
 
-    console.log(
-      'ChatRoomVideoLoadComponent useEffect동작',
-      'targetMembers: ',
-      targetMembers
-    );
+    // console.log(
+    //   'ChatRoomVideoLoadComponent useEffect동작',
+    //   'targetMembers: ',
+    //   targetMembers
+    // );
 
     targetMembers.forEach(async (memberId) => {
       if (!getPeer(memberId)) {

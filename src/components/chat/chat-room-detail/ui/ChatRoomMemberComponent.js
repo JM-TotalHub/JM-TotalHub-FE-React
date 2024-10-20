@@ -29,7 +29,7 @@ const ChatRoomMemberComponent = () => {
             );
           })}
         </div>
-        <div>
+        {/* <div>
           <h1>화상채팅 참가인원</h1>
           {chatRoomVideoMembers.map((member, index) => {
             return (
@@ -40,7 +40,7 @@ const ChatRoomMemberComponent = () => {
               </div>
             );
           })}
-        </div>
+        </div> */}
       </div>
     );
   }

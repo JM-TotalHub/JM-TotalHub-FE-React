@@ -15,6 +15,12 @@ import {
 import ChatRoomVideoListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
 import ChatRoomVideoLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent';
 import ChatRoomManageComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomManageComponent';
+import {
+  ChatSection,
+  ContentContainer,
+  PageContainer,
+  VideoSection,
+} from './styles/ChatRoomDetailsStyles';
 
 const ChatRoomDetailsPage = () => {
   const dispatch = useDispatch();
@@ -46,9 +52,14 @@ const ChatRoomDetailsPage = () => {
   };
 
   return (
-    <div>
+    <PageContainer>
       <h1>ChatRoomDetailsPage</h1>
       <h3>정보 확인용</h3>
+
+      {/* 화상채팅 활성화 버튼 */}
+      <div>
+        <button onClick={handleVideoComponent}>화상채팅</button>
+      </div>
 
       {/* 채팅방 기본 정보 로드 컴포넌트 적용 */}
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
@@ -61,29 +72,30 @@ const ChatRoomDetailsPage = () => {
         <ChatRoomManageComponent isOpen={manageOpen} onClose={ManageClose} />
       </div>
 
-      {/* 채팅 UI 컴포넌트 적용 - 이 컴포넌트 나중에 memo 적용하기 */}
-      <ChatRoomInfoComponent chatRoomId={chatRoomId} />
-      <ChatRoomMemberComponent chatRoomId={chatRoomId} />
-      <ChatRoomMessageListComponent chatRoomId={chatRoomId} />
-      <ChatRoomMessageWriteComponent chatRoomId={chatRoomId} />
+      <ContentContainer useChatRoomVideo={useChatRoomVideo}>
+        {/* 채팅 UI 컴포넌트 적용 - 이 컴포넌트 나중에 memo 적용하기 */}
+        <ChatSection>
+          <ChatRoomInfoComponent chatRoomId={chatRoomId} />
+          <ChatRoomMemberComponent chatRoomId={chatRoomId} />
+          <ChatRoomMessageListComponent chatRoomId={chatRoomId} />
+          <ChatRoomMessageWriteComponent chatRoomId={chatRoomId} />
+        </ChatSection>
 
-      {/* 화상채팅 활성화 버튼 */}
-      <div>
-        <button onClick={handleVideoComponent}>화상채팅</button>
-      </div>
-
-      {useChatRoomVideo && (
-        <ChatRoomVideoContext chatRoomId={chatRoomId}>
-          <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
-          {localStreamReady && chatRoomVideoDataReady && (
-            <>
-              <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
-              <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
-            </>
-          )}
-        </ChatRoomVideoContext>
-      )}
-    </div>
+        {useChatRoomVideo && (
+          <VideoSection useChatRoomVideo={useChatRoomVideo}>
+            <ChatRoomVideoContext chatRoomId={chatRoomId}>
+              <ChatRoomVideoListenerHandler chatRoomId={chatRoomId} />
+              {localStreamReady && chatRoomVideoDataReady && (
+                <>
+                  <ChatRoomVideoLoadComponent chatRoomId={chatRoomId} />
+                  <ChatRoomVideoViewComponent chatRoomId={chatRoomId} />
+                </>
+              )}
+            </ChatRoomVideoContext>
+          </VideoSection>
+        )}
+      </ContentContainer>
+    </PageContainer>
   );
 };
 

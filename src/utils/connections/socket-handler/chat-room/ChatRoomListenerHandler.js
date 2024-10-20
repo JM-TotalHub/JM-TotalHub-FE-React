@@ -37,22 +37,22 @@ const ChatRoomListenerHandler = () => {
   // console.log('리스너가 동작한다!!!!!!', useChatRoom);
 
   const handleJoinSuccess = (data) => {
-    console.log('채팅방 연결 완료 : ', data);
+    // console.log('채팅방 연결 완료 : ', data);
   };
 
   const handleMessageReceive = (data) => {
-    console.log('채팅방 메시지 수신:', data);
+    // console.log('채팅방 메시지 수신:', data);
     // const newMessage = {user_id: data.userId, content: message, created_at: }
     dispatch(chatRoomAddMessage(data));
   };
 
   const handleUserJoin = (data) => {
-    console.log('유저 들어옴 : ', data);
+    // console.log('유저 들어옴 : ', data);
     dispatch(chatRoomUserJoin(data));
   };
 
   const handleUserLeave = (data) => {
-    console.log('유저 떠남 : ', data.userId);
+    // console.log('유저 떠남 : ', data.userId);
     dispatch(chatRoomUserLeave(data.userId));
   };
 };
