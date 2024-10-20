@@ -4,7 +4,7 @@ import { useWebRtc } from '../logic/ChatRoomVideoContext';
 import ChatRoomVideoAudioComponent from './ChatRoomVideoAudioComponent';
 
 const ChatRoomVideoViewComponent = () => {
-  const { chatRoomVideoMembers, status } = useSelector(
+  const { chatRoomVideoMembers } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
   const { userInfo } = useSelector((state) => state.auth.userInfo);
@@ -14,11 +14,14 @@ const ChatRoomVideoViewComponent = () => {
   const videoRefs = useRef({}); // 비디오 객체 리스트
 
   const [videoReady, setVideoReady] = useState('false'); // 비디오 설정 완료 체크(이것이 최종 체크변수)
+  const [videoReadyTrigger, setVideoReadyTrigger] = useState(false);
 
   console.log(
-    'ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
+    '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
     'chatRoomVideoMembers: ',
     chatRoomVideoMembers,
+    'streamReadyState : ',
+    streamReadyState,
     'videoRefs : ',
     videoRefs,
     'videoReady : ',
@@ -46,7 +49,9 @@ const ChatRoomVideoViewComponent = () => {
         const videoElement = videoRefs.current[member.id];
         const stream = getStream(member.id);
 
-        console.log(member.email, '의 videoRefs 삽입');
+        console.log(member.email, '의 videoRefs 삽입 작업');
+        console.log(videoElement);
+        console.log(stream);
 
         if (stream && videoElement) {
           videoElement.srcObject = stream;
@@ -60,12 +65,13 @@ const ChatRoomVideoViewComponent = () => {
         }
       });
       setVideoReady(true);
+      setVideoReadyTrigger((prev) => !prev);
     }
-    // }, [chatRoomVideoMembers, streamReadyState, videoReady]);
   }, [streamReadyState, videoReady]);
 
-  // if (isStreamReady(userInfo.id) && videoReady) {
   if (videoReady) {
+    console.log('화면 구성시작 = videoRefs : ', videoRefs);
+
     return (
       <div>
         <h3>화상채팅 페이지</h3>
