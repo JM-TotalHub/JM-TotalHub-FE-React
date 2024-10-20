@@ -16,17 +16,17 @@ const ChatRoomVideoViewComponent = () => {
   const [videoReady, setVideoReady] = useState('false'); // 비디오 설정 완료 체크(이것이 최종 체크변수)
   const [videoReadyTrigger, setVideoReadyTrigger] = useState(false);
 
-  // console.log(
-  //   '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
-  //   'chatRoomVideoMembers: ',
-  //   chatRoomVideoMembers,
-  //   'streamReadyState : ',
-  //   streamReadyState,
-  //   'videoRefs : ',
-  //   videoRefs,
-  //   'videoReady : ',
-  //   videoReady
-  // );
+  console.log(
+    '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
+    'chatRoomVideoMembers: ',
+    chatRoomVideoMembers,
+    'streamReadyState : ',
+    streamReadyState,
+    'videoRefs : ',
+    videoRefs,
+    'videoReady : ',
+    videoReady
+  );
 
   useEffect(() => {
     if (!chatRoomVideoMembers) return;
@@ -70,7 +70,7 @@ const ChatRoomVideoViewComponent = () => {
   }, [streamReadyState, videoReady]);
 
   if (videoReady) {
-    // console.log('화면 구성시작 = videoRefs : ', videoRefs);
+    console.log('화면 구성시작 = videoRefs : ', videoRefs);
 
     return (
       <div>
