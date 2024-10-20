@@ -59,7 +59,10 @@ const ChatRoomVideoViewComponent = () => {
       setVideoReady(true);
       setVideoReadyTrigger((prev) => !prev);
     }
-  }, [streamReadyState, videoReady]);
+    // }, [streamReadyState, videoReady]);
+  }, [streamReadyState]);
+
+  useEffect(() => {}, [videoReady]);
 
   // if (videoReady) {
   console.log('화면 구성시작 = videoRefs : ', videoRefs);

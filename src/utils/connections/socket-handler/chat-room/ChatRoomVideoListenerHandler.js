@@ -198,9 +198,9 @@ const ChatRoomVideoListenerHandler = ({ chatRoomId }) => {
       sendAnswer(chatRoomId, userInfo.id, data.userId, answer); // answer 전송
 
       // ICE 후보 처리
-      console.log(
-        `handleOffer에서 iceCandidateQueue확인 ${iceCandidateQueue[data.userId]}`
-      );
+      // console.log(
+      //   `handleOffer에서 iceCandidateQueue확인 ${iceCandidateQueue[data.userId]}`
+      // );
 
       if (iceCandidateQueue[data.userId]) {
         // console.log('ICE 후보 pc 등록 중02', data.ice);
