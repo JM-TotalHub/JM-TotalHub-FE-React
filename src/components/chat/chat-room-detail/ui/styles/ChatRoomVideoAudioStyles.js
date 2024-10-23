@@ -2,6 +2,8 @@ import styled from 'styled-components';
 
 // Styled-components for styling audio controls
 export const ControlsContainer = styled.div`
+  position: absolute;
+
   display: flex;
   flex-direction: column;
   align-items: center;
