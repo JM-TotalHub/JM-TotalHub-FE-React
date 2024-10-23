@@ -82,8 +82,8 @@ const ChatRoomVideoViewComponent = () => {
               membersCount={chatRoomVideoMembers.length - 1}
             >
               <div>ID: {member.id}</div>
-              <div>Email: {member.email}</div>
-              <div>NickName: {member.nickname}</div>
+              {/* <div>Email: {member.email}</div> */}
+              {/* <div>NickName: {member.nickname}</div> */}
               {/* {isStreamReady(member.id) ? ( // 스트림 준비 상태가 true일 때만 비디오 렌더링 */}
               <MemberVideo
                 ref={(el) => (videoRefs.current[member.id] = el)} // ref에 비디오 요소 저장

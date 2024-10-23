@@ -12,10 +12,14 @@ export const VideoContainer = styled.div`
 
 // 전체 비디오 레이아웃을 위한 styled component (플렉스 박스 적용)
 export const MemberVideoContainer = styled.div`
+  /* position: absolute; */
+
   display: flex;
   flex-wrap: wrap;
 
   justify-content: center;
+
+  height: calc(100% - 20rem); // MyVideoContainer 높이를 제외한 나머지 영역 차지
 
   padding: 0.5rem;
 `;
@@ -25,7 +29,8 @@ export const MemberVideoItem = styled.div`
   ${({ membersCount }) => {
     if (membersCount === 1) {
       return `
-        width: 100%;
+        height: 100%;
+        width: auto;
       `;
     } else if (membersCount === 2) {
       return `
@@ -47,26 +52,20 @@ export const MemberVideoItem = styled.div`
 
   position: relative;
   flex-direction: column;
-
-  height: 100%;
 `;
-
-// export const MemberVideoItem = styled.div`
-//   height: 100%;
-//   width: auto;
-// `;
 
 // 스타일링된 Video 컴포넌트 생성
 export const MemberVideo = styled.video`
-  position: absolute;
+  /* position: relative; // absolute에서 relative로 변경하여 컨테이너에 맞게 조정 */
 
-  height: 100%; // 높이 설정
-  width: auto; // 너비 설정
+  width: auto; // 너비를 부모 컨테이너에 맞춤
+  height: 100%; // 높이도 부모 컨테이너에 맞춤
 
-  background-color: black; // 배경색 설정
+  object-fit: cover; // 비디오의 종횡비를 유지하면서 컨테이너에 맞춤
+
+  background-color: black;
 `;
 
-// 본인 비디오를 왼쪽 하단에 고정시키는 styled component
 export const MyVideoContainer = styled.div`
   position: absolute;
   bottom: 0;
@@ -76,7 +75,7 @@ export const MyVideoContainer = styled.div`
   justify-content: start;
 
   width: 100%;
-  height: 10rem;
+  height: 7rem;
 
   padding: 0.3rem;
 
@@ -86,6 +85,8 @@ export const MyVideoContainer = styled.div`
 export const MyVideo = styled.video`
   height: 100%; // 높이 설정
   width: auto; // 너비 설정
+
+  object-fit: cover;
 
   background-color: black; // 배경색 설정
 `;
