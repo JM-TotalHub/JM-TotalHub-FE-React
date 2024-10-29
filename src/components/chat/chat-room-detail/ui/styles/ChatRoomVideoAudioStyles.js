@@ -2,12 +2,17 @@ import styled from 'styled-components';
 
 // Styled-components for styling audio controls
 export const ControlsContainer = styled.div`
-  position: absolute;
+  position: relative;
 
   display: flex;
+  align-items: center;
+
+  height: 15%;
+  width: 100%;
+  bottom: 0;
+
   flex-direction: column;
   align-items: center;
-  margin-top: 10px;
 `;
 
 export const VolumeSlider = styled.input`

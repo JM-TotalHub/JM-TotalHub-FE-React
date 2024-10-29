@@ -1,8 +1,9 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import ChatRoomMessageWriteFormComponent from './ChatRoomMessageWriteFormComponent';
+import { ChatRoomMessageWriteContainer } from '../../../../pages/chat/chat-room/styles/ChatRoomDetailsStyles';
 
-const ChatRoomMessageWriteComponent = ({ chatRoomId }) => {
+const ChatRoomMessageWriteComponent = ({ chatRoomId, useChatRoomVideo }) => {
   const { status, error } = useSelector((state) => state.chat.chatRoomDetails);
 
   if (status === 'error') {
@@ -15,10 +16,9 @@ const ChatRoomMessageWriteComponent = ({ chatRoomId }) => {
 
   if (status === 'succeeded') {
     return (
-      <div>
-        <h1>채팅 작성</h1>
+      <ChatRoomMessageWriteContainer useChatRoomVideo={useChatRoomVideo}>
         <ChatRoomMessageWriteFormComponent chatRoomId={chatRoomId} />
-      </div>
+      </ChatRoomMessageWriteContainer>
     );
   }
 };

@@ -1,7 +1,8 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
+import { ChatRoomMemberContainer } from '../../../../pages/chat/chat-room/styles/ChatRoomDetailsStyles';
 
-const ChatRoomMemberComponent = () => {
+const ChatRoomMemberComponent = ({ useChatRoomVideo }) => {
   const { chatRoomMembers, chatRoomVideoMembers, status, error } = useSelector(
     (state) => state.chat.chatRoomDetails
   );
@@ -16,15 +17,16 @@ const ChatRoomMemberComponent = () => {
 
   if (status === 'succeeded') {
     return (
-      <div>
+      <ChatRoomMemberContainer useChatRoomVideo={useChatRoomVideo}>
         <div>
           <h1>참가인원</h1>
           {chatRoomMembers.map((member, index) => {
             return (
               <div key={index}>
-                <div>ID: {member.id}</div>
-                <div>email: {member.email}</div>
-                <div>NickName: {member.nickname}</div>
+                <div>
+                  ID: {member.id} || email: {member.email} || NickName:{' '}
+                  {member.nickname}
+                </div>
               </div>
             );
           })}
@@ -41,7 +43,7 @@ const ChatRoomMemberComponent = () => {
             );
           })}
         </div> */}
-      </div>
+      </ChatRoomMemberContainer>
     );
   }
   return null;

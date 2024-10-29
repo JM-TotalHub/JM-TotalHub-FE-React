@@ -53,16 +53,13 @@ const ChatRoomDetailsPage = () => {
 
   return (
     <PageContainer>
-      <h1>ChatRoomDetailsPage</h1>
-      <h3>정보 확인용</h3>
+      {/* 채팅방 기본 정보 로드 컴포넌트 적용 */}
+      <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
 
       {/* 화상채팅 활성화 버튼 */}
       <div>
         <button onClick={handleVideoComponent}>화상채팅</button>
       </div>
-
-      {/* 채팅방 기본 정보 로드 컴포넌트 적용 */}
-      <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
 
       {/* 채팅방 수정 & 삭제 모달 컴포넌트 - 모달로 구현*/}
       <div>
@@ -75,10 +72,22 @@ const ChatRoomDetailsPage = () => {
       <ContentContainer useChatRoomVideo={useChatRoomVideo}>
         {/* 채팅 UI 컴포넌트 적용 - 이 컴포넌트 나중에 memo 적용하기 */}
         <ChatSection>
-          <ChatRoomInfoComponent chatRoomId={chatRoomId} />
-          <ChatRoomMemberComponent chatRoomId={chatRoomId} />
-          <ChatRoomMessageListComponent chatRoomId={chatRoomId} />
-          <ChatRoomMessageWriteComponent chatRoomId={chatRoomId} />
+          <ChatRoomInfoComponent
+            chatRoomId={chatRoomId}
+            useChatRoomVideo={useChatRoomVideo}
+          />
+          <ChatRoomMemberComponent
+            chatRoomId={chatRoomId}
+            useChatRoomVideo={useChatRoomVideo}
+          />
+          <ChatRoomMessageListComponent
+            chatRoomId={chatRoomId}
+            useChatRoomVideo={useChatRoomVideo}
+          />
+          <ChatRoomMessageWriteComponent
+            chatRoomId={chatRoomId}
+            useChatRoomVideo={useChatRoomVideo}
+          />
         </ChatSection>
 
         {useChatRoomVideo && (
