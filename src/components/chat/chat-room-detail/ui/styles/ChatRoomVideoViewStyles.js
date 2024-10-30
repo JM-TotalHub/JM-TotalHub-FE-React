@@ -2,6 +2,8 @@ import styled from 'styled-components';
 // import styled from 'styled-components/macro';
 
 export const VideoContainer = styled.div`
+  background-color: rgb(100, 100, 100);
+
   position: relative;
 
   display: flex;
@@ -13,6 +15,8 @@ export const VideoContainer = styled.div`
 `;
 
 export const MemberVideoContainer = styled.div`
+  background-color: rgb(150, 150, 150);
+
   position: relative;
 
   display: grid;
@@ -50,6 +54,8 @@ export const MemberVideoContainer = styled.div`
 `;
 
 export const MyVideoContainer = styled.div`
+  background-color: rgb(170, 170, 170);
+
   position: relative;
   bottom: 0;
 
@@ -58,14 +64,12 @@ export const MyVideoContainer = styled.div`
   height: 15%;
   width: 100%;
 
-  padding: 0.3rem;
-
-  background-color: gray; // 배경색
-
   justify-content: start;
 `;
 
 export const MemberVideoItem = styled.div`
+  background-color: rgb(200, 200, 200);
+
   display: flex;
   flex-direction: column;
 
@@ -88,6 +92,9 @@ export const MyVideo = styled.video`
   width: auto; // 너비 설정
 
   object-fit: cover;
+
+  box-sizing: border-box;
+  padding: 0.2rem;
 
   background-color: black; // 배경색 설정
 `;

@@ -3,9 +3,7 @@ import styled from 'styled-components';
 export const PageContainer = styled.div`
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 
-  /* height: 75vh; */
   width: 100%;
   height: 100%;
 `;
@@ -17,10 +15,16 @@ export const ContentContainer = styled.div`
   height: 100%;
 
   justify-content: space-between;
+
+  /* 화면이 작아질 때 세로 배치로 변경 */
+  @media (max-width: 768px) {
+    flex-direction: column;
+  }
 `;
 
 export const ChatSection = styled.div`
   display: flex;
+
   flex-direction: column;
   flex-basis: ${(props) => (props.useChatRoomVideo ? '30%' : '100%')};
   flex-shrink: 0;
@@ -32,6 +36,11 @@ export const ChatSection = styled.div`
 
   width: 100%;
   height: 100%;
+
+  /* 화면이 작아질 때 VideoSection 아래로 배치되도록 순서 변경 */
+  @media (max-width: 768px) {
+    flex-basis: 100%;
+  }
 `;
 
 export const VideoSection = styled.div`
@@ -47,6 +56,11 @@ export const VideoSection = styled.div`
   background-color: #f1f1f1;
 
   padding: 1rem;
+
+  /* 화면이 작아질 때 차지하는 공간을 100%로 설정 */
+  @media (max-width: 768px) {
+    flex-basis: ${(props) => (props.useChatRoomVideo ? '100%' : '0%')};
+  }
 `;
 
 export const ChatRoomInfoContainer = styled.div`
