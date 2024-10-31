@@ -6,13 +6,11 @@ import CommentDeleteByCommentId from '../../../features/domains/board/comment/ac
 import commentListByPostId from '../../../features/domains/board/comment/actions/CommentListAction';
 import CommentDetailsComponent from './CommentDetailsComponent';
 
-import { commentUpdateSliceResetState } from '../../../features/domains/board/comment/slices/CommentUpdateSlice';
 import CommentUpdateComponent from './CommentUpdateComponent';
 import {
   ButtonColumn,
   ContentColumn,
   CreatedAtColumn,
-  UpdateButton,
   DeleteButton,
   IdColumn,
   Table,
@@ -20,6 +18,7 @@ import {
   TableHead,
   TableHeadCell,
   TableRow,
+  UpdateButton,
 } from './styles/CommentListStyles';
 
 const CommentListComponent = ({ postId }) => {

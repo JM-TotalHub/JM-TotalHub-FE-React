@@ -22,7 +22,7 @@ const PostSearchComponent = ({ onSearch }) => {
   };
 
   const handleSearchCancel = () => {
-    setSearchParams({ searchText: '', searchType: 'title' });
+    setSearchParams({ searchText: ' ', searchType: 'title' });
     onSearch(searchParams);
   };
 

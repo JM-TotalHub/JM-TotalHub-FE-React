@@ -39,6 +39,8 @@ const PostsListComponent = ({ boardId }) => {
   const dataPerPage = parseInt(searchParams.get('dataPerPage')) || 10;
   const searchType = searchParams.get('search-type') || 'title';
   const searchText = searchParams.get('search-text') || ' ';
+  const sortField = searchParams.get('sort-field') || 'created_at';
+  const sortOrder = searchParams.get('sort-order') || 'desc';
 
   const { device, screenSize } = useSelector(
     (state) => state.config.systemConfig
@@ -67,6 +69,14 @@ const PostsListComponent = ({ boardId }) => {
     });
   };
 
+  const handleSortOrder = (event) => {
+    setSearchParams({
+      // page: 1,
+      // sort-field // 일단 정렬 기준을 고정
+      'sort-order': event.target.value,
+    });
+  };
+
   useEffect(() => {
     dispatch(
       postListByBoardId({
@@ -76,6 +86,8 @@ const PostsListComponent = ({ boardId }) => {
           dataPerPage: dataPerPage,
           searchType: searchType,
           searchText: searchText,
+          sortField: sortField,
+          sortOrder: sortOrder,
         },
       })
     );
@@ -96,6 +108,12 @@ const PostsListComponent = ({ boardId }) => {
 
   return (
     <Container>
+      {/* 정렬 기준 - 일단은 작성일 기준으로먄  */}
+      <select value={sortOrder} onChange={handleSortOrder}>
+        <option value="desc">내림차순</option>
+        <option value="asc">오름차순</option>
+      </select>
+
       <Table>
         <colgroup>
           {/* {!isMobile && <IdColumn />} */}

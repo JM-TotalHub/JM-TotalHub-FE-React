@@ -23,6 +23,8 @@ const postListSlice = createSlice({
       })
       .addCase(postListByBoardId.fulfilled, (state, action) => {
         // API 요청 성공 상태
+        console.log('게시글 리스트 : action.payload.postList');
+
         state.status = 'succeeded';
         state.postList = action.payload.postList;
         state.totalPage = action.payload.totalPage;
