@@ -63,6 +63,7 @@ const PostsListComponent = ({ boardId }) => {
 
   const handleSearch = ({ searchText, searchType }) => {
     setSearchParams({
+      ...Object.fromEntries(searchParams), // 기존 파라미터 유지
       page: 1,
       'search-type': searchType,
       'search-text': searchText,
@@ -71,9 +72,9 @@ const PostsListComponent = ({ boardId }) => {
 
   const handleSortOrder = (event) => {
     setSearchParams({
-      // page: 1,
-      // sort-field // 일단 정렬 기준을 고정
-      'sort-order': event.target.value,
+      ...Object.fromEntries(searchParams), // 기존 파라미터 유지
+      //  page: 1,
+      'sort-order': event.target.value, // 새로운 정렬 기준 추가
     });
   };
 

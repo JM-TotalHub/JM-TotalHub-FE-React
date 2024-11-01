@@ -1,19 +1,21 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
+import { onAlert } from '../../features/domains/alert/slices/alertStatusSlice';
 import SignOutAction from '../../features/domains/auth/actions/SignOutAction';
+import userInfoByToken from '../../features/domains/auth/actions/UserInfoAction';
+import { AlertMessageEnum } from '../alert/AlertMessageEnum';
 import {
   AuthButton,
   AuthLink,
-  UserContainer,
-  MainHeaderWrapper,
-  NavLinkItem,
-  NavLinksContainer,
-  UserInfo,
+  StLog,
+  StMainHeader,
+  StContentLink,
+  StFirstLine,
+  StSecondLine,
+  StUserInfo,
+  StUserFunctions,
 } from './styles/HeaderStyles';
-import userInfoByToken from '../../features/domains/auth/actions/UserInfoAction';
-import { onAlert } from '../../features/domains/alert/slices/alertStatusSlice';
-import { AlertMessageEnum } from '../alert/AlertMessageEnum';
 
 const MainHeaderComponent = () => {
   const navigate = useNavigate();
@@ -21,6 +23,14 @@ const MainHeaderComponent = () => {
 
   const { userInfo, loginStatus } = useSelector((state) => state.auth.userInfo);
   const { status: signInStatus } = useSelector((state) => state.auth.signIn);
+
+  // ThemeProvider 이용해서 스타일 컴포넌트 공통 함수들 전달 가능 - 화면 크기 전달에 사용 예정
+  // const theme = {
+  //   loginStatus, // 로그인 상태
+  //   userNickname: loginStatus ? userInfo.nickname : '방문자', // 사용자 닉네임
+  //   buttonColor: loginStatus ? '#007bff' : '#ccc', // 버튼 색상
+  //   textColor: loginStatus ? 'white' : 'gray', // 텍스트 색상
+  // };
 
   useEffect(() => {
     dispatch(userInfoByToken());
@@ -42,40 +52,41 @@ const MainHeaderComponent = () => {
   };
 
   return (
-    <MainHeaderWrapper>
-      <UserContainer>
-        <div style={{ marginRight: 'auto' }}>
+    <StMainHeader>
+      <StFirstLine>
+        <StLog>
           <h1>JM</h1>
-        </div>
-        {loginStatus ? (
-          <>
-            <UserInfo>
-              {userInfo.nickname} ( {userInfo.email} )
-            </UserInfo>
-            <AuthButton onClick={handleSignOut}>로그아웃</AuthButton>
-          </>
-        ) : (
-          <>
-            <UserInfo>방문자</UserInfo>
-            <AuthLink to={`/auth/sign-in`}>로그인</AuthLink>
-            <AuthLink to={`/auth/sign-up`}>회원가입</AuthLink>
-          </>
-        )}
-      </UserContainer>
+        </StLog>
+        <StUserFunctions>
+          {loginStatus ? (
+            <>
+              <StUserInfo>{userInfo.nickname}</StUserInfo>
+              <AuthButton onClick={handleSignOut}>로그아웃</AuthButton>
+              <AuthLink to={`/users/mypage`}>마이페이지</AuthLink>
+            </>
+          ) : (
+            <>
+              <StUserInfo>방문자</StUserInfo>
+              <AuthLink to={`/auth/sign-in`}>로그인</AuthLink>
+              <AuthLink to={`/auth/sign-up`}>회원가입</AuthLink>
+            </>
+          )}
+        </StUserFunctions>
+      </StFirstLine>
 
-      <NavLinksContainer>
-        <NavLinkItem to={`/boards`}>게시판</NavLinkItem>
-        <NavLinkItem
+      <StSecondLine>
+        <StContentLink to={`/overviews`}>사이트 소개</StContentLink>
+        <StContentLink to={`/boards`}>게시판</StContentLink>
+        <StContentLink
           to={loginStatus ? `/chats/chat-rooms` : '#'}
           onClick={loginStatus ? undefined : handleUnauthorizedAccess}
         >
           채팅
-        </NavLinkItem>
-        <NavLinkItem to={`#`}>준비중</NavLinkItem>
-        <NavLinkItem to={`#`}>준비중</NavLinkItem>
-        <NavLinkItem to={`#`}>준비중</NavLinkItem>
-      </NavLinksContainer>
-    </MainHeaderWrapper>
+        </StContentLink>
+        <StContentLink to={`#`}>준비중</StContentLink>
+        <StContentLink to={`#`}>준비중</StContentLink>
+      </StSecondLine>
+    </StMainHeader>
   );
 };
 

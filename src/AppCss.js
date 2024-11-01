@@ -1,12 +1,22 @@
 import styled from 'styled-components';
 
+export const StyledAppContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+
+  height: 100vh;
+`;
+
+export const StyledHeaderContent = styled.div`
+  flex-basis: 15%;
+`;
+
 export const StyledMainContent = styled.div`
   padding: 1.2rem;
-  background-color: #f8f9fa;
 
-  min-height: 80vh;
+  flex-basis: 85%;
 
   @media (max-width: 768px) {
-    padding: 1rem; /* 작은 화면에서는 패딩을 줄임 */
+    padding: 1rem;
   }
 `;
