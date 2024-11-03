@@ -8,7 +8,6 @@ export const VideoContainer = styled.div`
 
   display: flex;
   flex-direction: column;
-  /* align-items: center; */
 
   height: 100%;
   width: 100%;
@@ -25,7 +24,7 @@ export const MemberVideoContainer = styled.div`
   align-items: center;
   justify-content: center;
 
-  height: 85%;
+  /* height: 85%; */
   width: 100%;
 
   ${({ membersCount }) => {
@@ -75,6 +74,9 @@ export const MemberVideoItem = styled.div`
 
   align-items: center;
   justify-content: center;
+
+  height: auto;
+  width: 100%;
 `;
 
 // 스타일링된 Video 컴포넌트 생성
@@ -82,7 +84,8 @@ export const MemberVideo = styled.video`
   /* flex-wrap: wrap; */
 
   height: 100%; // 높이도 부모 컨테이너에 맞춤
-  width: 100%;
+  /* width: 100%; */
+  width: auto;
 
   background-color: black;
 `;

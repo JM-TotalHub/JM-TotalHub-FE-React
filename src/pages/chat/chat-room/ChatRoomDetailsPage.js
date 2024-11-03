@@ -3,7 +3,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useParams } from 'react-router-dom';
 import ChatRoomDetailsLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomDetailsLoadComponent';
 import { ChatRoomVideoContext } from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoContext';
+import ChatRoomVideoLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent';
 import ChatRoomInfoComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomInfoComponent';
+import ChatRoomManageComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomManageComponent';
 import ChatRoomMemberComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMemberComponent';
 import ChatRoomMessageListComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageListComponent';
 import ChatRoomMessageWriteComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomMessageWriteComponent';
@@ -13,8 +15,6 @@ import {
   onChatRoomVideo,
 } from '../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
 import ChatRoomVideoListenerHandler from '../../../utils/connections/socket-handler/chat-room/ChatRoomVideoListenerHandler';
-import ChatRoomVideoLoadComponent from '../../../components/chat/chat-room-detail/logic/ChatRoomVideoLoadComponent';
-import ChatRoomManageComponent from '../../../components/chat/chat-room-detail/ui/ChatRoomManageComponent';
 import {
   ChatSection,
   ContentContainer,
@@ -56,22 +56,22 @@ const ChatRoomDetailsPage = () => {
       {/* 채팅방 기본 정보 로드 컴포넌트 적용 */}
       <ChatRoomDetailsLoadComponent chatRoomId={chatRoomId} />
 
-      {/* 화상채팅 활성화 버튼 */}
-      <div>
-        <button onClick={handleVideoComponent}>화상채팅</button>
-      </div>
-
-      {/* 채팅방 수정 & 삭제 모달 컴포넌트 - 모달로 구현*/}
-      <div>
-        {Number(chatRoomInfo.user_id) === userInfo.id && (
-          <button onClick={handleManageComponent}>채팅방 관리</button>
-        )}
-        <ChatRoomManageComponent isOpen={manageOpen} onClose={ManageClose} />
-      </div>
-
       <ContentContainer useChatRoomVideo={useChatRoomVideo}>
         {/* 채팅 UI 컴포넌트 적용 - 이 컴포넌트 나중에 memo 적용하기 */}
         <ChatSection>
+          <div>
+            <button onClick={handleVideoComponent}>화상채팅</button>
+          </div>
+          <div>
+            {Number(chatRoomInfo.user_id) === userInfo.id && (
+              <button onClick={handleManageComponent}>채팅방 관리</button>
+            )}
+            <ChatRoomManageComponent
+              isOpen={manageOpen}
+              onClose={ManageClose}
+            />
+          </div>
+
           <ChatRoomInfoComponent
             chatRoomId={chatRoomId}
             useChatRoomVideo={useChatRoomVideo}
@@ -90,6 +90,7 @@ const ChatRoomDetailsPage = () => {
           />
         </ChatSection>
 
+        {/* 화상채팅 */}
         {useChatRoomVideo && (
           <VideoSection useChatRoomVideo={useChatRoomVideo}>
             <ChatRoomVideoContext chatRoomId={chatRoomId}>
