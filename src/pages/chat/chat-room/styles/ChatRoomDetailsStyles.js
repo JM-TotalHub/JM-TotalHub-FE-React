@@ -2,7 +2,6 @@ import styled from 'styled-components';
 
 export const PageContainer = styled.div`
   display: flex;
-  /* flex-direction: column; */
 
   width: 100%;
   height: 100%;
@@ -10,11 +9,10 @@ export const PageContainer = styled.div`
 
 export const ContentContainer = styled.div`
   display: flex;
+  justify-content: space-between;
 
   width: 100%;
   height: 100%;
-
-  justify-content: space-between;
 
   /* 화면이 작아질 때 세로 배치로 변경 */
   @media (max-width: 768px) {
@@ -37,6 +35,8 @@ export const ChatSection = styled.div`
   width: 100%;
   height: 100%;
 
+  padding: 0 0.3rem;
+
   /* 화면이 작아질 때 VideoSection 아래로 배치되도록 순서 변경 */
   @media (max-width: 768px) {
     flex-basis: 100%;
@@ -55,12 +55,15 @@ export const VideoSection = styled.div`
   transition: flex 0.5s ease;
   background-color: #f1f1f1;
 
-  padding: 1rem;
-
   /* 화면이 작아질 때 차지하는 공간을 100%로 설정 */
   @media (max-width: 768px) {
     flex-basis: ${(props) => (props.useChatRoomVideo ? '100%' : '0%')};
   }
+`;
+
+export const StChatFunctionButton = styled.div`
+  height: 15%;
+  width: ${(props) => (props.useChatRoomVideo ? '100%' : '80%')};
 `;
 
 export const ChatRoomInfoContainer = styled.div`
@@ -71,7 +74,7 @@ export const ChatRoomInfoContainer = styled.div`
 `;
 
 export const ChatRoomMemberContainer = styled.div`
-  height: 20%;
+  height: 15%;
   width: ${(props) => (props.useChatRoomVideo ? '100%' : '80%')};
 
   display: flex;
@@ -86,7 +89,7 @@ export const ChatRoomMessageListContainer = styled.div`
 `;
 
 export const ChatRoomMessageWriteContainer = styled.div`
-  height: 15%;
+  height: 10%;
   width: ${(props) => (props.useChatRoomVideo ? '100%' : '80%')};
 
   display: flex;

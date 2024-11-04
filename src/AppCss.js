@@ -13,6 +13,7 @@ export const StyledHeaderContent = styled.div`
 
 export const StyledMainContent = styled.div`
   padding: 1.2rem;
+  box-sizing: border-box;
 
   flex-basis: 85%;
 

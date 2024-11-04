@@ -1,103 +1,66 @@
 import styled from 'styled-components';
-// import styled from 'styled-components/macro';
 
-export const VideoContainer = styled.div`
-  background-color: rgb(100, 100, 100);
-
-  position: relative;
+export const StVideoContainer = styled.div`
+  height: 100%;
+  width: 100%;
 
   display: flex;
   flex-direction: column;
 
-  height: 100%;
-  width: 100%;
+  background-color: rgb(50, 50, 50);
 `;
 
-export const MemberVideoContainer = styled.div`
-  background-color: rgb(150, 150, 150);
+// -----------------------------------------------------------
 
-  position: relative;
+export const StMemberVideoContainer = styled.div`
+  /* flex: 0 0 85%; */
+  height: 85%;
 
   display: grid;
-  gap: 1rem;
-
-  align-items: center;
-  justify-content: center;
-
-  /* height: 85%; */
-  width: 100%;
-
   ${({ membersCount }) => {
     if ((membersCount = 1)) {
       return `
-        grid-template-columns: 1fr; // 1줄에 2개
-              `;
+        grid-template-columns: repeat(1, 1fr);
+        grid-template-rows: 1fr;
+      `;
     } else if ((membersCount = 2)) {
       return `
-        grid-template-columns: repeat(2, 1fr); // 2줄에 2개씩
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 1fr;
       `;
     } else if (membersCount <= 4) {
       return `
-        grid-template-columns: repeat(2, 1fr); // 2줄에 2개씩
+        grid-template-columns: repeat(2, 1fr);
+        grid-template-rows: 2fr;
       `;
     } else if (membersCount <= 6) {
-      return `
-        grid-template-columns: repeat(3, 1fr); // 2줄에 3개씩
-      `;
+      return `grid-template-columns: repeat(3, 1fr);`;
     } else {
-      return `
-        grid-template-columns: repeat(3, 1fr); // 3줄에 3개씩
-      `;
+      return `grid-template-columns: repeat(3, 1fr);`;
     }
   }}
+  background-color: rgb(100, 100, 100);
 `;
 
-export const MyVideoContainer = styled.div`
-  background-color: rgb(170, 170, 170);
-
-  position: relative;
-  bottom: 0;
-
-  display: flex;
-
+export const StMyVideoContainer = styled.div`
+  /* flex: 0 0 15%; */
   height: 15%;
-  width: 100%;
-
-  justify-content: start;
-`;
-
-export const MemberVideoItem = styled.div`
-  background-color: rgb(200, 200, 200);
 
   display: flex;
-  flex-direction: column;
 
-  align-items: center;
-  justify-content: center;
-
-  height: auto;
-  width: 100%;
+  background-color: rgb(120, 120, 120);
 `;
 
-// 스타일링된 Video 컴포넌트 생성
-export const MemberVideo = styled.video`
-  /* flex-wrap: wrap; */
+// -----------------------------------------------------------
 
-  height: 100%; // 높이도 부모 컨테이너에 맞춤
-  /* width: 100%; */
-  width: auto;
-
-  background-color: black;
+export const StMemberVideoItem = styled.div`
+  height: 10rem;
 `;
 
-export const MyVideo = styled.video`
-  height: 100%; // 높이 설정
-  width: auto; // 너비 설정
+export const StMemberVideo = styled.video``;
 
-  object-fit: cover;
+// -----------------------------------------------------------
 
-  box-sizing: border-box;
-  padding: 0.2rem;
-
-  background-color: black; // 배경색 설정
+export const StMyVideo = styled.video`
+  object-fit: contain;
 `;

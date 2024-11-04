@@ -19,6 +19,7 @@ import {
   ChatSection,
   ContentContainer,
   PageContainer,
+  StChatFunctionButton,
   VideoSection,
 } from './styles/ChatRoomDetailsStyles';
 
@@ -58,19 +59,21 @@ const ChatRoomDetailsPage = () => {
 
       <ContentContainer useChatRoomVideo={useChatRoomVideo}>
         {/* 채팅 UI 컴포넌트 적용 - 이 컴포넌트 나중에 memo 적용하기 */}
-        <ChatSection>
-          <div>
-            <button onClick={handleVideoComponent}>화상채팅</button>
-          </div>
-          <div>
-            {Number(chatRoomInfo.user_id) === userInfo.id && (
-              <button onClick={handleManageComponent}>채팅방 관리</button>
-            )}
-            <ChatRoomManageComponent
-              isOpen={manageOpen}
-              onClose={ManageClose}
-            />
-          </div>
+        <ChatSection useChatRoomVideo={useChatRoomVideo}>
+          <StChatFunctionButton useChatRoomVideo={useChatRoomVideo}>
+            <div>
+              <button onClick={handleVideoComponent}>화상채팅</button>
+            </div>
+            <div>
+              {Number(chatRoomInfo.user_id) === userInfo.id && (
+                <button onClick={handleManageComponent}>채팅방 관리</button>
+              )}
+              <ChatRoomManageComponent
+                isOpen={manageOpen}
+                onClose={ManageClose}
+              />
+            </div>
+          </StChatFunctionButton>
 
           <ChatRoomInfoComponent
             chatRoomId={chatRoomId}
