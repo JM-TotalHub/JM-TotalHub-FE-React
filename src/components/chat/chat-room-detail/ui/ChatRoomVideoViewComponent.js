@@ -70,10 +70,11 @@ const ChatRoomVideoViewComponent = () => {
 
   // if (videoReady) {
   console.log('화면 구성시작 = videoRefs : ', videoRefs);
+  console.log('membersCount : ', chatRoomVideoMembers.length - 1);
 
   return (
     <StVideoContainer>
-      <StMemberVideoContainer>
+      <StMemberVideoContainer membersCount={chatRoomVideoMembers.length - 1}>
         {chatRoomVideoMembers
           .filter((member) => member.id !== userInfo.id)
           .map((member, index) => (
