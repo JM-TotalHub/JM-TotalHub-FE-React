@@ -1,7 +1,7 @@
 import React from 'react';
 import { useSelector } from 'react-redux';
 import { Route, Routes } from 'react-router-dom';
-import AdminMyPage from './mypage/AdminMyPage';
+import AdminMyPage from './adminPage/AdminMyPage';
 import NormalMyPage from './mypage/NormalMyPage';
 
 const User = () => {

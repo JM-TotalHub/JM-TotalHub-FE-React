@@ -25,6 +25,8 @@ export const ChatSection = styled.div`
 
   display: flex;
   flex-direction: column;
+  align-items: center;
+  justify-items: center;
 
   transition: flex 0.5s ease;
 
