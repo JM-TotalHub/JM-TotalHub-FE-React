@@ -21,8 +21,8 @@ const ChatRoomMemberComponent = ({ useChatRoomVideo }) => {
   if (status === 'succeeded') {
     return (
       <ChatRoomMemberContainer useChatRoomVideo={useChatRoomVideo}>
+        <h3>화상채팅 참가자</h3>
         <StChatRoomMember>
-          <h1>참가인원</h1>
           {chatRoomMembers.map((member, index) => {
             return (
               <div key={index}>

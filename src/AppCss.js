@@ -3,21 +3,18 @@ import styled from 'styled-components';
 export const StyledAppContainer = styled.div`
   display: flex;
   flex-direction: column;
-
-  height: 100vh;
 `;
 
 export const StyledHeaderContent = styled.div`
-  flex-basis: 15%;
+  height: 15vh;
+  /* width: 100%; */
+  order: 1;
 `;
 
 export const StyledMainContent = styled.div`
-  padding: 1.2rem;
+  height: 85vh;
+  /* width: 100%; */
+  order: 2;
+
   box-sizing: border-box;
-
-  flex-basis: 85%;
-
-  @media (max-width: 768px) {
-    padding: 1rem;
-  }
 `;

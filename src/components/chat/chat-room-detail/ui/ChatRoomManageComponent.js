@@ -3,6 +3,16 @@ import { useDispatch, useSelector } from 'react-redux';
 import { useNavigate } from 'react-router-dom';
 import ChatRoomDeleteAction from '../../../../features/domains/chat/chat-room/actions/ChatRoomDeleteAction';
 import ChatRoomUpdateAction from '../../../../features/domains/chat/chat-room/actions/ChatRoomUpdateAction';
+import {
+  StChatRoomModalContent,
+  StChatRoomModalExitButton,
+  StChatRoomModalExitButtonLine,
+  StChatRoomModalButton,
+  StChatRoomModalButtonLine,
+  StChatRoomModalOverlay,
+  StChatRoomModalSelectContents,
+  StChatRoomModalSelectContentLabel,
+} from './styles/ChatRoomManageModalStyles';
 
 const ChatRoomManageComponent = ({ isOpen, onClose }) => {
   const dispatch = useDispatch();
@@ -55,42 +65,53 @@ const ChatRoomManageComponent = ({ isOpen, onClose }) => {
   };
 
   return (
-    <div>
-      <h3>채팅방 관리 페이지</h3>
-      <button onClick={onClose}>X</button>
-      <div>
-        <label>
-          채팅방 이름:
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          ></input>
-        </label>
-        <label>
-          설명:
-          <textarea
-            value={description}
-            onChange={(e) => setDescription(e.target.value)}
-            required
-          />
-        </label>
-        <label>
-          채팅 타입:
-          <select
-            value={chatType}
-            onChange={(e) => setChatType(e.target.value)}
-          >
-            <option value="one_to_one">1대1</option>
-            <option value="private">비공개</option>
-            <option value="public">공개</option>
-          </select>
-        </label>
-      </div>
-      <button onClick={handleUpdate}>수정</button>
-      <button onClick={handleDelete}>삭제</button>
-    </div>
+    <StChatRoomModalOverlay>
+      <StChatRoomModalContent>
+        <StChatRoomModalExitButtonLine>
+          <StChatRoomModalExitButton onClick={onClose}>
+            X
+          </StChatRoomModalExitButton>
+        </StChatRoomModalExitButtonLine>
+        <StChatRoomModalSelectContents>
+          <StChatRoomModalSelectContentLabel>
+            채팅방 이름:
+            <input
+              type="text"
+              value={name}
+              onChange={(e) => setName(e.target.value)}
+              required
+            ></input>
+          </StChatRoomModalSelectContentLabel>
+          <StChatRoomModalSelectContentLabel>
+            설명:
+            <textarea
+              value={description}
+              onChange={(e) => setDescription(e.target.value)}
+              required
+            />
+          </StChatRoomModalSelectContentLabel>
+          <StChatRoomModalSelectContentLabel>
+            채팅 타입:
+            <select
+              value={chatType}
+              onChange={(e) => setChatType(e.target.value)}
+            >
+              <option value="one_to_one">1대1</option>
+              <option value="private">비공개</option>
+              <option value="public">공개</option>
+            </select>
+          </StChatRoomModalSelectContentLabel>
+        </StChatRoomModalSelectContents>
+        <StChatRoomModalButtonLine>
+          <StChatRoomModalButton onClick={handleUpdate}>
+            수정
+          </StChatRoomModalButton>
+          <StChatRoomModalButton onClick={handleDelete}>
+            삭제
+          </StChatRoomModalButton>
+        </StChatRoomModalButtonLine>
+      </StChatRoomModalContent>
+    </StChatRoomModalOverlay>
   );
 };
 

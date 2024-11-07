@@ -5,17 +5,16 @@ import React, {
   useRef,
   useState,
 } from 'react';
-import { useSocket } from '../../../../utils/connections/SocketProvider';
-import ChatRoomVideoEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomVideoEmitterHandler';
 import { useDispatch, useSelector } from 'react-redux';
 import {
   offChatRoomVideo,
   offChatRoomVideoData,
   offChatRoomVideoStarted,
   offLocalStream,
-  onChatRoomVideoData,
   onLocalStream,
 } from '../../../../features/domains/chat/chat-room/slices/ChatRoomVideoStatusSlice';
+import { useSocket } from '../../../../utils/connections/SocketProvider';
+import ChatRoomVideoEmitterHandler from '../../../../utils/connections/socket-handler/chat-room/ChatRoomVideoEmitterHandler';
 
 const WebRtcContext = createContext();
 
@@ -137,9 +136,19 @@ export const ChatRoomVideoContext = ({ children, chatRoomId }) => {
       return () => {
         // console.log('ChatRoomVideoContext 언마운트');
 
+        // 화상채팅 방 나감 알림 이벤트
         const { leaveChatRoomVideo } = ChatRoomVideoEmitterHandler(socket);
         leaveChatRoomVideo(userInfo.id, chatRoomId);
 
+        // 브라우저에게 받은 스트림 권한 반환
+        const localStream = getStream(userInfo.id);
+        if (localStream) {
+          localStream.getTracks().forEach((track) => {
+            track.stop();
+          });
+        }
+
+        // 리덕스 슬라이스 상태값 초기화
         dispatch(offChatRoomVideo());
         dispatch(offLocalStream());
         dispatch(offChatRoomVideoData());

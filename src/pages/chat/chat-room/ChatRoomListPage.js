@@ -1,8 +1,6 @@
 import React, { useState } from 'react';
-import ChatRoomListComponent from '../../../components/chat/chat-room-list/ChatRoomListComponent';
-import { useDispatch } from 'react-redux';
-import ChatRoomCreateAction from '../../../features/domains/chat/chat-room/actions/ChatRoomCreateAction';
 import ChatRoomCreateComponent from '../../../components/chat/chat-room-list/ChatRoomCreateComponent';
+import ChatRoomListComponent from '../../../components/chat/chat-room-list/ChatRoomListComponent';
 
 const ChatRoomListPage = () => {
   // const dispatch = useDispatch();

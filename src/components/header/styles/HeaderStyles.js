@@ -7,14 +7,15 @@ export const StMainHeader = styled.div`
   flex-direction: column;
 
   width: 100%;
-  height: 100%;
+  height: 15vh;
 
   background-color: #526d82;
 `;
 
 // 로고 & 사용자 기능들의 컨테이너
 export const StFirstLine = styled.div`
-  flex: 4;
+  flex: 6;
+  height: 60%;
 
   display: flex;
   justify-content: space-between;
@@ -24,7 +25,8 @@ export const StFirstLine = styled.div`
 
 // 컨테츠 링크들의 컨테이너
 export const StSecondLine = styled.div`
-  flex: 3;
+  flex: 4;
+  height: 40%;
 
   display: flex;
 

@@ -79,7 +79,7 @@ const ChatRoomMessageListComponent = ({ chatRoomId, useChatRoomVideo }) => {
   if (status === 'succeeded') {
     return (
       <ChatRoomMessageListContainer useChatRoomVideo={useChatRoomVideo}>
-        <h2>채팅 메시지</h2>
+        <h3>채팅 메시지</h3>
         <div
           ref={messageListRef}
           style={{ height: '400px', overflowY: 'scroll' }}

@@ -16,13 +16,13 @@ import {
 } from './AppCss';
 import CommonAlertComponent from './components/alert/CommonAlertComponent';
 import MainHeaderComponent from './components/header/MainHeaderComponent';
-import MainPage from './pages/MainPage';
 import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
 import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
 import ScreenSizeConfigComponent from './components/config/ScreenSizeConfigComponent';
 import User from './pages/user';
 import Overview from './pages/overview';
+import MainPage from './pages/main/MainPage';
 
 const App = () => {
   const location = useLocation();
