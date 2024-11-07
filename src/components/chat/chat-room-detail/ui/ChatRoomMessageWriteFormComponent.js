@@ -35,7 +35,6 @@ const ChatRoomMessageWriteFormComponent = ({ chatRoomId }) => {
   if (status === 'succeeded') {
     return (
       <div>
-        <h3>채팅 작성 폼</h3>
         <form onSubmit={handleSubmit}>
           <QuillEditor
             value={content}

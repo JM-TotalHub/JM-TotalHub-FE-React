@@ -9,14 +9,20 @@ import Test from './pages/test/Test';
 
 import { SocketProvider } from './utils/connections/SocketProvider';
 
-import { StyledMainContent } from './AppCss';
+import {
+  StyledAppContainer,
+  StyledHeaderContent,
+  StyledMainContent,
+} from './AppCss';
 import CommonAlertComponent from './components/alert/CommonAlertComponent';
 import MainHeaderComponent from './components/header/MainHeaderComponent';
-import MainPage from './pages/MainPage';
 import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
 import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
 import ScreenSizeConfigComponent from './components/config/ScreenSizeConfigComponent';
+import User from './pages/user';
+import Overview from './pages/overview';
+import MainPage from './pages/main/MainPage';
 
 const App = () => {
   const location = useLocation();
@@ -38,19 +44,33 @@ const App = () => {
       {/* 알림창 */}
       <CommonAlertComponent />
 
-      {/* 해더 */}
-      {!isAuthPath && <MainHeaderComponent />}
+      <StyledAppContainer>
+        {/* 해더 */}
+        {!isAuthPath && (
+          <StyledHeaderContent>
+            <MainHeaderComponent />
+          </StyledHeaderContent>
+        )}
 
-      {/* 페이지 라우터 */}
-      <StyledMainContent>
-        <Routes>
-          <Route path="/" element={<MainPage />} />
-          <Route path="/tests/*" element={<Test />} />
-          <Route path="/auth/*" element={<Auth />} />
-          <Route path="/boards/*" element={<Board />} />
-          <Route path="/chats/*" element={<Chat />} />
-        </Routes>
-      </StyledMainContent>
+        {/* 페이지 라우터 */}
+        <StyledMainContent>
+          <Routes>
+            <Route path="/" element={<MainPage />} />
+            <Route path="/tests/*" element={<Test />} />
+
+            {/* 유저(마이페이지) 기능 적용예정 */}
+            <Route path="/users/*" element={<User />} />
+
+            {/* (사이트 소개)포트폴리오 적용예정 */}
+            <Route path="/overviews/*" element={<Overview />} />
+
+            <Route path="/auth/*" element={<Auth />} />
+
+            <Route path="/boards/*" element={<Board />} />
+            <Route path="/chats/*" element={<Chat />} />
+          </Routes>
+        </StyledMainContent>
+      </StyledAppContainer>
     </SocketProvider>
   );
 };

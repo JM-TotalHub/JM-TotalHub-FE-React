@@ -7,7 +7,6 @@ import ChatRoomDetailsPage from './ChatRoomDetailsPage';
 const ChatRoomPage = () => {
   return (
     <div>
-      <h1>채팅방 목록</h1>
       <Routes>
         <Route path="/" element={<ChatRoomListPage />} />
         <Route path=":chatRoomId" element={<ChatRoomDetailsPage />} />

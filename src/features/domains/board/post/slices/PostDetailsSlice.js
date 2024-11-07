@@ -15,6 +15,8 @@ const PostDetailsSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(postDetailsByPostId.fulfilled, (state, action) => {
+        console.log('동작');
+
         state.status = 'succeeded';
         state.postDetails = action.payload;
       })

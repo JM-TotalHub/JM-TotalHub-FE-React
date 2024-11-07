@@ -2,6 +2,14 @@ import React, { useEffect, useRef, useState } from 'react';
 import { useSelector } from 'react-redux';
 import { useWebRtc } from '../logic/ChatRoomVideoContext';
 import ChatRoomVideoAudioComponent from './ChatRoomVideoAudioComponent';
+import {
+  StMyVideoContainer,
+  StMemberVideo,
+  StMemberVideoContainer,
+  StVideoContainer,
+  StMyVideo,
+  StMemberVideoItem,
+} from './styles/ChatRoomVideoViewStyles';
 
 const ChatRoomVideoViewComponent = () => {
   const { chatRoomVideoMembers } = useSelector(
@@ -17,17 +25,17 @@ const ChatRoomVideoViewComponent = () => {
   const [videoReadyTrigger, setVideoReadyTrigger] = useState(false);
   const [videoChatReady, setVideoChatReady] = useState('false');
 
-  console.log(
-    '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
-    'chatRoomVideoMembers: ',
-    chatRoomVideoMembers,
-    'streamReadyState : ',
-    streamReadyState,
-    'videoRefs : ',
-    videoRefs,
-    'videoReady : ',
-    videoReady
-  );
+  // console.log(
+  //   '^^^^^^^^^^^^^^^^^^^^^^^ChatRoomVideoViewComponent 랜더링 & 상태값 체크 || ',
+  //   'chatRoomVideoMembers: ',
+  //   chatRoomVideoMembers,
+  //   'streamReadyState : ',
+  //   streamReadyState,
+  //   'videoRefs : ',
+  //   videoRefs,
+  //   'videoReady : ',
+  //   videoReady
+  // );
 
   useEffect(() => {
     if (!chatRoomVideoMembers) return;
@@ -41,13 +49,9 @@ const ChatRoomVideoViewComponent = () => {
         const videoElement = videoRefs.current[member.id];
         const stream = getStream(member.id);
 
-        // console.log(member.email, '의 videoRefs 삽입 작업');
-        // console.log(videoElement);
-        // console.log(stream);
-
         if (stream && videoElement) {
           videoElement.srcObject = stream;
-          // console.log('화면 출력 stream : ', stream, 'userId : ', member.id);
+          videoElement.muted = member.id === userInfo.id;
 
           videoElement.play().catch((error) => {
             console.error('비디오 재생 중 오류 발생:', error);
@@ -66,41 +70,44 @@ const ChatRoomVideoViewComponent = () => {
 
   // if (videoReady) {
   console.log('화면 구성시작 = videoRefs : ', videoRefs);
+  console.log('membersCount : ', chatRoomVideoMembers.length - 1);
 
   return (
-    <div>
-      <h3>화상채팅 페이지</h3>
-      <div>
-        <h1>화상채팅 참가인원</h1>
-        {chatRoomVideoMembers.map((member, index) => (
-          <div key={index}>
-            <div>ID: {member.id}</div>
-            <div>Email: {member.email}</div>
-            <div>NickName: {member.nickname}</div>
-            {/* {isStreamReady(member.id) ? ( // 스트림 준비 상태가 true일 때만 비디오 렌더링 */}
-            <>
-              <video
+    <StVideoContainer>
+      <StMemberVideoContainer membersCount={chatRoomVideoMembers.length - 1}>
+        {chatRoomVideoMembers
+          .filter((member) => member.id !== userInfo.id)
+          .map((member, index) => (
+            <StMemberVideoItem
+              key={index}
+              membersCount={chatRoomVideoMembers.length - 1}
+            >
+              {/* <div>ID: {member.id}</div> */}
+              <StMemberVideo
                 ref={(el) => (videoRefs.current[member.id] = el)} // ref에 비디오 요소 저장
                 id={`video-${member.id}`} // 각 멤버의 video 태그에 고유 ID 할당
                 autoPlay
                 playsInline
-                style={{
-                  width: '300px',
-                  height: '200px',
-                  backgroundColor: 'black', // 문제 해결을 위해 제거
-                }}
-              ></video>
+              ></StMemberVideo>
+
               <ChatRoomVideoAudioComponent
                 videoRef={videoRefs.current[member.id]}
               />
-            </>
-            {/* ) : (
-                <p>스트림 준비 중...</p> // 스트림이 준비되지 않았을 때 표시
-              )} */}
-          </div>
-        ))}
-      </div>
-    </div>
+            </StMemberVideoItem>
+          ))}
+      </StMemberVideoContainer>
+
+      {/* 본인 비디오 */}
+      <StMyVideoContainer>
+        <StMyVideo
+          ref={(el) => (videoRefs.current[userInfo.id] = el)} // 본인 비디오 요소 저장
+          id={`video-${userInfo.id}`}
+          autoPlay
+          playsInline
+          muted
+        ></StMyVideo>
+      </StMyVideoContainer>
+    </StVideoContainer>
   );
   // } else {
   //   <p>스트림 준비 중...</p>;

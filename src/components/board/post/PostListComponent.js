@@ -1,37 +1,46 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { Link, useNavigate, useSearchParams } from 'react-router-dom';
 import postListByBoardId from '../../../features/domains/board/post/actions/PostListAction';
-import Pagination from '../../common/Pagination';
 import { formatDateWithToday } from '../../../utils/form/dateFormat';
+import Pagination from '../../common/Pagination';
 
 import {
+  BoardButton,
   ButtonContainer,
   LeftButtonGroup,
   RightButtonGroup,
-  BoardButton,
 } from '../../../styles/commonButtonStyles';
 
+import PostSearchComponent from './PostSearchComponent';
 import {
   Container,
+  CreatedAtColumn,
+  IdColumn,
   Table,
+  TableCell,
   TableHead,
   TableHeadCell,
-  TableCell,
   TableRow,
-  IdColumn,
   TitleColumn,
-  CreatedAtColumn,
   UserColumn,
 } from './styles/PostListStyles'; // 스타일 컴포넌트 임포트
-import { debounce } from 'lodash';
+
+// useSearchParams 활용해서 파라미터 일괄 관리
 
 const PostsListComponent = ({ boardId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
+  // 일단 나중에 Restful 하게 구현할지 고민 (지금 사실상 클라이언트, 백엔드 url이 별개로 다뤄지고 있음)
   const [searchParams, setSearchParams] = useSearchParams();
-  const pageParam = searchParams.get('page');
+
+  const currentPage = parseInt(searchParams.get('page')) || 1;
+  const dataPerPage = parseInt(searchParams.get('dataPerPage')) || 10;
+  const searchType = searchParams.get('search-type') || 'title';
+  const searchText = searchParams.get('search-text') || ' ';
+  const sortField = searchParams.get('sort-field') || 'created_at';
+  const sortOrder = searchParams.get('sort-order') || 'desc';
 
   const { device, screenSize } = useSelector(
     (state) => state.config.systemConfig
@@ -39,15 +48,6 @@ const PostsListComponent = ({ boardId }) => {
   const { postList, totalPage, pageNum, status, error } = useSelector(
     (state) => state.board.postList
   );
-
-  const [currentPage, setCurrentPage] = useState(
-    pageParam ? parseInt(pageParam) : 1
-  );
-
-  const handlePageNum = (page) => {
-    setSearchParams({ page });
-    setCurrentPage(page);
-  };
 
   const handleGotoBoardListClick = () => {
     navigate('/boards');
@@ -57,15 +57,42 @@ const PostsListComponent = ({ boardId }) => {
     navigate('new');
   };
 
+  const handlePageNum = (page) => {
+    setSearchParams({ ...Object.fromEntries(searchParams), page });
+  };
+
+  const handleSearch = ({ searchText, searchType }) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams), // 기존 파라미터 유지
+      page: 1,
+      'search-type': searchType,
+      'search-text': searchText,
+    });
+  };
+
+  const handleSortOrder = (event) => {
+    setSearchParams({
+      ...Object.fromEntries(searchParams), // 기존 파라미터 유지
+      //  page: 1,
+      'sort-order': event.target.value, // 새로운 정렬 기준 추가
+    });
+  };
+
   useEffect(() => {
     dispatch(
       postListByBoardId({
         boardId,
-        // queryData: { pageNum: 1, dataPerPage: 10, searchType: 'title', searchText: '테스트' },
-        queryData: { pageNum: currentPage, dataPerPage: 10 },
+        queryData: {
+          pageNum: currentPage,
+          dataPerPage: dataPerPage,
+          searchType: searchType,
+          searchText: searchText,
+          sortField: sortField,
+          sortOrder: sortOrder,
+        },
       })
     );
-  }, [currentPage]);
+  }, [searchParams]);
 
   if (status === 'idle') {
     return <div>Loading... 데이터를 요청합니다.</div>;
@@ -82,6 +109,12 @@ const PostsListComponent = ({ boardId }) => {
 
   return (
     <Container>
+      {/* 정렬 기준 - 일단은 작성일 기준으로먄  */}
+      <select value={sortOrder} onChange={handleSortOrder}>
+        <option value="desc">내림차순</option>
+        <option value="asc">오름차순</option>
+      </select>
+
       <Table>
         <colgroup>
           {/* {!isMobile && <IdColumn />} */}
@@ -120,6 +153,9 @@ const PostsListComponent = ({ boardId }) => {
             게시판 목록
           </BoardButton>
         </LeftButtonGroup>
+
+        <PostSearchComponent onSearch={handleSearch} />
+
         <RightButtonGroup>
           <BoardButton onClick={handleGotoBoardCreateClick}>글작성</BoardButton>
         </RightButtonGroup>

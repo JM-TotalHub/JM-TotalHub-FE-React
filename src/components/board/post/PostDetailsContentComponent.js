@@ -1,9 +1,7 @@
-import React, { useEffect } from 'react';
-import { useDispatch, useSelector } from 'react-redux';
+import React from 'react';
+import { useSelector } from 'react-redux';
 import { formatDate } from '../../../utils/form/dateFormat';
 import { htmlDecoder } from '../../../utils/form/htmlDecoder';
-
-import postDetailsByPostId from '../../../features/domains/board/post/actions/PostDetailsAction';
 
 import {
   Column,
@@ -14,33 +12,8 @@ import {
   Value,
 } from './styles/PostDetailsStyles';
 
-const PostDetailsComponent = ({ postId }) => {
-  const dispatch = useDispatch();
-
-  const { postDetails, status, error } = useSelector(
-    (state) => state.board.postDetails
-  );
-
-  useEffect(() => {
-    dispatch(
-      postDetailsByPostId({
-        postId,
-      })
-    );
-  }, [dispatch, postId]);
-
-  if (status === 'idle') {
-    return <div>Loading... 데이터를 요청합니다.</div>;
-  }
-
-  if (status === 'loading') {
-    return <div>Loading... 데이터를 불러오고 있습니다.</div>;
-  }
-
-  if (status === 'failed') {
-    console.log('api 통신 에러 : ' + error);
-    return <div>Error: 게시글 데이터를 불러오지 못했습니다.</div>;
-  }
+const PostDetailsContentComponent = ({ postId }) => {
+  const { postDetails } = useSelector((state) => state.board.postDetails);
 
   const decodedContent = htmlDecoder(postDetails.content);
 
@@ -80,4 +53,4 @@ const PostDetailsComponent = ({ postId }) => {
   );
 };
 
-export default PostDetailsComponent;
+export default PostDetailsContentComponent;

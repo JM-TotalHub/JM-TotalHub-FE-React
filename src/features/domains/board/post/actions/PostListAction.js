@@ -7,6 +7,8 @@ const postListByBoardId = createAsyncThunk(
   'postList/postListByBoardId',
   async ({ boardId, queryData }) => {
     // API 요청 수행
+    // console.log('queryData : ', queryData);
+
     const response = await api.get(`/boards/${boardId}/posts`, {
       params: queryData,
     });

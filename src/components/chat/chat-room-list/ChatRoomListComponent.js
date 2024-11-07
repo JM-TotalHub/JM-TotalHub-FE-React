@@ -2,15 +2,22 @@ import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import chatRoomListByNothing from '../../../features/domains/chat/chat-room/actions/ChatRoomListAction';
 import { useNavigate } from 'react-router-dom';
+import {
+  StChatRoomItem,
+  StChatRoomListContainer,
+} from './styles/ChatRoomListStyles';
 
 const ChatRoomListComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+
+  const { device } = useSelector((state) => state.config.systemConfig); // mobile tablet dasktop
   const { chatRoomList, newChatRoom, status, error } = useSelector(
     (state) => state.chat.chatRoomList
   );
 
-  console.log('채팅방 리스트 페이지 chatRoomList : ', chatRoomList);
+  // console.log('채팅방 리스트 페이지 chatRoomList : ', chatRoomList);
+  console.log(device);
 
   useEffect(() => {
     dispatch(chatRoomListByNothing());
@@ -26,20 +33,18 @@ const ChatRoomListComponent = () => {
   };
 
   return (
-    <div>
-      <ul>
-        {chatRoomList.map((chatRoom) => (
-          <li
-            key={chatRoom.id}
-            onClick={() => handleChatRoomClick(chatRoom.id)}
-          >
-            <p>{chatRoom.id}</p>
-            <h3>{chatRoom.name}</h3>
-            <p>{chatRoom.description}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
+    <StChatRoomListContainer device={device}>
+      {chatRoomList.map((chatRoom) => (
+        <StChatRoomItem
+          key={chatRoom.id}
+          onClick={() => handleChatRoomClick(chatRoom.id)}
+        >
+          <p>{chatRoom.id}</p>
+          <h3>{chatRoom.name}</h3>
+          <p>{chatRoom.description}</p>
+        </StChatRoomItem>
+      ))}
+    </StChatRoomListContainer>
   );
 };
 

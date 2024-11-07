@@ -1,8 +1,9 @@
 import React, { useEffect, useRef, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import ChatRoomMessageLoadAction from '../../../../features/domains/chat/chat-room/actions/ChatRoomMessageLoadAction';
+import { ChatRoomMessageListContainer } from '../../../../pages/chat/chat-room/styles/ChatRoomDetailsStyles';
 
-const ChatRoomMessageListComponent = ({ chatRoomId }) => {
+const ChatRoomMessageListComponent = ({ chatRoomId, useChatRoomVideo }) => {
   const { userInfo } = useSelector((state) => state.auth.userInfo);
   const { chatRoomMessages, status, newMessage } = useSelector(
     (state) => state.chat.chatRoomDetails
@@ -77,8 +78,8 @@ const ChatRoomMessageListComponent = ({ chatRoomId }) => {
 
   if (status === 'succeeded') {
     return (
-      <div>
-        <h2>채팅 메시지</h2>
+      <ChatRoomMessageListContainer useChatRoomVideo={useChatRoomVideo}>
+        <h3>채팅 메시지</h3>
         <div
           ref={messageListRef}
           style={{ height: '400px', overflowY: 'scroll' }}
@@ -95,7 +96,7 @@ const ChatRoomMessageListComponent = ({ chatRoomId }) => {
           ))}
           {isFetching && <div>이전 메시지 불러오는 중...</div>}
         </div>
-      </div>
+      </ChatRoomMessageListContainer>
     );
   }
 };
