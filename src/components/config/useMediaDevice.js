@@ -5,19 +5,19 @@ const useMediaDevice = () => {
   const theme = useTheme();
   const { mediaQueries } = theme;
 
-  const [deviceState, setDeviceState] = useState({
-    Mobile: false,
-    Tablet: false,
-    Desktop: false,
-  });
+  const [device, setDevice] = useState('desktop'); // 기본값을 'desktop'으로 설정
 
   useEffect(() => {
     const updateDeviceState = () => {
-      setDeviceState({
-        Mobile: window.matchMedia(mediaQueries.mobile).matches,
-        Tablet: window.matchMedia(mediaQueries.tablet).matches,
-        Desktop: window.matchMedia(mediaQueries.desktop).matches,
-      });
+      if (window.matchMedia(mediaQueries.mobile).matches) {
+        setDevice('mobile');
+      } else if (window.matchMedia(mediaQueries.tablet).matches) {
+        setDevice('tablet');
+      } else if (window.matchMedia(mediaQueries.desktop).matches) {
+        setDevice('desktop');
+      } else {
+        setDevice('desktop');
+      }
     };
 
     updateDeviceState();
@@ -28,7 +28,7 @@ const useMediaDevice = () => {
     };
   }, [mediaQueries]);
 
-  return deviceState;
+  return device;
 };
 
 export default useMediaDevice;

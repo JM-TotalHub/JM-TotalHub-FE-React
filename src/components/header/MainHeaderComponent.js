@@ -23,9 +23,9 @@ const MainHeaderComponent = () => {
   const dispatch = useDispatch();
 
   const { userInfo, loginStatus } = useSelector((state) => state.auth.userInfo);
-  const { status: signInStatus } = useSelector((state) => state.auth.signIn);
+  // const { status: signInStatus } = useSelector((state) => state.auth.signIn);
 
-  const { Mobile, Tablet, Desktop } = useMediaDevice();
+  const device = useMediaDevice();
 
   useEffect(() => {
     dispatch(userInfoByToken());

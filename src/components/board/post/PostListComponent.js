@@ -12,6 +12,7 @@ import {
   RightButtonGroup,
 } from '../../../styles/commonButtonStyles';
 
+import useMediaDevice from '../../config/useMediaDevice';
 import PostSearchComponent from './PostSearchComponent';
 import {
   Container,
@@ -24,7 +25,7 @@ import {
   TableRow,
   TitleColumn,
   UserColumn,
-} from './styles/PostListStyles'; // 스타일 컴포넌트 임포트
+} from './styles/PostListStyles';
 
 // useSearchParams 활용해서 파라미터 일괄 관리
 
@@ -42,12 +43,12 @@ const PostsListComponent = ({ boardId }) => {
   const sortField = searchParams.get('sort-field') || 'created_at';
   const sortOrder = searchParams.get('sort-order') || 'desc';
 
-  const { device, screenSize } = useSelector(
-    (state) => state.config.systemConfig
-  );
+  const device = useMediaDevice();
   const { postList, totalPage, pageNum, status, error } = useSelector(
     (state) => state.board.postList
   );
+
+  console.log(device);
 
   const handleGotoBoardListClick = () => {
     navigate('/boards');
@@ -118,14 +119,14 @@ const PostsListComponent = ({ boardId }) => {
       <Table>
         <colgroup>
           {/* {!isMobile && <IdColumn />} */}
-          {screenSize >= 768 && <IdColumn />}
+          {device !== 'mobile' && <IdColumn />}
           <TitleColumn />
           <UserColumn />
           <CreatedAtColumn />
         </colgroup>
         <TableHead>
           <TableRow>
-            {screenSize >= 768 && <TableHeadCell>ID</TableHeadCell>}
+            {device !== 'mobile' && <TableHeadCell>ID</TableHeadCell>}
             <TableHeadCell>제목</TableHeadCell>
             <TableHeadCell>작성자</TableHeadCell>
             <TableHeadCell>작성일</TableHeadCell>
@@ -134,7 +135,7 @@ const PostsListComponent = ({ boardId }) => {
         <tbody>
           {postList.map((post) => (
             <TableRow key={post.id}>
-              {screenSize >= 768 && <TableCell>{post.id}</TableCell>}
+              {device !== 'mobile' && <TableCell>{post.id}</TableCell>}
               <TableCell>
                 <Link to={`${post.id}`}>{post.title}</Link>
               </TableCell>
