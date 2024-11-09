@@ -16,21 +16,16 @@ import {
   StUserInfo,
   StUserFunctions,
 } from './styles/HeaderStyles';
+import useMediaDevice from '../config/useMediaDevice';
 
 const MainHeaderComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
   const { userInfo, loginStatus } = useSelector((state) => state.auth.userInfo);
-  const { status: signInStatus } = useSelector((state) => state.auth.signIn);
+  // const { status: signInStatus } = useSelector((state) => state.auth.signIn);
 
-  // ThemeProvider 이용해서 스타일 컴포넌트 공통 함수들 전달 가능 - 화면 크기 전달에 사용 예정
-  // const theme = {
-  //   loginStatus, // 로그인 상태
-  //   userNickname: loginStatus ? userInfo.nickname : '방문자', // 사용자 닉네임
-  //   buttonColor: loginStatus ? '#007bff' : '#ccc', // 버튼 색상
-  //   textColor: loginStatus ? 'white' : 'gray', // 텍스트 색상
-  // };
+  const device = useMediaDevice();
 
   useEffect(() => {
     dispatch(userInfoByToken());
@@ -75,7 +70,7 @@ const MainHeaderComponent = () => {
       </StFirstLine>
 
       <StSecondLine>
-        <StContentLink to={`/overviews`}>사이트 소개</StContentLink>
+        <StContentLink to={`/overviews`}>소개</StContentLink>
         <StContentLink to={`/boards`}>게시판</StContentLink>
         <StContentLink
           to={loginStatus ? `/chats/chat-rooms` : '#'}

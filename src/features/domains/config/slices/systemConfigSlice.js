@@ -1,6 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
 import React from 'react';
 
+// 현재 안쓰는 중
+// useMediaDevice 로 대체, 혹시 다른 설정에 쓸까봐 냅둠
 const systemConfigSlice = createSlice({
   name: 'systemConfigSlice',
   initialState: {

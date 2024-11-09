@@ -23,6 +23,8 @@ import ScreenSizeConfigComponent from './components/config/ScreenSizeConfigCompo
 import User from './pages/user';
 import Overview from './pages/overview';
 import MainPage from './pages/main/MainPage';
+import { ThemeProvider } from 'styled-components';
+import theme from './components/config/style/theme';
 
 const App = () => {
   const location = useLocation();
@@ -41,36 +43,38 @@ const App = () => {
       {/* 설정 관련 */}
       <ScreenSizeConfigComponent />
 
-      {/* 알림창 */}
-      <CommonAlertComponent />
+      <ThemeProvider theme={theme}>
+        {/* 알림창 */}
+        <CommonAlertComponent />
 
-      <StyledAppContainer>
-        {/* 해더 */}
-        {!isAuthPath && (
-          <StyledHeaderContent>
-            <MainHeaderComponent />
-          </StyledHeaderContent>
-        )}
+        <StyledAppContainer>
+          {/* 해더 */}
+          {!isAuthPath && (
+            <StyledHeaderContent>
+              <MainHeaderComponent />
+            </StyledHeaderContent>
+          )}
 
-        {/* 페이지 라우터 */}
-        <StyledMainContent>
-          <Routes>
-            <Route path="/" element={<MainPage />} />
-            <Route path="/tests/*" element={<Test />} />
+          {/* 페이지 라우터 */}
+          <StyledMainContent>
+            <Routes>
+              <Route path="/" element={<MainPage />} />
+              <Route path="/tests/*" element={<Test />} />
 
-            {/* 유저(마이페이지) 기능 적용예정 */}
-            <Route path="/users/*" element={<User />} />
+              {/* 유저(마이페이지) 기능 적용예정 */}
+              <Route path="/users/*" element={<User />} />
 
-            {/* (사이트 소개)포트폴리오 적용예정 */}
-            <Route path="/overviews/*" element={<Overview />} />
+              {/* (사이트 소개)포트폴리오 적용예정 */}
+              <Route path="/overviews/*" element={<Overview />} />
 
-            <Route path="/auth/*" element={<Auth />} />
+              <Route path="/auth/*" element={<Auth />} />
 
-            <Route path="/boards/*" element={<Board />} />
-            <Route path="/chats/*" element={<Chat />} />
-          </Routes>
-        </StyledMainContent>
-      </StyledAppContainer>
+              <Route path="/boards/*" element={<Board />} />
+              <Route path="/chats/*" element={<Chat />} />
+            </Routes>
+          </StyledMainContent>
+        </StyledAppContainer>
+      </ThemeProvider>
     </SocketProvider>
   );
 };

@@ -1,7 +1,8 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import chatRoomListByNothing from '../../../features/domains/chat/chat-room/actions/ChatRoomListAction';
 import { useNavigate } from 'react-router-dom';
+import chatRoomListByNothing from '../../../features/domains/chat/chat-room/actions/ChatRoomListAction';
+import useMediaDevice from '../../config/useMediaDevice';
 import {
   StChatRoomItem,
   StChatRoomListContainer,
@@ -11,7 +12,8 @@ const ChatRoomListComponent = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
 
-  const { device } = useSelector((state) => state.config.systemConfig); // mobile tablet dasktop
+  const device = useMediaDevice();
+
   const { chatRoomList, newChatRoom, status, error } = useSelector(
     (state) => state.chat.chatRoomList
   );
