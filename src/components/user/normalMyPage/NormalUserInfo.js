@@ -1,17 +1,21 @@
 import React, { useEffect, useState } from 'react';
 import api from '../../../utils/connections/api';
 
-const NormalUserInfo = ({ userId }) => {
-  const [userInfo, setUserInfo] = useState();
+const NormalUserInfo = ({}) => {
+  const [userInfo, setUserInfo] = useState(null);
+
+  console.log(userInfo);
 
   useEffect(() => {
     const fetchUserInfo = async () => {
-      const response = await api.get(`/users/info/${userId}`);
-      console.log(response);
-
+      const response = await api.get(`/users/info`);
       setUserInfo(response.data);
     };
     fetchUserInfo();
+
+    return () => {
+      setUserInfo(null);
+    };
   }, []);
 
   if (userInfo) {
