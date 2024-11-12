@@ -2,16 +2,17 @@ import React, { useEffect, useState } from 'react';
 import api from '../../../utils/connections/api';
 import Pagination from '../../common/Pagination';
 
-const NormalUserPost = () => {
-  const [postList, setPostList] = useState([]);
+const NormalUserCommentList = () => {
+  const [commentList, setCommentList] = useState([]);
 
   const [totalPage, setTotalPage] = useState(1);
   const [currentPage, setCurrentPage] = useState(1);
   const [dataPerPage] = useState(10);
-  const [searchType, setSearchType] = useState('title');
-  const [searchText, setSearchText] = useState('');
+
+  const [searchType, setSearchType] = useState('content');
+  const [searchText, setSearchText] = useState(' ');
+  const [sortField, setSortField] = useState('created_at');
   const [sortOrder, setSortOrder] = useState('desc');
-  const [status, setStatus] = useState('idle');
 
   const handlePageChange = (page) => {
     setCurrentPage(page);
@@ -24,41 +25,40 @@ const NormalUserPost = () => {
   };
 
   useEffect(() => {
-    const fetchUserPostList = async () => {
-      const response = await api.get(`/boards/posts/users`, {
-        params: {
-          pageNum: currentPage,
-          dataPerPage,
-          searchType,
-          searchText,
-          sortOrder,
-        },
+    const fetchUserCommentList = async () => {
+      const response = await api.get(`boards/comments/users`, {
+        params: {},
       });
 
-      setPostList(response.data.postList);
-      console.log(response.data.postList);
+      setCommentList(response.data.commentList);
+
+      console.log('comments');
+      console.log(response);
     };
-    fetchUserPostList();
+
+    fetchUserCommentList();
   }, []);
 
-  if (postList) {
+  if (commentList) {
     return (
       <div>
-        <h3>작성한 게시물</h3>
+        <h3>작성한 댓글</h3>
         <table>
           <thead>
             <tr>
               <th>ID</th>
-              <th>제목</th>
+              <th>내용</th>
               <th>작성일</th>
+              <th>게시판</th>
             </tr>
           </thead>
           <tbody>
-            {postList.map((post) => (
-              <tr key={post.id}>
-                <td>{post.id}</td>
-                <td>{post.title}</td>
-                <td>{post.created_at}</td>
+            {commentList.map((comment) => (
+              <tr key={comment.id}>
+                <td>{comment.id}</td>
+                <td>{comment.content}</td>
+                <td>{comment.created_at}</td>
+                <td>{comment.post.board.name}</td>
               </tr>
             ))}
           </tbody>
@@ -70,9 +70,7 @@ const NormalUserPost = () => {
         />
       </div>
     );
-  } else {
-    return <div>불러오는 중...</div>;
   }
 };
 
-export default NormalUserPost;
+export default NormalUserCommentList;
