@@ -24,13 +24,13 @@ server {
     brotli_types application/javascript application/x-javascript text/css application/json application/wasm application/octet-stream;
     brotli_min_length 1000;
 
-    # Unity WebGL 빌드 파일 처리 (Brotli)
+    # Brotli 압축된 파일 처리
     location ~* \.(data|wasm|js|json)\.br$ {
         add_header Content-Encoding br;
         add_header Content-Type application/octet-stream;
-        try_files $uri =404;
+        try_files $uri $uri/ /index.html;
     }
-
+    
     # 아래 부터 실제 적용
     location / {
         root /usr/share/nginx/html;        
