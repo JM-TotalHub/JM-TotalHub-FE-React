@@ -19,17 +19,24 @@ server {
     ssl_prefer_server_ciphers on;
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384";
 
+    # Brotli 압축 설정
+    brotli on;
+    brotli_types application/javascript application/x-javascript text/css application/json;
+    brotli_min_length 1000;
+
     # .br 파일에 대해 Content-Encoding 설정
-    location ~* \.js\.br$ {
+    location ~* \.(js|css)\.br$ {
         add_header Content-Encoding br;
-        types { application/javascript br; }
+        try_files $uri =404;
     }
 
-    location ~* \.css\.br$ {
-        add_header Content-Encoding br;
-        types { text/css br; }
+    # 실제 파일 제공
+    location / {
+        root /usr/share/nginx/html;        
+        try_files $uri $uri/ /index.html;  
     }
 
+    # 아래 부터 실제 적용
     location / {
         root /usr/share/nginx/html;        
         try_files $uri $uri/ /index.html;  
