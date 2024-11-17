@@ -1,9 +1,9 @@
 const cacheName = "JM Studio-Undead Survivor Practice01-1.0";
 const contentToCache = [
-    "Build/test.loader.js",
-    "Build/test.framework.js.gz",
-    "Build/test.data.gz",
-    "Build/test.wasm.gz",
+    "Build/undead-survivor.loader.js",
+    "Build/undead-survivor.framework.js.br",
+    "Build/undead-survivor.data.br",
+    "Build/undead-survivor.wasm.br",
     "TemplateData/style.css"
 
 ];
