@@ -33,7 +33,7 @@ RUN apt-get update && \
     wget http://nginx.org/download/nginx-1.21.6.tar.gz && \
     tar -zxvf nginx-1.21.6.tar.gz && \
     cd nginx-1.21.6 && \
-    ./configure --add-module=ngx_brotli && \
+    ./configure --add-module=../ngx_brotli && \  
     make && \
     make install && \
     rm -rf /nginx-1.21.6 /ngx_brotli /nginx-1.21.6.tar.gz
