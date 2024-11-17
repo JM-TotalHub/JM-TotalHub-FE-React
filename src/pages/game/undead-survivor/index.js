@@ -1,6 +1,14 @@
 import React from 'react';
+import { Unity, useUnityContext } from 'react-unity-webgl';
 
 const UndeadSurvivor = () => {
+  const { unityProvider, isLoaded } = useUnityContext({
+    loaderUrl: '/game/undead-survivor/Build/new.loader.js.gz',
+    dataUrl: '/game/undead-survivor/Build/new.data.gz',
+    frameworkUrl: '/game/undead-survivor/Build/new.framework.js.gz',
+    codeUrl: '/game/undead-survivor/Build/new.wasm.gz',
+  });
+
   return (
     <div
       style={{
@@ -14,15 +22,14 @@ const UndeadSurvivor = () => {
         margin: '0 auto',
       }}
     >
-      <iframe
-        src="/game/undead-survivor/index.html"
-        title="Undead Survivor"
-        style={{
-          width: '60%',
-          height: '90%',
-          border: 'none',
-        }}
-      ></iframe>
+      {isLoaded ? (
+        <Unity
+          unityProvider={unityProvider}
+          style={{ width: '60%', height: '90%' }}
+        />
+      ) : (
+        <div>Loading...</div>
+      )}
     </div>
   );
 };
