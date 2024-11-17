@@ -20,8 +20,23 @@ RUN ls -R /app/build
 
 # FROM nginx:latest
 
-# Nginx with Brotli 모듈이 포함된 이미지 사용
-FROM macbre/nginx-brotli:latest
+FROM nginx:latest AS nginx-build
+
+# 필수 패키지 설치 및 Brotli 모듈 다운로드
+RUN apt update && apt install -y software-properties-common \
+    && apt install -y build-essential zlib1g-dev libpcre3 libpcre3-dev wget git \
+    && git clone --recursive https://github.com/google/ngx_brotli.git \
+    && cd ngx_brotli && git submodule update --init && cd ..
+
+# Nginx 소스 코드 다운로드 및 빌드
+RUN wget http://nginx.org/download/nginx-1.23.3.tar.gz \
+    && tar -xzvf nginx-1.23.3.tar.gz \
+    && cd nginx-1.23.3 \
+    && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
+    && make modules \
+    && cp objs/ngx_http_brotli_filter_module.so /etc/nginx/modules/ \
+    && cp objs/ngx_http_brotli_static_module.so /etc/nginx/modules/
+    
 
 COPY --from=build /app/build /usr/share/nginx/html
 

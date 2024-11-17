@@ -21,7 +21,7 @@ server {
 
     # Brotli 압축된 파일 처리 (Unity WebGL 빌드 관련)
     location ~ .+\.(data|symbols\.json|wasm|framework\.js|loader\.js)\.br$ {
-        gzip off; # 이 파일들은 이미 압축되었으므로 추가 압축 비활성화
+        gzip off; 
         add_header Content-Encoding br;
         add_header Vary Accept-Encoding;
         default_type application/octet-stream;
