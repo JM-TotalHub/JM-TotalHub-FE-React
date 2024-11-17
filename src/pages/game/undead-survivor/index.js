@@ -7,10 +7,10 @@ const UndeadSurvivor = () => {
     // dataUrl: '/game/undead-survivor3/Build/test03.data',
     // frameworkUrl: '/game/undead-survivor3/Build/test03.framework.js',
     // codeUrl: '/game/undead-survivor3/Build/test03.wasm',
-    loaderUrl: '/game/undead-survivor/Build/test.loader.js',
-    dataUrl: '/game/undead-survivor/Build/test.data.gz',
-    frameworkUrl: '/game/undead-survivor/Build/test.framework.js.gz',
-    codeUrl: '/game/undead-survivor/Build/test.wasm.gz',
+    loaderUrl: '/game/undead-survivor/unity-build/test.loader.js',
+    dataUrl: '/game/undead-survivor/unity-build/test.data.gz',
+    frameworkUrl: '/game/undead-survivor/unity-build/test.framework.js.gz',
+    codeUrl: '/game/undead-survivor/unity-build/test.wasm.gz',
   });
 
   return (
