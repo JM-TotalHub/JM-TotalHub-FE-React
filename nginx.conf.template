@@ -24,6 +24,20 @@ server {
     gzip_comp_level 6;
     gzip_types application/javascript application/x-javascript text/css application/json application/wasm application/octet-stream;
     gzip_min_length 1000;
+
+    # Gzip 압축된 파일 서빙 설정
+    location ~* \.(js|wasm|data|json|css)\.gz$ {
+        add_header Content-Encoding gzip;
+        add_header Vary Accept-Encoding;
+        gzip_static on;
+        try_files $uri $uri/ =404;
+    }
+
+    # Unity WebGL 게임 파일 경로 설정
+    location /game/ {
+        root /usr/share/nginx/html;
+        try_files $uri $uri/ /index.html;
+    }
     
     # 아래 부터 실제 적용
     location / {
