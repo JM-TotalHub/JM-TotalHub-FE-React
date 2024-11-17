@@ -24,6 +24,7 @@ import User from './pages/user';
 import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
 import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
+import Game from './pages/game';
 
 const App = () => {
   const location = useLocation();
@@ -70,6 +71,7 @@ const App = () => {
 
               <Route path="/boards/*" element={<Board />} />
               <Route path="/chats/*" element={<Chat />} />
+              <Route path="/game/*" element={<Game />} />
             </Routes>
           </StyledMainContent>
         </StyledAppContainer>

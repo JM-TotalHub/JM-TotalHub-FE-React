@@ -79,7 +79,7 @@ const MainHeaderComponent = () => {
         >
           채팅
         </StContentLink>
-        <StContentLink to={`#`}>준비중</StContentLink>
+        <StContentLink to={`/game`}>게임</StContentLink>
         <StContentLink to={`#`}>준비중</StContentLink>
       </StSecondLine>
     </StMainHeader>

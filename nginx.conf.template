@@ -19,6 +19,17 @@ server {
     ssl_prefer_server_ciphers on;
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384";
 
+    # .br 파일에 대해 Content-Encoding 설정
+    location ~* \.js\.br$ {
+        add_header Content-Encoding br;
+        types { application/javascript br; }
+    }
+
+    location ~* \.css\.br$ {
+        add_header Content-Encoding br;
+        types { text/css br; }
+    }
+
     location / {
         root /usr/share/nginx/html;        
         try_files $uri $uri/ /index.html;  

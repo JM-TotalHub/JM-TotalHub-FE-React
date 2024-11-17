@@ -26,7 +26,7 @@ const ChatRoomListComponent = () => {
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
   const totalPage = parseInt(searchParams.get('total-page')) || 1;
-  const dataPerPage = parseInt(searchParams.get('dataPerPage')) || 10;
+  const dataPerPage = parseInt(searchParams.get('dataPerPage')) || 15;
   const searchType = searchParams.get('search-type') || 'title';
   const searchText = searchParams.get('search-text') || ' ';
   const sortField = searchParams.get('sort-field') || 'created_at';
@@ -51,7 +51,16 @@ const ChatRoomListComponent = () => {
     };
 
     fetchChatRoomList();
-  }, []);
+  }, [
+    currentPage,
+    totalPage,
+    dataPerPage,
+    searchType,
+    searchText,
+    sortField,
+    sortOrder,
+    roomType,
+  ]);
 
   const handleChatRoomClick = (chatRoomId) => {
     navigate(`/chats/chat-rooms/${chatRoomId}`);
@@ -69,31 +78,32 @@ const ChatRoomListComponent = () => {
   };
 
   return (
-    <StChatRoomListContainer device={device}>
+    <>
       {/* 정렬 기준 - 일단은 작성일 기준으로먄  */}
       <select value={roomType} onChange={handleRoomType}>
         <option value="total">전체</option>
         <option value="public">공개방</option>
         <option value="private">비밀방</option>
       </select>
-
-      {chatRoomList.map((chatRoom) => (
-        <StChatRoomItem
-          key={chatRoom.id}
-          onClick={() => handleChatRoomClick(chatRoom.id)}
-        >
-          <p>{chatRoom.id}</p>
-          <h3>{chatRoom.name}</h3>
-          <p>{chatRoom.description}</p>
-        </StChatRoomItem>
-      ))}
+      <StChatRoomListContainer device={device}>
+        {chatRoomList.map((chatRoom) => (
+          <StChatRoomItem
+            key={chatRoom.id}
+            onClick={() => handleChatRoomClick(chatRoom.id)}
+          >
+            <p>{chatRoom.id}</p>
+            <h3>{chatRoom.name}</h3>
+            <p>{chatRoom.description}</p>
+          </StChatRoomItem>
+        ))}
+      </StChatRoomListContainer>
 
       <Pagination
         totalPage={totalPage}
         currentPage={currentPage}
         onPageChange={handlePageNum}
       />
-    </StChatRoomListContainer>
+    </>
   );
 };
 
