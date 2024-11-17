@@ -34,8 +34,8 @@ server {
 
     # Unity WebGL 빌드 파일 서빙
     location /game/ {
-        root /usr/share/nginx/html;
-        try_files $uri $uri/ =404; 
+        alias /usr/share/nginx/html/game/; # root 대신 alias 사용
+        try_files $uri $uri/ =404; # 요청된 파일이 없으면 404 반환
     }
 
     # 아래 부터 실제 적용
