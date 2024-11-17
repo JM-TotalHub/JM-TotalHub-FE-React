@@ -30,6 +30,7 @@ RUN apt-get update && apt-get install -y \
     libpcre3-dev \
     git \
     wget \
+    libbrotli-dev \  
     && git clone --recursive https://github.com/google/ngx_brotli.git
 
 # Nginx 소스 코드 다운로드 및 빌드
@@ -41,7 +42,6 @@ RUN wget http://nginx.org/download/nginx-1.23.3.tar.gz \
     && cp objs/ngx_http_brotli_filter_module.so /etc/nginx/modules/ \
     && cp objs/ngx_http_brotli_static_module.so /etc/nginx/modules/ \
     && rm -rf nginx-1.23.3.tar.gz nginx-1.23.3 ngx_brotli
-    
 
 COPY --from=build /app/build /usr/share/nginx/html
 
