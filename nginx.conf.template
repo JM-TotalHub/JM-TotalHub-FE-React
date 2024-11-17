@@ -18,17 +18,18 @@ server {
     ssl_protocols TLSv1.2 TLSv1.3;
     ssl_prefer_server_ciphers on;
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384";
-
+    
     # Brotli 압축 설정
     brotli on;
-    brotli_types text/xml image/svg+xml application/x-font-ttf image/vnd.microsoft.icon application/x-font-opentype application/json font/eot application/vnd.ms-fontobject application/javascript font/otf application/xml application/xhtml+xml text/javascript  application/x-javascript text/plain application/x-font-truetype application/xml+rss image/x-icon font/opentype text/css image/x-win-bitmap;
+    brotli_types application/javascript application/json application/wasm text/css application/octet-stream;
     brotli_min_length 1000;
 
-    # Brotli 압축된 파일 처리
+    # Brotli 파일 처리
     location ~* \.(data|wasm|js|json)\.br$ {
         add_header Content-Encoding br;
+        add_header Vary Accept-Encoding;
         add_header Content-Type application/octet-stream;
-        try_files $uri $uri/ /index.html;
+        try_files $uri =404;
     }
     
     # 아래 부터 실제 적용
