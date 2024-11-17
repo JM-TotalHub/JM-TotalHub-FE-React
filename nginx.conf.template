@@ -19,7 +19,7 @@ server {
     ssl_prefer_server_ciphers on;
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384";
 
-    # Gzip 압축된 파일 처리
+    # Gzip 압축된 파일 처리 (특정 확장자)
     location ~* \.(js|wasm|data|json|css|html)\.gz$ {
         gzip off;
         default_type application/octet-stream;
@@ -28,10 +28,10 @@ server {
         try_files $uri =404;
     }
 
-    # Unity WebGL 빌드 파일 제공 경로 설정
+    # Unity WebGL 파일 서빙 설정
     location /game/ {
-        alias /usr/share/nginx/html/game/;
-        try_files $uri $uri/ =404;
+        root /usr/share/nginx/html;
+        try_files $uri $uri/ /index.html;
     }
 
 
