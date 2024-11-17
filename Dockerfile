@@ -20,17 +20,8 @@ RUN ls -R /app/build
 
 # FROM nginx:latest
 
-# 2. Brotli 모듈 설치된 Nginx 이미지 사용
-FROM nginx:stable
-
-# Brotli 모듈 설치
-RUN apt-get update && \
-    apt-get install -y nginx-module-brotli
-
-# Brotli 모듈 로드
-RUN echo "load_module modules/ngx_http_brotli_filter_module.so;" > /etc/nginx/modules-enabled/50-mod-http-brotli.conf && \
-    echo "load_module modules/ngx_http_brotli_static_module.so;" >> /etc/nginx/modules-enabled/50-mod-http-brotli.conf
-
+# Nginx with Brotli 모듈이 포함된 이미지 사용
+FROM gildas/nginx-brotli:latest
 
 COPY --from=build /app/build /usr/share/nginx/html
 
