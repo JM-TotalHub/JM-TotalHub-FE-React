@@ -28,7 +28,7 @@ FROM nginx:latest AS nginx-build
 
 # Brotli 모듈 설치를 위한 패키지 설치
 RUN apt-get update && \
-    apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev git && \
+    apt-get install -y build-essential zlib1g-dev libpcre3 libpcre3-dev git wget && \
     git clone --recursive https://github.com/google/ngx_brotli.git && \
     wget http://nginx.org/download/nginx-1.21.6.tar.gz && \
     tar -zxvf nginx-1.21.6.tar.gz && \
@@ -37,7 +37,6 @@ RUN apt-get update && \
     make && \
     make install && \
     rm -rf /nginx-1.21.6 /ngx_brotli /nginx-1.21.6.tar.gz
-
 
 
 COPY --from=build /app/build /usr/share/nginx/html
