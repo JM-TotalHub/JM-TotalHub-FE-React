@@ -19,18 +19,11 @@ server {
     ssl_prefer_server_ciphers on;
     ssl_ciphers "ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384";
     
-    # Brotli 압축 설정
-    brotli on;
-    brotli_types application/javascript application/json application/wasm text/css application/octet-stream;
-    brotli_min_length 1000;
-
-    # Brotli 파일 처리
-    location ~* \.(data|wasm|js|json)\.br$ {
-        add_header Content-Encoding br;
-        add_header Vary Accept-Encoding;
-        add_header Content-Type application/octet-stream;
-        try_files $uri =404;
-    }
+    # Gzip 압축 설정
+    gzip on;
+    gzip_comp_level 6;
+    gzip_types application/javascript application/x-javascript text/css application/json application/wasm application/octet-stream;
+    gzip_min_length 1000;
     
     # 아래 부터 실제 적용
     location / {

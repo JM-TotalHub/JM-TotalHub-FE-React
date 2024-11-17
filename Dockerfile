@@ -18,10 +18,10 @@ RUN echo $REACT_APP_NGINX_SERVER01_EC2_HOST
 RUN CI=false npm run build
 RUN ls -R /app/build 
 
-# FROM nginx:latest
+FROM nginx:latest
 
 # Nginx with Brotli 모듈이 포함된 이미지 사용
-FROM macbre/nginx-brotli:latest
+# FROM macbre/nginx-brotli:latest
 
 COPY --from=build /app/build /usr/share/nginx/html
 
