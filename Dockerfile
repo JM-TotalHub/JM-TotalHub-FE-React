@@ -20,13 +20,17 @@ RUN ls -R /app/build
 
 # FROM nginx:latest
 
-FROM nginx:latest AS nginx-build
+# Nginx 단계
+FROM nginx:latest
 
 # 필수 패키지 설치 및 Brotli 모듈 다운로드
-RUN apt update && apt install -y software-properties-common \
-    && apt install -y build-essential zlib1g-dev libpcre3 libpcre3-dev wget git \
-    && git clone --recursive https://github.com/google/ngx_brotli.git \
-    && cd ngx_brotli && git submodule update --init && cd ..
+RUN apt-get update && apt-get install -y \
+    build-essential \
+    zlib1g-dev \
+    libpcre3-dev \
+    git \
+    wget \
+    && git clone --recursive https://github.com/google/ngx_brotli.git
 
 # Nginx 소스 코드 다운로드 및 빌드
 RUN wget http://nginx.org/download/nginx-1.23.3.tar.gz \
@@ -35,7 +39,8 @@ RUN wget http://nginx.org/download/nginx-1.23.3.tar.gz \
     && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
     && make modules \
     && cp objs/ngx_http_brotli_filter_module.so /etc/nginx/modules/ \
-    && cp objs/ngx_http_brotli_static_module.so /etc/nginx/modules/
+    && cp objs/ngx_http_brotli_static_module.so /etc/nginx/modules/ \
+    && rm -rf nginx-1.23.3.tar.gz nginx-1.23.3 ngx_brotli
     
 
 COPY --from=build /app/build /usr/share/nginx/html
