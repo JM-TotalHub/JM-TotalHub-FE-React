@@ -25,13 +25,13 @@ server {
         default_type application/octet-stream;
         add_header Content-Encoding gzip;
         add_header Vary Accept-Encoding;
-        try_files $uri =404;
+        try_files $uri $uri/ =404;
     }
 
-    # Unity WebGL 파일 서빙 설정
-    location /game/ {
+    # Unity WebGL 빌드 파일 서빙 설정
+    location /game/undead-survivor/ {
         root /usr/share/nginx/html;
-        try_files $uri $uri/ /index.html;
+        try_files $uri $uri/ =404;
     }
 
 
