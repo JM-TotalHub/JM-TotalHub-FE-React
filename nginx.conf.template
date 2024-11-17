@@ -21,19 +21,14 @@ server {
 
     # Brotli 압축 설정
     brotli on;
-    brotli_types application/javascript application/x-javascript text/css application/json;
+    brotli_types application/javascript application/x-javascript text/css application/json application/wasm application/octet-stream;
     brotli_min_length 1000;
 
-    # .br 파일에 대해 Content-Encoding 설정
-    location ~* \.(js|css)\.br$ {
+    # Unity WebGL 빌드 파일 처리 (Brotli)
+    location ~* \.(data|wasm|js|json)\.br$ {
         add_header Content-Encoding br;
+        add_header Content-Type application/octet-stream;
         try_files $uri =404;
-    }
-
-    # 실제 파일 제공
-    location / {
-        root /usr/share/nginx/html;        
-        try_files $uri $uri/ /index.html;  
     }
 
     # 아래 부터 실제 적용
