@@ -3,10 +3,10 @@ import { Unity, useUnityContext } from 'react-unity-webgl';
 
 const UndeadSurvivor = () => {
   const { unityProvider, isLoaded } = useUnityContext({
-    loaderUrl: '/game/undead-survivor/Build/new.loader.js.gz',
-    dataUrl: '/game/undead-survivor/Build/new.data.gz',
-    frameworkUrl: '/game/undead-survivor/Build/new.framework.js.gz',
-    codeUrl: '/game/undead-survivor/Build/new.wasm.gz',
+    loaderUrl: '/game/undead-survivor/Build/test.loader.js.gz',
+    dataUrl: '/game/undead-survivor/Build/test.data.gz',
+    frameworkUrl: '/game/undead-survivor/Build/test.framework.js.gz',
+    codeUrl: '/game/undead-survivor/Build/test.wasm.gz',
   });
 
   return (
