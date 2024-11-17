@@ -14,7 +14,7 @@ const UserInfoSlice = createSlice({
       .addCase(userInfoByToken.pending, (state) => {})
       .addCase(userInfoByToken.fulfilled, (state, action) => {
         state.userInfo = action.payload;
-        // console.log(`유저 info 응답 : ${action.payload}`);
+        console.log(`유저 info 응답 : ${action.payload}`);
         if (action.payload) {
           state.loginStatus = true;
         }

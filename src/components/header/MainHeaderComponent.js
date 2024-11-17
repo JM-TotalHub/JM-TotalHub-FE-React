@@ -28,12 +28,13 @@ const MainHeaderComponent = () => {
   const device = useMediaDevice();
 
   useEffect(() => {
+    // httponly 토큰이라 구별해서 api요청 보내는 건 불가능, 서버측 응답으로 로그인 상태구분
     dispatch(userInfoByToken());
   }, []);
 
   const handleSignOut = () => {
     dispatch(SignOutAction());
-    navigate('/'); // 이거 현재 의미없음, 이 페이지가 / 이여서
+    navigate('/');
   };
 
   const handleUnauthorizedAccess = () => {
@@ -78,7 +79,7 @@ const MainHeaderComponent = () => {
         >
           채팅
         </StContentLink>
-        <StContentLink to={`#`}>준비중</StContentLink>
+        <StContentLink to={`/game`}>게임</StContentLink>
         <StContentLink to={`#`}>준비중</StContentLink>
       </StSecondLine>
     </StMainHeader>

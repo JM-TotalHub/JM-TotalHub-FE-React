@@ -48,8 +48,6 @@ const PostsListComponent = ({ boardId }) => {
     (state) => state.board.postList
   );
 
-  console.log(device);
-
   const handleGotoBoardListClick = () => {
     navigate('/boards');
   };

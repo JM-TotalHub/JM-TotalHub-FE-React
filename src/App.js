@@ -9,22 +9,22 @@ import Test from './pages/test/Test';
 
 import { SocketProvider } from './utils/connections/SocketProvider';
 
+import { ThemeProvider } from 'styled-components';
 import {
   StyledAppContainer,
   StyledHeaderContent,
   StyledMainContent,
 } from './AppCss';
 import CommonAlertComponent from './components/alert/CommonAlertComponent';
+import theme from './components/config/style/theme';
 import MainHeaderComponent from './components/header/MainHeaderComponent';
+import MainPage from './pages/main/MainPage';
+import Overview from './pages/overview';
+import User from './pages/user';
 import AuthListenerHandler from './utils/connections/socket-handler/auth/AuthListenerHandler';
 import ChatRoomListenerHandler from './utils/connections/socket-handler/chat-room/ChatRoomListenerHandler';
 import NotifyListenerHandler from './utils/connections/socket-handler/notification/NotifyListenerHandler';
-import ScreenSizeConfigComponent from './components/config/ScreenSizeConfigComponent';
-import User from './pages/user';
-import Overview from './pages/overview';
-import MainPage from './pages/main/MainPage';
-import { ThemeProvider } from 'styled-components';
-import theme from './components/config/style/theme';
+import Game from './pages/game';
 
 const App = () => {
   const location = useLocation();
@@ -37,11 +37,11 @@ const App = () => {
       <NotifyListenerHandler />
       <ChatRoomListenerHandler />
 
-      {/* 유저 정보 로드 */}
+      {/* 유저 정보 로드 - 헤더에서 함수 호출중 */}
       {/* <UserInfoLoader /> */}
 
-      {/* 설정 관련 */}
-      <ScreenSizeConfigComponent />
+      {/* 설정 관련 - 화면크기 관련은 theme을 통해 */}
+      {/* <ScreenSizeConfigComponent /> */}
 
       <ThemeProvider theme={theme}>
         {/* 알림창 */}
@@ -71,6 +71,7 @@ const App = () => {
 
               <Route path="/boards/*" element={<Board />} />
               <Route path="/chats/*" element={<Chat />} />
+              <Route path="/game/*" element={<Game />} />
             </Routes>
           </StyledMainContent>
         </StyledAppContainer>
