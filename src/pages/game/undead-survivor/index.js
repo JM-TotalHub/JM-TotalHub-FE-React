@@ -2,34 +2,26 @@ import React from 'react';
 import { Unity, useUnityContext } from 'react-unity-webgl';
 
 const UndeadSurvivor = () => {
-  const { unityProvider, isLoaded } = useUnityContext({
-    loaderUrl: '/game/undead-survivor/Build/test.loader.js.gz',
+  const { unityProvider, loadingProgression, isLoaded } = useUnityContext({
+    // loaderUrl: '/game/undead-survivor3/Build/test03.loader.js',
+    // dataUrl: '/game/undead-survivor3/Build/test03.data',
+    // frameworkUrl: '/game/undead-survivor3/Build/test03.framework.js',
+    // codeUrl: '/game/undead-survivor3/Build/test03.wasm',
+    loaderUrl: '/game/undead-survivor/Build/test.loader.js',
     dataUrl: '/game/undead-survivor/Build/test.data.gz',
     frameworkUrl: '/game/undead-survivor/Build/test.framework.js.gz',
     codeUrl: '/game/undead-survivor/Build/test.wasm.gz',
   });
 
   return (
-    <div
-      style={{
-        position: 'relative',
-        width: '66vw',
-        height: '80vh',
-        display: 'flex',
-        overflow: 'hidden',
-        justifyContent: 'center',
-        alignItems: 'center',
-        margin: '0 auto',
-      }}
-    >
-      {isLoaded ? (
-        <Unity
-          unityProvider={unityProvider}
-          style={{ width: '60%', height: '90%' }}
-        />
-      ) : (
-        <div>Loading...</div>
+    <div>
+      {!isLoaded && (
+        <p>Loading Application... {Math.round(loadingProgression * 100)}%</p>
       )}
+      <Unity
+        unityProvider={unityProvider}
+        style={{ visibility: isLoaded ? 'visible' : 'hidden' }}
+      />
     </div>
   );
 };
