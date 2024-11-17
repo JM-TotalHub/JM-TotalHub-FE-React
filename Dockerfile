@@ -18,30 +18,7 @@ RUN echo $REACT_APP_NGINX_SERVER01_EC2_HOST
 RUN CI=false npm run build
 RUN ls -R /app/build 
 
-# FROM nginx:latest
-
-# Nginx 단계
 FROM nginx:latest
-
-# 필수 패키지 설치 및 Brotli 모듈 다운로드
-RUN apt-get update && apt-get install -y \
-    build-essential \
-    zlib1g-dev \
-    libpcre3-dev \
-    git \
-    wget \
-    libbrotli-dev \  
-    && git clone --recursive https://github.com/google/ngx_brotli.git
-
-# Nginx 소스 코드 다운로드 및 빌드
-RUN wget http://nginx.org/download/nginx-1.23.3.tar.gz \
-    && tar -xzvf nginx-1.23.3.tar.gz \
-    && cd nginx-1.23.3 \
-    && ./configure --with-compat --add-dynamic-module=../ngx_brotli \
-    && make modules \
-    && cp objs/ngx_http_brotli_filter_module.so /etc/nginx/modules/ \
-    && cp objs/ngx_http_brotli_static_module.so /etc/nginx/modules/ \
-    && rm -rf nginx-1.23.3.tar.gz nginx-1.23.3 ngx_brotli
 
 COPY --from=build /app/build /usr/share/nginx/html
 
