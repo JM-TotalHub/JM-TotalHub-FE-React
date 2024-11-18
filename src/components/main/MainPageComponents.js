@@ -21,21 +21,10 @@ const MainPageComponents = () => {
   return (
     <div>
       <h1>메인 페이지</h1>
-      <br />
-
-      {/* 회원기능 */}
-      {/* {!loginStatus && (
-        <>
-          <Link to={`/auth/sign-up`}>회원가입</Link>
-          <br />
-          <Link to={`/auth/sign-in`}>로그인</Link>
-          <br />
-        </>
-      )}
-      {loginStatus && <button onClick={handleSignOut}>로그아웃</button>} */}
-
+      {/* <br />
       <Link to={`/boards`}>게시판</Link>
-      <br />
+      <br /> */}
+
       {loginStatus && (
         <>
           <Link to={`/chats/chat-rooms`}>채팅</Link>

@@ -23,10 +23,10 @@ const ChatRoomListComponent = () => {
   const [chatRoomList, setChatRoomList] = useState([]);
 
   const [searchParams, setSearchParams] = useSearchParams();
+  const [totalPage, setTotalPage] = useState(1);
 
   const currentPage = parseInt(searchParams.get('page')) || 1;
-  const totalPage = parseInt(searchParams.get('total-page')) || 1;
-  const dataPerPage = parseInt(searchParams.get('dataPerPage')) || 15;
+  const dataPerPage = parseInt(searchParams.get('dataPerPage')) || 10;
   const searchType = searchParams.get('search-type') || 'title';
   const searchText = searchParams.get('search-text') || ' ';
   const sortField = searchParams.get('sort-field') || 'created_at';
@@ -47,6 +47,7 @@ const ChatRoomListComponent = () => {
         },
       });
       setChatRoomList(response.data.chatRoomList);
+      setTotalPage(response.data.totalPage);
       console.log(response);
     };
 
