@@ -6,7 +6,7 @@ import { postDeleteSliceResetState } from '../../../features/domains/board/post/
 
 import { BoardButton } from '../../../styles/commonButtonStyles';
 
-const PostDeleteButtonComponent = ({ boardId, postId, pageNum }) => {
+const PostDeleteButton = ({ boardId, postId, pageNum }) => {
   const { status, error } = useSelector((state) => state.board.postDelete);
   const dispatch = useDispatch();
   const navigate = useNavigate();
@@ -34,4 +34,4 @@ const PostDeleteButtonComponent = ({ boardId, postId, pageNum }) => {
   return <BoardButton onClick={handleDelete}>삭제</BoardButton>;
 };
 
-export default PostDeleteButtonComponent;
+export default PostDeleteButton;

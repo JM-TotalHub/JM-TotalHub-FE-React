@@ -12,7 +12,7 @@ import {
   Value,
 } from './styles/PostDetailsStyles';
 
-const PostDetailsContentComponent = ({ postId }) => {
+const PostDetailsContent = ({ postId }) => {
   const { postDetails } = useSelector((state) => state.board.postDetails);
 
   const decodedContent = htmlDecoder(postDetails.content);
@@ -26,11 +26,15 @@ const PostDetailsContentComponent = ({ postId }) => {
         </Column>
       </Row>
       <Row>
-        <Column flex={10}>
+        <Column flex={6.5}>
           <Label htmlFor="userInfo">작성자:</Label>
           <Value id="userInfo">
             {postDetails.user.nickname} ({postDetails.user.email})
           </Value>
+        </Column>
+        <Column flex={3.5}>
+          <Label htmlFor="viewCount">조회수:</Label>
+          <Value id="viewCount">{postDetails.view_count}</Value>
         </Column>
       </Row>
       <Row>
@@ -53,4 +57,4 @@ const PostDetailsContentComponent = ({ postId }) => {
   );
 };
 
-export default PostDetailsContentComponent;
+export default PostDetailsContent;

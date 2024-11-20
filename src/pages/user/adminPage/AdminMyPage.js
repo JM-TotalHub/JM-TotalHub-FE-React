@@ -1,4 +1,5 @@
-import React from 'react';
+import React, { useState } from 'react';
+import AdminUserBoardCreateModal from '../../../components/user/adminPage/AdminUserBoardCreateModal';
 
 // <관리자의 관리페이지로서 여기서만 가능한 것들>
 
@@ -14,7 +15,23 @@ import React from 'react';
 // 사이트 이용현황
 
 const AdminMyPage = () => {
-  return <div>AdminMyPage</div>;
+  const [isModalOpen, setModalOpen] = useState(false);
+
+  const openModal = () => {
+    setModalOpen(true);
+  };
+
+  const closeModal = () => {
+    setModalOpen(false);
+  };
+
+  return (
+    <div>
+      <h2>관리자 페이지</h2>
+      <button onClick={openModal}>게시판 생성</button>
+      {isModalOpen && <AdminUserBoardCreateModal onClose={closeModal} />}
+    </div>
+  );
 };
 
 export default AdminMyPage;

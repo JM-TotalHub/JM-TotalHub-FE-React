@@ -34,14 +34,14 @@ const ChatRoomDetailsPage = () => {
 
   const { chatRoomInfo } = useSelector((state) => state.chat.chatRoomDetails);
 
-  const [manageOpen, setManageOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
-  const handleManageComponent = () => {
-    setManageOpen(true);
+  const manageOpen = () => {
+    setIsModalOpen(true);
   };
 
-  const ManageClose = () => {
-    setManageOpen(false);
+  const manageClose = () => {
+    setIsModalOpen(false);
   };
 
   const handleVideoComponent = () => {
@@ -66,11 +66,11 @@ const ChatRoomDetailsPage = () => {
             </div>
             <div>
               {Number(chatRoomInfo.user_id) === userInfo.id && (
-                <button onClick={handleManageComponent}>채팅방 관리</button>
+                <button onClick={manageOpen}>채팅방 관리</button>
               )}
               <ChatRoomManageComponent
-                isOpen={manageOpen}
-                onClose={ManageClose}
+                isOpen={isModalOpen}
+                onClose={manageClose}
               />
             </div>
           </StChatFunctionButton>

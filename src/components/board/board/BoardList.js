@@ -14,8 +14,9 @@ import {
   DescriptionColumn,
   // CreatedAtColumn,
 } from './styles/BoardListStyles';
+import { selectBoard } from '../../../features/domains/board/board/slices/BoardListSlice';
 
-const BoardListComponent = () => {
+const BoardList = () => {
   const dispatch = useDispatch();
   const { boardList, status, error } = useSelector(
     (state) => state.board.boardList
@@ -59,7 +60,12 @@ const BoardListComponent = () => {
             <TableRow key={board.id}>
               <TableCell>{board.id}</TableCell>
               <TableCell>
-                <Link to={`${board.id}/posts`}>{board.name}</Link>
+                <Link
+                  to={`${board.id}/posts`}
+                  onClick={() => dispatch(selectBoard(board.id))} // 클릭 시 selectBoard 호출
+                >
+                  {board.name}
+                </Link>
               </TableCell>
               <TableCell>{board.description}</TableCell>
               {/* <td>{new Date(board.created_at).toLocaleString()}</td> */}
@@ -71,4 +77,4 @@ const BoardListComponent = () => {
   );
 };
 
-export default BoardListComponent;
+export default BoardList;

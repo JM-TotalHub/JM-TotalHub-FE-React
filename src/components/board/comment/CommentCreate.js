@@ -4,7 +4,7 @@ import commentCreateByPostIdAndData from '../../../features/domains/board/commen
 import { commentCreateSliceResetState } from '../../../features/domains/board/comment/slices/CommentCreateSlice';
 import CommentFormComponent from './CommentFormComponent';
 
-const CommentCreateComponent = ({ postId }) => {
+const CommentCreate = ({ postId }) => {
   const { status, error } = useSelector((state) => state.board.commentCreate);
 
   const dispatch = useDispatch();
@@ -37,4 +37,4 @@ const CommentCreateComponent = ({ postId }) => {
   );
 };
 
-export default CommentCreateComponent;
+export default CommentCreate;

@@ -21,7 +21,7 @@ import {
   UpdateButton,
 } from './styles/CommentListStyles';
 
-const CommentListComponent = ({ postId }) => {
+const CommentList = ({ postId }) => {
   const [currentPage, setCurrentPage] = useState(1);
   const [editCommentId, setEditCommentId] = useState(null);
 
@@ -156,4 +156,4 @@ const CommentListComponent = ({ postId }) => {
   );
 };
 
-export default CommentListComponent;
+export default CommentList;

@@ -1,11 +1,11 @@
 import React from 'react';
-import BoardListComponent from '../../../components/board/board/BoardListComponent';
+import BoardList from '../../../components/board/board/BoardList';
 
 const BoardListPage = () => {
   return (
     <div>
       <h2>게시판 목록</h2>
-      <BoardListComponent />
+      <BoardList />
     </div>
   );
 };

@@ -29,7 +29,7 @@ import {
 
 // useSearchParams 활용해서 파라미터 일괄 관리
 
-const PostsListComponent = ({ boardId }) => {
+const PostsList = ({ boardId }) => {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -168,4 +168,4 @@ const PostsListComponent = ({ boardId }) => {
   );
 };
 
-export default PostsListComponent;
+export default PostsList;
