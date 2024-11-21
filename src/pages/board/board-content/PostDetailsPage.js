@@ -25,9 +25,7 @@ const PostDetailsContentPage = () => {
 
   const { pageNum } = useSelector((state) => state.board.postList);
   const { userInfo } = useSelector((state) => state.auth.userInfo);
-  const { postDetails, status } = useSelector(
-    (state) => state.board.postDetails
-  );
+  const { postDetails } = useSelector((state) => state.board.postDetails);
 
   const navigate = useNavigate();
 
@@ -40,20 +38,10 @@ const PostDetailsContentPage = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      postDetailsByPostId({
-        postId,
-      })
-    );
-  }, [postId]);
+    dispatch(postDetailsByPostId(postId));
+  }, [postId, userInfo]);
 
-  console.log(postDetails);
-
-  if (status !== 'succeeded') {
-    return <p>게시글 불러오는 중...</p>;
-  }
-
-  if (status === 'succeeded') {
+  if (postDetails) {
     return (
       <Container>
         <PostDetailsContent postId={postId}></PostDetailsContent>
@@ -64,7 +52,7 @@ const PostDetailsContentPage = () => {
           <LeftButtonGroup>
             <BoardButton onClick={handleListClick}>목록</BoardButton>
           </LeftButtonGroup>
-          {userInfo.id === postDetails?.user?.id && (
+          {userInfo && userInfo.id === postDetails?.user?.id && (
             <RightButtonGroup>
               <BoardButton onClick={handleEditClick}>글 수정</BoardButton>
               <PostDeleteButton

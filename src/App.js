@@ -40,7 +40,7 @@ const App = () => {
       {/* 유저 정보 로드 - 헤더에서 함수 호출중 */}
       {/* <UserInfoLoader /> */}
 
-      {/* 설정 관련 - 화면크기 관련은 theme을 통해 */}
+      {/* 설정 관련 - <현재 안쓰는 중>, 화면크기 관련은 theme을 통해 */}
       {/* <ScreenSizeConfigComponent /> */}
 
       <ThemeProvider theme={theme}>
@@ -60,15 +60,9 @@ const App = () => {
             <Routes>
               <Route path="/" element={<MainPage />} />
               <Route path="/tests/*" element={<Test />} />
-
-              {/* 유저(마이페이지) 기능 적용예정 */}
               <Route path="/users/*" element={<User />} />
-
-              {/* (사이트 소개)포트폴리오 적용예정 */}
               <Route path="/overviews/*" element={<Overview />} />
-
               <Route path="/auth/*" element={<Auth />} />
-
               <Route path="/boards/*" element={<Board />} />
               <Route path="/chats/*" element={<Chat />} />
               <Route path="/game/*" element={<Game />} />

@@ -3,7 +3,7 @@ import api from '../../../../../utils/connections/api';
 
 const postDetailsByPostId = createAsyncThunk(
   'postDetails/postDetailsByPostId',
-  async ({ postId }) => {
+  async (postId) => {
     const response = await api.get(`boards/posts/${postId}`);
     return response.data;
   }
