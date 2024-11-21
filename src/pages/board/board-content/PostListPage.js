@@ -1,13 +1,13 @@
 import React from 'react';
 import { useParams } from 'react-router-dom';
-import PostsListComponent from '../../../components/board/post/PostListComponent';
+import PostsList from '../../../components/board/post/PostList';
 
 const PostsListPage = () => {
   const { boardId } = useParams();
 
   return (
     <div>
-      <PostsListComponent boardId={boardId} />
+      <PostsList boardId={boardId} />
     </div>
   );
 };

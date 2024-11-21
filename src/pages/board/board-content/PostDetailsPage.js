@@ -2,9 +2,9 @@ import React, { useEffect } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
 import { useDispatch, useSelector } from 'react-redux';
-import CommentCreateComponent from '../../../components/board/comment/CommentCreateComponent';
-import CommentListComponent from '../../../components/board/comment/CommentListComponent';
-import PostDeleteButtonComponent from '../../../components/board/post/PostDeleteButtonComponent';
+import CommentCreate from '../../../components/board/comment/CommentCreate';
+import CommentList from '../../../components/board/comment/CommentList';
+import PostDeleteButton from '../../../components/board/post/PostDeleteButton';
 
 import {
   BoardButton,
@@ -13,9 +13,10 @@ import {
   RightButtonGroup,
 } from '../../../styles/commonButtonStyles';
 
-import PostDetailsContentComponent from '../../../components/board/post/PostDetailsContentComponent';
+import PostDetailsContent from '../../../components/board/post/PostDetailsContent';
 import postDetailsByPostId from '../../../features/domains/board/post/actions/PostDetailsAction';
 import { Container } from './styles/PostDetailsStyles';
+import PostLikeButton from '../../../components/board/post/PostLikeButton';
 
 const PostDetailsContentPage = () => {
   const dispatch = useDispatch();
@@ -24,9 +25,7 @@ const PostDetailsContentPage = () => {
 
   const { pageNum } = useSelector((state) => state.board.postList);
   const { userInfo } = useSelector((state) => state.auth.userInfo);
-  const { postDetails, status } = useSelector(
-    (state) => state.board.postDetails
-  );
+  const { postDetails } = useSelector((state) => state.board.postDetails);
 
   const navigate = useNavigate();
 
@@ -39,32 +38,24 @@ const PostDetailsContentPage = () => {
   };
 
   useEffect(() => {
-    dispatch(
-      postDetailsByPostId({
-        postId,
-      })
-    );
-  }, [postId]);
+    dispatch(postDetailsByPostId(postId));
+  }, [postId, userInfo]);
 
-  if (status !== 'succeeded') {
-    return <p>게시글 불러오는 중...</p>;
-  }
-
-  if (status === 'succeeded') {
+  if (postDetails) {
     return (
       <Container>
-        <PostDetailsContentComponent
-          postId={postId}
-        ></PostDetailsContentComponent>
+        <PostDetailsContent postId={postId}></PostDetailsContent>
+
+        <PostLikeButton postId={postId} />
 
         <ButtonContainer>
           <LeftButtonGroup>
             <BoardButton onClick={handleListClick}>목록</BoardButton>
           </LeftButtonGroup>
-          {userInfo.id === postDetails?.user?.id && (
+          {userInfo && userInfo.id === postDetails?.user?.id && (
             <RightButtonGroup>
               <BoardButton onClick={handleEditClick}>글 수정</BoardButton>
-              <PostDeleteButtonComponent
+              <PostDeleteButton
                 boardId={boardId}
                 postId={postId}
                 pageNum={pageNum}
@@ -73,8 +64,8 @@ const PostDetailsContentPage = () => {
           )}
         </ButtonContainer>
 
-        <CommentCreateComponent postId={postId}></CommentCreateComponent>
-        <CommentListComponent postId={postId}></CommentListComponent>
+        <CommentCreate postId={postId}></CommentCreate>
+        <CommentList postId={postId}></CommentList>
       </Container>
     );
   }

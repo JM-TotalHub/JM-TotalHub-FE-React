@@ -22,7 +22,7 @@ const CommonAlertComponent = () => {
       const timer = setTimeout(() => {
         setVisible(false);
         dispatch(offAlert());
-      }, 5000); // 5초 후 알림 자동 종료
+      }, 3000); // 5초 후 알림 자동 종료
       return () => clearTimeout(timer);
     }
   }, [alertStatus, dispatch]);

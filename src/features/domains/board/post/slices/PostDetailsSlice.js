@@ -4,7 +4,7 @@ import postDetailsByPostId from '../actions/PostDetailsAction';
 const PostDetailsSlice = createSlice({
   name: 'postDetails',
   initialState: {
-    postDetails: {},
+    postDetails: null,
     status: 'idle',
     error: null,
   },
@@ -15,10 +15,8 @@ const PostDetailsSlice = createSlice({
         state.status = 'loading';
       })
       .addCase(postDetailsByPostId.fulfilled, (state, action) => {
-        console.log('동작');
-
-        state.status = 'succeeded';
         state.postDetails = action.payload;
+        state.status = 'succeeded';
       })
       .addCase(postDetailsByPostId.rejected, (state, action) => {
         state.status = 'failed';

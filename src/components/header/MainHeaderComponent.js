@@ -32,6 +32,10 @@ const MainHeaderComponent = () => {
     dispatch(userInfoByToken());
   }, []);
 
+  const handleLog = () => {
+    navigate('/');
+  };
+
   const handleSignOut = () => {
     dispatch(SignOutAction());
     navigate('/');
@@ -50,7 +54,7 @@ const MainHeaderComponent = () => {
   return (
     <StMainHeader>
       <StFirstLine>
-        <StLog>
+        <StLog onClick={handleLog}>
           <h1>JM</h1>
         </StLog>
         <StUserFunctions>
